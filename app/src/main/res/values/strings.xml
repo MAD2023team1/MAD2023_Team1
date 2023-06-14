@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Book My Campus</string>
+    <string name="loginPage">Login</string>
+    <string name="signUpPage">Sign Up</string>
+
+    <string name="loginPageTitle">Login</string>
+    <string name="emailText">Email</string>
+    <string name="passwordText">Password</string>
+    <string name="loginButton">Login</string>
+    <string name="newUserText">Do not have an account? Click Here!</string>
+
+    <string name="signUpPageTitle">Sign Up</string>
+    <string name="firstNameText">First Name</string>
+    <string name="lastNameText">Surname/Last Name</string>
+    <string name="signUpButton">Sign up</string>
+    <string name="oldUserText">Already an account? Click Here!</string>
+
 </resources>
