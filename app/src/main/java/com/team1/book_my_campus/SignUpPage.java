@@ -22,35 +22,30 @@ public class SignUpPage extends AppCompatActivity{
         Log.v(title, "Create");
 
         Intent myRecvIntent = getIntent();
-        EditText etFirstName = findViewById(R.id.editTextText3);
-        EditText etLastName = findViewById(R.id.editTextText4);
+        EditText etName = findViewById(R.id.editTextText4);
         EditText etEmail = findViewById(R.id.editTextText7);
         EditText etPassword = findViewById(R.id.editTextText8);
         Button signUpButtonToApp = findViewById(R.id.button2);
         TextView switchToLogin = findViewById(R.id.textView14);
 
         signUpButtonToApp.setOnClickListener(new View.OnClickListener() {
-            String myFirstName;
-
-            String myLastName;
+            String myName;
             String myEmail;
             String myPassword;
 
             @Override
             public void onClick(View v) {
                 Log.v(title,"Login button to app Pressed!");
-                myFirstName = etFirstName.getText().toString();
-                myLastName = etLastName.getText().toString();
+                myName = etName.getText().toString();
                 myEmail = etEmail.getText().toString();
                 myPassword = etPassword.getText().toString();
 
                 Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
-                myIntent.putExtra("first name",myFirstName);
-                myIntent.putExtra("last name",myLastName);
+                myIntent.putExtra("name",myName);
                 myIntent.putExtra("email",myEmail);
                 myIntent.putExtra("password", myPassword);
                 startActivity(myIntent);
-                Log.v(title,"Extrcted First name " + myFirstName + "Last name "+ myLastName +
+                Log.v(title,"Extrcted name " + myName +
                         "Email " + myEmail + "Password "+ myPassword);
             }
         });

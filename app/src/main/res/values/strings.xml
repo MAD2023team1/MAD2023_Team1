@@ -10,8 +10,7 @@
     <string name="newUserText">Do not have an account? Click Here!</string>
 
     <string name="signUpPageTitle">Sign Up</string>
-    <string name="firstNameText">First Name</string>
-    <string name="lastNameText">Last Name</string>
+    <string name="nameText">Full Name</string>
     <string name="signUpButton">Sign up</string>
     <string name="oldUserText">Already an account? Click Here!</string>
 
