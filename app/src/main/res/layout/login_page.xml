@@ -13,38 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/materialToolbar3"
-                android:layout_width="match_parent"
-                android:layout_height="90dp"
-                android:background="#FF9800"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textAlignment="center"
-                android:textSize="48sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@+id/materialToolbar3"
-                app:layout_constraintEnd_toEndOf="@+id/materialToolbar3"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/materialToolbar3" />
-
             <LinearLayout
                 android:id="@+id/linearLayout"
-                android:layout_width="411dp"
+                android:layout_width="415dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/materialToolbar3">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <Space
                     android:layout_width="match_parent"
