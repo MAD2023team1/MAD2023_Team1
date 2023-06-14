@@ -35,24 +35,30 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.v(title, "On Resume!");
 
+        // find login button on create page
         Button loginButton = findViewById(R.id.button5);
+
+        // if clicked, go to login page
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v(title, "Login button is pressed");
                 Intent myIntent = new Intent(MainActivity.this,LoginPage.class);
-                Log.v(title, "test");
                 startActivity(myIntent);
-                Log.v(title, "test2");
 
             }
         });
 
+        // find sign up button on create page
         Button signUpButton = findViewById(R.id.button3);
+
+        // if clicked, go to sign up page
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v(title, "Sign Up button is pressed");
+                Intent myIntent = new Intent(MainActivity.this,SignUpPage.class);
+                startActivity(myIntent);
             }
         });
     }

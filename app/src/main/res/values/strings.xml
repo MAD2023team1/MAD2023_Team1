@@ -11,10 +11,17 @@
 
     <string name="signUpPageTitle">Sign Up</string>
     <string name="firstNameText">First Name</string>
-    <string name="lastNameText">Surname/Last Name</string>
+    <string name="lastNameText">Last Name</string>
     <string name="signUpButton">Sign up</string>
     <string name="oldUserText">Already an account? Click Here!</string>
 
     <string name="welcomeText">Welcome</string>
+    <string name="title_activity_sign_up_page">SignUpPage</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
 
 </resources>

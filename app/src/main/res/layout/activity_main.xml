@@ -62,7 +62,7 @@
                     android:text="Click on the buttons to get started!"
                     android:textAlignment="center"
                     android:textAllCaps="true"
-                    android:textColor="#FF9800"
+                    android:textColor="@color/black"
                     android:textSize="24sp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:layout_editor_absoluteY="252dp" />
@@ -81,7 +81,7 @@
 
                 <Space
                     android:layout_width="match_parent"
-                    android:layout_height="69dp" />
+                    android:layout_height="60dp" />
 
                 <Button
                     android:id="@+id/button3"
