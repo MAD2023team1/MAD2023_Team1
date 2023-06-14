@@ -45,8 +45,8 @@
                 app:layout_constraintTop_toTopOf="@+id/materialToolbar" />
 
             <LinearLayout
-                android:layout_width="509dp"
-                android:layout_height="754dp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

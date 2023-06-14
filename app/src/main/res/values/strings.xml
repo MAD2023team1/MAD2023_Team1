@@ -15,4 +15,6 @@
     <string name="signUpButton">Sign up</string>
     <string name="oldUserText">Already an account? Click Here!</string>
 
+    <string name="welcomeText">Welcome</string>
+
 </resources>
