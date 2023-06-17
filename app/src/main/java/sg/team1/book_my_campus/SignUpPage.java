@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.team1.book_my_campus.R;
+import sg.team1.book_my_campus.R;
 
 import java.util.HashMap;
 import java.util.Map;
