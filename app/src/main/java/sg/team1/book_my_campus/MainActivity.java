@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import com.team1.book_my_campus.R;
+import sg.team1.book_my_campus.R;
 
 public class MainActivity extends AppCompatActivity {
 
