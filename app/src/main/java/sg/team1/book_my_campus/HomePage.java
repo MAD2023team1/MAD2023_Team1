@@ -1,10 +1,11 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import sg.team1.book_my_campus.R;
 
 public class HomePage extends AppCompatActivity {
     String title = "Home Page";
@@ -13,7 +14,8 @@ public class HomePage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_page);
-        Log.v(title, "On Create!");
+        Log.v(title, "On Create! hello");
 
     }
+
 }

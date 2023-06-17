@@ -13,16 +13,16 @@
         android:theme="@style/Theme.BookMyCampus"
         tools:targetApi="31">
         <activity
-            android:name=".LoginPage"
+            android:name="sg.team1.book_my_campus.LoginPage"
             android:exported="false" />
         <activity
-            android:name=".HomePage"
+            android:name="sg.team1.book_my_campus.HomePage"
             android:exported="false" />
         <activity
-            android:name=".SignUpPage"
+            android:name="sg.team1.book_my_campus.SignUpPage"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="sg.team1.book_my_campus.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

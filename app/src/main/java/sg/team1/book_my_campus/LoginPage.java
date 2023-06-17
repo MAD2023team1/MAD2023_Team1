@@ -1,4 +1,4 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import sg.team1.book_my_campus.R;
 
 public class LoginPage extends AppCompatActivity {
 
@@ -42,7 +44,7 @@ public class LoginPage extends AppCompatActivity {
                 myIntent.putExtra("email", myEmail);
                 myIntent.putExtra("password", myPassword);
                 startActivity(myIntent);
-                Log.v(title, "Extrcted Email " + myEmail + "Password " + myPassword);
+                Log.v(title, "Extracted Email " + myEmail + "Password " + myPassword);
             }
         });
 

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:66853244852:android:799c1888412261c031ece1",
+        "mobilesdk_app_id": "1:66853244852:android:c9876b34ee4e97f931ece1",
         "android_client_info": {
-          "package_name": "Book_My_Campus.app.main"
+          "package_name": "com.team1.book_my_campus"
         }
       },
       "oauth_client": [
@@ -36,9 +36,9 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:66853244852:android:560b49422ca9582231ece1",
+        "mobilesdk_app_id": "1:66853244852:android:76c323152129f80531ece1",
         "android_client_info": {
-          "package_name": "com.team1.book_my_campus"
+          "package_name": "sg.team1.book_my_campus"
         }
       },
       "oauth_client": [

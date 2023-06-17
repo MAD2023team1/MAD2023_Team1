@@ -1,7 +1,6 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Booking {
@@ -84,9 +83,6 @@ public class Booking {
         this.isCheckedIn=isCheckedIn;
     }
     public Booking(){}
-
-
-
 
 
 }

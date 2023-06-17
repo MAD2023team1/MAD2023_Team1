@@ -1,4 +1,4 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import sg.team1.book_my_campus.R;
 
 public class MainActivity extends AppCompatActivity {
 
