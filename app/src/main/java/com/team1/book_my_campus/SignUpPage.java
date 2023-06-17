@@ -7,12 +7,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpPage extends AppCompatActivity{
 
     String title = "Sign Up Page";
+    FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +48,19 @@ public class SignUpPage extends AppCompatActivity{
                 myName = etName.getText().toString();
                 myEmail = etEmail.getText().toString();
                 myPassword = etPassword.getText().toString();
+
+                Map<String, Object> users = new HashMap<>();
+                users.put("Name", myName);
+                users.put("Email", myEmail);
+                users.put("Password", myPassword);
+
+                /*firestore.collection("Users").add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                */
 
                 Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
                 myIntent.putExtra("name",myName);

@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "66853244852",
+    "project_id": "mad-asg-b6350",
+    "storage_bucket": "mad-asg-b6350.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66853244852:android:799c1888412261c031ece1",
+        "android_client_info": {
+          "package_name": "Book_My_Campus.app.main"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66853244852-8f5ml1b6bs2bb2c98p09crg7oeuap3dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdFpJciZ3VwCqbju3_m-TcqHYdLzv6QrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66853244852-8f5ml1b6bs2bb2c98p09crg7oeuap3dh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66853244852:android:560b49422ca9582231ece1",
+        "android_client_info": {
+          "package_name": "com.team1.book_my_campus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66853244852-8f5ml1b6bs2bb2c98p09crg7oeuap3dh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdFpJciZ3VwCqbju3_m-TcqHYdLzv6QrY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66853244852-8f5ml1b6bs2bb2c98p09crg7oeuap3dh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
