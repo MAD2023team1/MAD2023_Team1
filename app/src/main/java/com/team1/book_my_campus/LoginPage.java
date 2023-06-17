@@ -42,7 +42,7 @@ public class LoginPage extends AppCompatActivity {
                 myIntent.putExtra("email", myEmail);
                 myIntent.putExtra("password", myPassword);
                 startActivity(myIntent);
-                Log.v(title, "Extrcted Email " + myEmail + "Password " + myPassword);
+                Log.v(title, "Extracted Email " + myEmail + "Password " + myPassword);
             }
         });
 
