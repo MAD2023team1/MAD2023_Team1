@@ -7,15 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-    String title = "Main Activity";
+    String title = "Landing Page";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.landing_page);
     }
 
     @Override
@@ -36,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         Log.v(title, "On Resume!");
 
         // find login button on create page
-        Button loginButton = findViewById(R.id.button5);
+        Button loginButton = findViewById(R.id.landingLogin);
 
         // if clicked, go to login page
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // find sign up button on create page
-        Button signUpButton = findViewById(R.id.button3);
+        Button signUpButton = findViewById(R.id.landingSignup);
 
         // if clicked, go to sign up page
         signUpButton.setOnClickListener(new View.OnClickListener() {

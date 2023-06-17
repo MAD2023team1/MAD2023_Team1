@@ -24,8 +24,8 @@ public class LoginPage extends AppCompatActivity {
         Intent myRecvIntent = getIntent();
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
-        Button loginButtonToApp = findViewById(R.id.button);
-        TextView switchToSignUp = findViewById(R.id.textView11);
+        Button loginButtonToApp = findViewById(R.id.loginBtn);
+        TextView switchToSignUp = findViewById(R.id.textView19);
 
         // Get email and password,click login button
         loginButtonToApp.setOnClickListener(new View.OnClickListener() {

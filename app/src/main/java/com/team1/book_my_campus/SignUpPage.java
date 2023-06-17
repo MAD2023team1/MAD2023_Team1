@@ -23,10 +23,10 @@ public class SignUpPage extends AppCompatActivity{
 
         Intent myRecvIntent = getIntent();
         EditText etName = findViewById(R.id.editTextText4);
-        EditText etEmail = findViewById(R.id.editTextText7);
-        EditText etPassword = findViewById(R.id.editTextText8);
-        Button signUpButtonToApp = findViewById(R.id.button2);
-        TextView switchToLogin = findViewById(R.id.textView14);
+        EditText etEmail = findViewById(R.id.editTextText);
+        EditText etPassword = findViewById(R.id.editTextText2);
+        Button signUpButtonToApp = findViewById(R.id.signupBtn);
+        TextView switchToLogin = findViewById(R.id.textView19);
 
         signUpButtonToApp.setOnClickListener(new View.OnClickListener() {
             String myName;
