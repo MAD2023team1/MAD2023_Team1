@@ -1,4 +1,4 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
 import android.content.Context;
 

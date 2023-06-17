@@ -1,4 +1,4 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.team1.book_my_campus.R;
 
 import java.util.HashMap;
 import java.util.Map;

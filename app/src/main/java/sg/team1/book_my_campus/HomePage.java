@@ -1,9 +1,11 @@
-package com.team1.book_my_campus;
+package sg.team1.book_my_campus;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.team1.book_my_campus.R;
 
 public class HomePage extends AppCompatActivity {
     String title = "Home Page";
