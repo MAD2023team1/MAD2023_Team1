@@ -1,7 +1,6 @@
 package com.team1.book_my_campus;
 
 import java.sql.Time;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Booking {
