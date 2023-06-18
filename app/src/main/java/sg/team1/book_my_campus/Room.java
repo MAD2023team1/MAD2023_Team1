@@ -2,6 +2,7 @@ package sg.team1.book_my_campus;
 
 public class Room {
     public int roomNumber;
+    public String roomName;
     public String description;
     public String location;
     public int level;
@@ -9,12 +10,14 @@ public class Room {
     public int capacity;
     public String category;
     public boolean isAvail;
+    public int image;
 
     public Room() {
     }
 
-    public Room(int roomNumber, String description, String location, int level, String building, int capacity, String category, boolean isAvail) {
+    public Room(int roomNumber,String roomName, String description, String location, int level, String building, int capacity, String category, boolean isAvail,int image) {
         this.roomNumber = roomNumber;
+        this.roomName = roomName;
         this.description = description;
         this.location = location;
         this.level = level;
@@ -22,6 +25,7 @@ public class Room {
         this.capacity = capacity;
         this.category = category;
         this.isAvail = isAvail;
+        this.image = image;
     }
 
     public int getRoomNumber() {
@@ -30,6 +34,12 @@ public class Room {
 
     public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
+    }
+    public String getRoomName() {
+        return roomName;
+    }
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public String getDescription() {
@@ -86,5 +96,11 @@ public class Room {
 
     public void setAvail(boolean avail) {
         isAvail = avail;
+    }
+    public int getImage() {
+        return image;
+    }
+    public void setImage(int image) {
+        this.image = image;
     }
 }
