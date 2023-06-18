@@ -64,8 +64,9 @@ public class LoginPage extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                 if (task.isSuccessful()) {
+                                    // If sign in successful, display a message to the user.
                                     Toast.makeText(LoginPage.this,"Login was successful", Toast.LENGTH_SHORT).show();
-                                    Log.v(title, "signInWithEmail:success");
+                                    Log.i(title, "signInWithEmail:success");
                                     Intent myIntent = new Intent(LoginPage.this,HomePage.class);
                                     startActivity(myIntent);
                                     finish();
