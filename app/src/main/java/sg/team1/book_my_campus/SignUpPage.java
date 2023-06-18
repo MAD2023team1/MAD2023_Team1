@@ -2,14 +2,22 @@ package sg.team1.book_my_campus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import sg.team1.book_my_campus.R;
 
@@ -20,6 +28,7 @@ public class SignUpPage extends AppCompatActivity{
 
     String title = "Sign Up Page";
     FirebaseFirestore firestore;
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,14 +52,54 @@ public class SignUpPage extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Log.v(title,"Login button to app Pressed!");
-                myName = etName.getText().toString();
-                myEmail = etEmail.getText().toString();
-                myPassword = etPassword.getText().toString();
+                myName = String.valueOf(etName.getText());
+                myEmail = String.valueOf(etEmail.getText());
+                myPassword = String.valueOf(etPassword.getText());
 
                 Map<String, Object> users = new HashMap<>();
                 users.put("Name", myName);
                 users.put("Email", myEmail);
                 users.put("Password", myPassword);
+
+                if(TextUtils.isEmpty(myName)){
+                    Toast.makeText(SignUpPage.this,"Enter Name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(TextUtils.isEmpty(myEmail)){
+                    Toast.makeText(SignUpPage.this,"Enter Email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(TextUtils.isEmpty(myPassword)){
+                    Toast.makeText(SignUpPage.this,"Enter Password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                firebaseAuth.createUserWithEmailAndPassword(myEmail, myPassword)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                                if (task.isSuccessful()) {
+                                    Toast.makeText(SignUpPage.this,"Sign Up was successful", Toast.LENGTH_SHORT).show();
+                                    Log.v(title, "signInWithEmail:success");
+                                    Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
+                                    startActivity(myIntent);
+                                    finish();
+                                }
+                                else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w(title, "createUserWithEmailAndPassword:failure", task.getException());
+                                    Toast.makeText(SignUpPage.this, "Authentication failed: "+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                Log.w(title, "createUserWithEmailAndPassword:success");
+                            }
+                        });
 
                 /*firestore.collection("Users").add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -60,13 +109,13 @@ public class SignUpPage extends AppCompatActivity{
                 });
                 */
 
-                Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
+                /*Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
                 myIntent.putExtra("name",myName);
                 myIntent.putExtra("email",myEmail);
                 myIntent.putExtra("password", myPassword);
                 startActivity(myIntent);
                 Log.v(title,"Extrcted name " + myName +
-                        "Email " + myEmail + "Password "+ myPassword);
+                        "Email " + myEmail + "Password "+ myPassword);*/
             }
         });
 
