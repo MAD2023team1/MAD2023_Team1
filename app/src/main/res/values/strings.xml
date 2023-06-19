@@ -9,6 +9,11 @@
     <string name="loginButton">Login</string>
     <string name="newUserText">Do not have an account? Click Here!</string>
 
+    <string name="forgetPasswordPageTitle">Forgot Password</string>
+    <string name="resetButton">Reset</string>
+    <string name="cancelButton">Cancel</string>
+
+
     <string name="signUpPageTitle">Sign Up</string>
     <string name="nameText">Full Name:</string>
     <string name="signUpButton">Sign up</string>

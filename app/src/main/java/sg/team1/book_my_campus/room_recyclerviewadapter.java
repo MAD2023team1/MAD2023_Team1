@@ -62,13 +62,11 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         ImageView imageView;
         TextView tvroomName;
 
-        CardView cardView;
         OnRoomListener onRoomListener;
         public MyViewHolder(@NonNull View itemView, OnRoomListener onRoomListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
             tvroomName = itemView.findViewById(R.id.textView);
-            cardView = itemView.findViewById(R.id.cardView);
             this.onRoomListener = onRoomListener;
             itemView.setOnClickListener(this);
         }

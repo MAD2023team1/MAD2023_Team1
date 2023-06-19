@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import sg.team1.book_my_campus.R;
 
@@ -27,8 +28,10 @@ import java.util.Map;
 public class SignUpPage extends AppCompatActivity{
 
     String title = "Sign Up Page";
-    FirebaseFirestore firestore;
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    String userID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,11 +59,6 @@ public class SignUpPage extends AppCompatActivity{
                 myEmail = String.valueOf(etEmail.getText());
                 myPassword = String.valueOf(etPassword.getText());
 
-                Map<String, Object> users = new HashMap<>();
-                users.put("Name", myName);
-                users.put("Email", myEmail);
-                users.put("Password", myPassword);
-
                 if(TextUtils.isEmpty(myName)){
                     Toast.makeText(SignUpPage.this,"Enter Name", Toast.LENGTH_SHORT).show();
                     return;
@@ -83,7 +81,22 @@ public class SignUpPage extends AppCompatActivity{
 
                                 if (task.isSuccessful()) {
                                     Toast.makeText(SignUpPage.this,"Sign Up was successful", Toast.LENGTH_SHORT).show();
-                                    Log.v(title, "signInWithEmail:success");
+                                    Log.i(title, "signInWithEmail:success");
+                                    // retrieve userID of current user
+                                    userID= firebaseAuth.getCurrentUser().getUid();
+                                    DocumentReference documentReference= firestore.collection("users").document(userID);
+                                    //Hashmap for doc
+                                    Map<String, Object> user = new HashMap<>();
+                                    user.put("Name", myName);
+                                    user.put("Email", myEmail);
+                                    user.put("Password", myPassword);
+                                    //insert into database
+                                    documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            Log.i(title, "Success: user profile created" + userID);
+                                        }
+                                    });
                                     Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
                                     startActivity(myIntent);
                                     finish();
@@ -97,7 +110,7 @@ public class SignUpPage extends AppCompatActivity{
                         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                             @Override
                             public void onSuccess(AuthResult authResult) {
-                                Log.w(title, "createUserWithEmailAndPassword:success");
+                                Log.i(title, "createUserWithEmailAndPassword:success");
                             }
                         });
 
