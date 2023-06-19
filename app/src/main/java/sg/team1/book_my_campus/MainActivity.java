@@ -16,6 +16,7 @@ import sg.team1.book_my_campus.R;
 public class MainActivity extends AppCompatActivity {
 
     String title = "Landing Page";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
