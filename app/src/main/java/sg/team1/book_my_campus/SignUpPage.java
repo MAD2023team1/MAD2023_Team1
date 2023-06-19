@@ -29,7 +29,6 @@ public class SignUpPage extends AppCompatActivity{
 
     String title = "Sign Up Page";
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String userID;
 
