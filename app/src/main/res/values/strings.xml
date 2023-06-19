@@ -9,6 +9,11 @@
     <string name="loginButton">Login</string>
     <string name="newUserText">Do not have an account? Click Here!</string>
 
+    <string name="forgetPasswordPageTitle">Forgot Password</string>
+    <string name="resetButton">Reset</string>
+    <string name="cancelButton">Cancel</string>
+
+
     <string name="signUpPageTitle">Sign Up</string>
     <string name="nameText">Full Name:</string>
     <string name="signUpButton">Sign up</string>
@@ -21,6 +26,14 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string name="room_name">iSpace</string>
+    <string-array name="room_name_full_text">
+        <item>iSpace</item>
+        <item>Smart Room 1</item>
+        <item>Smart Room 2</item>
+        <item>Smart Room 3</item>
+        <item>Smart Room 4</item>
+    </string-array>
 
 
 </resources>

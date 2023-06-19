@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Home"
+        android:icon="@drawable/homeicon"
+        android:id = "@+id/Home"/>
+    <item android:title="Explore"
+        android:icon="@drawable/explore"
+        android:id = "@+id/explore"/>
+    <item android:title="MyBookings"
+        android:icon="@drawable/mybookings"
+        android:id = "@+id/mybookings"/>
+    <item android:title="Profile"
+        android:icon="@drawable/myprofileicon"
+        android:id = "@+id/profile"/>
+</menu>

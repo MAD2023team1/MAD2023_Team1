@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.team1.book_my_campus'
+    namespace 'sg.team1.book_my_campus'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.team1.book_my_campus"
+        applicationId "sg.team1.book_my_campus"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -23,13 +23,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    //dataBinding{
+        //enabled = true
+    //}
+    viewBinding{
+        enabled = true
+    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    buildFeatures {
-        viewBinding true
-    }
+    //buildFeatures {
+        //viewBinding true
+    //}
 }
 
 dependencies {
@@ -47,3 +54,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }
+
+apply plugin: 'com.google.gms.google-services'
