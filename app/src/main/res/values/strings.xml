@@ -34,6 +34,7 @@
         <item>Smart Room 3</item>
         <item>Smart Room 4</item>
     </string-array>
+    <string name="BookNow">Book Now</string>
 
 
 </resources>

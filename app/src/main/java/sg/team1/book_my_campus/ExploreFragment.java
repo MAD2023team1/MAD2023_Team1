@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Use the {@link ExploreFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExploreFragment extends Fragment implements room_recyclerviewadapter.OnRoomListener {
+public class ExploreFragment extends Fragment implements RecyclerViewInterface{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -117,17 +117,21 @@ public class ExploreFragment extends Fragment implements room_recyclerviewadapte
         if (filteredList.isEmpty()){
             Toast.makeText(getContext(),"No data found",Toast.LENGTH_SHORT).show();
         }else{
-            room_recyclerviewadapter adapter = new room_recyclerviewadapter(getContext(), filteredList, this);
+            room_recyclerviewadapter adapter = new room_recyclerviewadapter(getContext(), filteredList, this);//because we implemented the recyclerView on top, we can just pass it as this
             RecyclerView recyclerView = getView().findViewById(R.id.mRecyclerView);
             recyclerView.setAdapter(adapter);
         }
 
     }
 
+
     @Override
-    public void onRoomClick(int position) {
-        roomModels.get(position);
-        Intent roomMoreInfo = new Intent(getContext(), MoreRoomInfo.class);
-        startActivity(roomMoreInfo);
+    public void onItemClick(int position) {
+        //I cannot put ExploreFragment.this because it is a fragment not an activity
+        Intent moreInfoPageIntent = new Intent(getActivity(), MoreRoomInfo.class);
+        //the below code will pass the information to our new activity page, MoreRoomInfo
+        moreInfoPageIntent.putExtra("roomName", roomModels.get(position).getRoomName());
+        moreInfoPageIntent.putExtra("roomImage", roomModels.get(position).getImage());
+        startActivity(moreInfoPageIntent);
     }
 }
