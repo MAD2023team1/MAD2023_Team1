@@ -30,8 +30,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-import sg.team1.book_my_campus.R;
-
 public class LoginPage extends AppCompatActivity {
 
     String title = "Login Page";
@@ -44,8 +42,6 @@ public class LoginPage extends AppCompatActivity {
         setContentView(R.layout.login_page);
         Log.v(title, "Create");
 
-
-        Intent myRecvIntent = getIntent();
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
         Button loginButtonToApp = findViewById(R.id.loginBtn);
@@ -82,14 +78,20 @@ public class LoginPage extends AppCompatActivity {
                                     Toast.makeText(LoginPage.this, "Login was successful", Toast.LENGTH_SHORT).show();
                                     Log.i(title, "signInWithEmail:success");
                                     Intent myIntent = new Intent(LoginPage.this, HomePage.class);
-                                    startActivity(myIntent);
-                                    finish();
 
                                     // Updating password in Firestore
                                     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                                     CollectionReference usersCollection = firestore.collection("users");
 
                                     String userID = firebaseAuth.getCurrentUser().getUid();
+                                    Log.w(title, "myuserid: "+userID);
+
+                                    //Pass user info to home page
+                                    myIntent.putExtra("userId", userID);
+                                    myIntent.putExtra("email", myEmail);
+                                    myIntent.putExtra("password", myPassword);
+                                    startActivity(myIntent);
+                                    finish();
 
                                     // Get the previous password from Firestore
                                     usersCollection.document(userID).get()
