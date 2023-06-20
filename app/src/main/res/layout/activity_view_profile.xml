@@ -4,66 +4,68 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     tools:context=".ViewProfile">
 
     <ImageView
-        android:id="@+id/profileImage"
+        android:id="@+id/profileImage2"
         android:layout_width="118dp"
         android:layout_height="160dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="284dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/baseline_person_24" />
+        app:srcCompat="@drawable/myprofileicon" />
 
-    <TextView
-        android:id="@+id/emailDisplaycolon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:text="Email:"
-        app:layout_constraintStart_toEndOf="@+id/profileImage"
-        app:layout_constraintTop_toBottomOf="@+id/nameDisplaycolon" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="264dp"
+        android:layout_height="158dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="286dp"
+        app:layout_constraintStart_toEndOf="@+id/profileImage2"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/nameDisplaycolon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="309dp"
-        android:text="Name:"
-        app:layout_constraintStart_toEndOf="@+id/profileImage"
-        app:layout_constraintTop_toTopOf="parent" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/nameDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="309dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/nameDisplaycolon"
-        app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="75dp">
 
-    <TextView
-        android:id="@+id/emailDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/emailDisplaycolon"
-        app:layout_constraintTop_toBottomOf="@+id/nameDisplay" />
+                <TextView
+                    android:id="@+id/nameDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/emailDisplay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TextView" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/editProfileButton"
-        android:layout_width="210dp"
-        android:layout_height="78dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_width="193dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="109dp"
+        android:layout_marginTop="12dp"
         android:text="Edit"
-        app:layout_constraintStart_toEndOf="@+id/profileImage"
-        app:layout_constraintTop_toBottomOf="@+id/emailDisplaycolon" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileImage2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

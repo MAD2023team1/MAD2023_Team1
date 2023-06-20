@@ -63,7 +63,7 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         OnRoomListener onRoomListener;
         public MyViewHolder(@NonNull View itemView, OnRoomListener onRoomListener) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.profileImage);
+            imageView = itemView.findViewById(R.id.profileImage2);
             tvroomName = itemView.findViewById(R.id.textView);
             this.onRoomListener = onRoomListener;
             itemView.setOnClickListener(this);

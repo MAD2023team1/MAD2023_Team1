@@ -1,9 +1,12 @@
 package sg.team1.book_my_campus;
 
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
@@ -22,6 +25,7 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private View inflatedView;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -57,7 +61,25 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        String myName = getActivity().getIntent().getStringExtra("name");
+        String userId = getActivity().getIntent().getStringExtra("userId");
+        String myEmail = getActivity().getIntent().getStringExtra("email");
+        String myPassword = getActivity().getIntent().getStringExtra("password");
+
+        this.inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
+        Button EditProfileButton = inflatedView.findViewById(R.id.editProfileButton);
+        TextView NameDisplay = inflatedView.findViewById(R.id.nameDisplay);
+        TextView EmailDisplay = inflatedView.findViewById(R.id.emailDisplay);
+
+        NameDisplay.setText(userId);
+        EmailDisplay.setText(myEmail);
+
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        // return inflater.inflate(R.layout.fragment_profile, container, false);
+        return inflatedView;
+
+
     }
 }

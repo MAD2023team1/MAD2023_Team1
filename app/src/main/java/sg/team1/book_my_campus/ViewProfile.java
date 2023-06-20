@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ViewProfile extends AppCompatActivity {
 
@@ -18,11 +19,14 @@ public class ViewProfile extends AppCompatActivity {
         Log.v(title, "ViewProfile Created");
 
         Button editProfButton = findViewById(R.id.editProfileButton);
+        TextView displayName = findViewById(R.id.nameDisplay);
+        TextView displayEmail = findViewById(R.id.emailDisplay);
+
 
         editProfButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            setContentView(R.layout.activity_edit_profile);
             }
         });
     }
