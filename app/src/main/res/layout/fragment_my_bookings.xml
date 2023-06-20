@@ -3,31 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:hapticFeedbackEnabled="false"
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/framelayout"
+        android:id="@+id/framelayout2"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView2"
+        app:layout_constraintBottom_toTopOf="@+id/upperNavigationView2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/upperNavigationView2"
         app:layout_constraintTop_toTopOf="parent">
 
     </FrameLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView2"
-        android:layout_width="match_parent"
+        android:id="@+id/upperNavigationView2"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/light_blue"
         app:itemIconTint="@color/greyblack"
         app:itemRippleColor="@color/off_white"
         app:itemTextColor="@color/greyblack"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu" />
+        app:layout_constraintTop_toBottomOf="@+id/framelayout2"
+        app:menu="@menu/upper_nav_for_bookings" />
 </androidx.constraintlayout.widget.ConstraintLayout>
