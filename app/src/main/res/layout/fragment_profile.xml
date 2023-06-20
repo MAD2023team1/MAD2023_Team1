@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".ViewProfile">
+    tools:context=".ProfileFragment">
 
     <ImageView
         android:id="@+id/profileImage2"
         android:layout_width="118dp"
         android:layout_height="160dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="284dp"
+        android:outlineProvider="paddedBounds"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/myprofileicon" />
@@ -39,7 +40,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -52,7 +55,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="TextView" />
+                    android:text="TextView"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 

@@ -1,5 +1,6 @@
 package sg.team1.book_my_campus;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -72,9 +73,16 @@ public class ProfileFragment extends Fragment {
         TextView NameDisplay = inflatedView.findViewById(R.id.nameDisplay);
         TextView EmailDisplay = inflatedView.findViewById(R.id.emailDisplay);
 
-        NameDisplay.setText(userId);
+        NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
 
+        EditProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomePage ParentActivity = (HomePage) getActivity();
+                ParentActivity.replaceFragment(new EditProfileFragment());
+            }
+        });
 
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_profile, container, false);
