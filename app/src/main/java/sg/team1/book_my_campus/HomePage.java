@@ -47,6 +47,8 @@ public class HomePage extends AppCompatActivity {
         getIntent().getStringExtra("userId");
         getIntent().getStringExtra("email");
         getIntent().getStringExtra("password");
+        Log.i(title, "User info: "+ getIntent().getStringExtra("name")+ getIntent().getStringExtra("userId")+
+                getIntent().getStringExtra("email") + getIntent().getStringExtra("password"));
 
 
     }

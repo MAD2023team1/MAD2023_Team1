@@ -14,20 +14,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recyclerviewadapter.MyViewHolder>{
-    private OnRoomListener myOnRoomListener;
+    //define a variable to hold our recycler view interface
+    private final RecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<Room> roomModels;
-
-    private AdapterView.OnItemClickListener listener;
 
     public interface OnItemClickListener{
         void onItemClick(Room room);
     }
-    public room_recyclerviewadapter(Context context, ArrayList<Room> roomModels, OnRoomListener onRoomListener){
+    //the below shows a constructor
+    public room_recyclerviewadapter(Context context, ArrayList<Room> roomModels, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
         this.roomModels = roomModels;
-        this.myOnRoomListener = onRoomListener;
-
+        this.recyclerViewInterface = recyclerViewInterface;
     }
     public void setFilteredList(ArrayList<Room>filteredList){
         this.roomModels = filteredList;
@@ -39,7 +38,7 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         //inflate layout (giving a look to our rows)
         LayoutInflater inflater =  LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycler_view_row, parent,false);
-        return new room_recyclerviewadapter.MyViewHolder(view, myOnRoomListener);
+        return new room_recyclerviewadapter.MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -55,26 +54,32 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         //the recycler view just want to know the number of items that you have displayed
         return roomModels.size();
     }
-    public static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         //grabbing the views(each element) from out recycler_view_row layout file
         ImageView imageView;
         TextView tvroomName;
 
-        OnRoomListener onRoomListener;
-        public MyViewHolder(@NonNull View itemView, OnRoomListener onRoomListener) {
+        //we need to pass the recycler view interface here because the class above is static. But it is not recommended for us to remove the static.
+        //Hence, we will pass recyclerViewInterface in this method to remove the error below.
+        public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
+            //this is the constructor of the inner class
             super(itemView);
             imageView = itemView.findViewById(R.id.profileImage2);
             tvroomName = itemView.findViewById(R.id.textView);
-            this.onRoomListener = onRoomListener;
-            itemView.setOnClickListener(this);
+            //attach a on click listener to our itemView
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewInterface!= null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
+    }
 
-        @Override
-        public void onClick(View view) {
-            onRoomListener.onRoomClick(getAdapterPosition());
-        }
-    }
-    public interface OnRoomListener{
-        void onRoomClick(int position);
-    }
+
 }

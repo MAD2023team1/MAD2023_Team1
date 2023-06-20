@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:title="Upcoming Bookings"
+        android:icon="@drawable/upcominglogo"
+        android:id="@+id/upcomingbookings"/>
+    <item android:title="Booking History"
+        android:icon="@drawable/bookinghistory"
+        android:id ="@+id/bookinghistory"/>
+    <item android:title="Favourite"
+        android:icon="@drawable/favouritefilledicon"
+        android:id="@+id/favourites"/>
+</menu>

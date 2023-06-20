@@ -87,13 +87,6 @@ public class LoginPage extends AppCompatActivity {
                                     Log.w(title, "myuserid: "+userID);
                                     String myName = firebaseAuth.getCurrentUser().getDisplayName();
 
-                                    //Pass user info to home page
-                                    myIntent.putExtra("userId", userID);
-                                    myIntent.putExtra("email", myEmail);
-                                    myIntent.putExtra("password", myPassword);
-                                    startActivity(myIntent);
-                                    finish();
-
                                     // Get the previous password from Firestore
                                     usersCollection.document(userID).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -125,7 +118,7 @@ public class LoginPage extends AppCompatActivity {
                                                                             .addOnFailureListener(new OnFailureListener() {
                                                                                 @Override
                                                                                 public void onFailure(@NonNull Exception e) {
-                                                                                    Log.e(title, "Failed to update password in Firestore", e);
+                                                                                    Log.w(title, "Failed to update password in Firestore", e);
                                                                                 }
                                                                             });
                                                                 }
@@ -133,7 +126,7 @@ public class LoginPage extends AppCompatActivity {
                                                             .addOnFailureListener(new OnFailureListener() {
                                                                 @Override
                                                                 public void onFailure(@NonNull Exception e) {
-                                                                    Log.e(title, "Failed to delete previous password in Firestore", e);
+                                                                    Log.w(title, "Failed to delete previous password in Firestore", e);
                                                                 }
                                                             });
                                                 }
@@ -141,7 +134,35 @@ public class LoginPage extends AppCompatActivity {
                                             .addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
-                                                    Log.e(title, "Failed to retrieve previous password from Firestore", e);
+                                                    Log.w(title, "Failed to retrieve previous password from Firestore", e);
+                                                }
+                                            });
+                                    usersCollection.document(userID).get()
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    if (documentSnapshot.exists()) {
+                                                        String name = documentSnapshot.getString("Name");
+                                                        String email = documentSnapshot.getString("Email");
+                                                        String password = documentSnapshot.getString("Password");
+                                                        myIntent.putExtra("userId", userID);
+                                                        myIntent.putExtra("name", name);
+                                                        myIntent.putExtra("email", email);
+                                                        myIntent.putExtra("password", password);
+
+                                                        // Start the home page activity
+                                                        startActivity(myIntent);
+                                                        finish();
+                                                    } else {
+                                                        // User document does not exist
+                                                        Log.w(title, "User document does not exist");
+                                                    }
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(title, "Failed to retrieve user info from Firestore");
                                                 }
                                             });
                                 }

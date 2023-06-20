@@ -1,20 +1,19 @@
 package sg.team1.book_my_campus;
 
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
-
-import sg.team1.book_my_campus.databinding.FragmentMyBookingsBinding;
-
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link myBookingsFragment#newInstance} factory method to
+ * Use the {@link favouritesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class myBookingsFragment extends Fragment {
+public class favouritesFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +24,7 @@ public class myBookingsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public myBookingsFragment() {
+    public favouritesFragment() {
         // Required empty public constructor
     }
 
@@ -35,11 +34,11 @@ public class myBookingsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment myBookingsFragment.
+     * @return A new instance of fragment favouritesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static myBookingsFragment newInstance(String param1, String param2) {
-        myBookingsFragment fragment = new myBookingsFragment();
+    public static favouritesFragment newInstance(String param1, String param2) {
+        favouritesFragment fragment = new favouritesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -54,13 +53,12 @@ public class myBookingsFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_bookings, container, false);
+        return inflater.inflate(R.layout.fragment_favourites, container, false);
     }
 }
