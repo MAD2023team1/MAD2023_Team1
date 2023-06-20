@@ -34,6 +34,18 @@
         <item>Smart Room 3</item>
         <item>Smart Room 4</item>
     </string-array>
+    <string-array name="room_location">
+        <item>Library 1</item>
+        <item>Library 2</item>
+        <item>Library 3</item>
+        <item>Library 4</item>
+        <item>Library 5</item>
+    </string-array>
+
+
+    <string name="BookNow">Book Now</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
