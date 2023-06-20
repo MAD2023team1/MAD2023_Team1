@@ -20,17 +20,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
-import sg.team1.book_my_campus.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpPage extends AppCompatActivity{
 
-    String title = "Sign Up Page";
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    String userID;
+    private String title = "Sign Up Page";
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private String userID;
 
 
     @Override
@@ -40,7 +39,6 @@ public class SignUpPage extends AppCompatActivity{
         setContentView(R.layout.signup_page);
         Log.v(title, "Create");
 
-        Intent myRecvIntent = getIntent();
         EditText etName = findViewById(R.id.editTextText4);
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
@@ -95,9 +93,12 @@ public class SignUpPage extends AppCompatActivity{
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Log.i(title, "Success: user profile created" + userID);
+
                                         }
                                     });
                                     Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
+                                    // pass user info to home page
+                                    myIntent.putExtra("name", myName);
                                     startActivity(myIntent);
                                     finish();
                                 }
@@ -113,22 +114,6 @@ public class SignUpPage extends AppCompatActivity{
                                 Log.i(title, "createUserWithEmailAndPassword:success");
                             }
                         });
-
-                /*firestore.collection("Users").add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                */
-
-                /*Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
-                myIntent.putExtra("name",myName);
-                myIntent.putExtra("email",myEmail);
-                myIntent.putExtra("password", myPassword);
-                startActivity(myIntent);
-                Log.v(title,"Extrcted name " + myName +
-                        "Email " + myEmail + "Password "+ myPassword);*/
             }
         });
 
