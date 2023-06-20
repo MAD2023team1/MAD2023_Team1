@@ -12,34 +12,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookMyCampus"
         tools:targetApi="31">
-
         <activity
-            android:name="sg.team1.book_my_campus.LoginPage"
-            android:exported="false" />
-
-        <activity
-            android:name="sg.team1.book_my_campus.HomePage"
-            android:exported="false" />
-
-        <activity
-            android:name="sg.team1.book_my_campus.SignUpPage"
-            android:exported="false" />
-
-        <activity
-            android:name="sg.team1.book_my_campus.MainActivity"
+            android:name=".bookNowPage"
             android:exported="true">
-
+        </activity>
+        <activity
+            android:name=".LoginPage"
+            android:exported="false" />
+        <activity
+            android:name=".HomePage"
+            android:exported="false" />
+        <activity
+            android:name=".SignUpPage"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <activity
-            android:name="sg.team1.book_my_campus.MoreRoomInfo"
-            android:exported="false" />
-
+            android:name=".MoreRoomInfo"
+            android:exported="false"
+            android:theme="@style/Theme.AppCompat" />
     </application>
 
 </manifest>
