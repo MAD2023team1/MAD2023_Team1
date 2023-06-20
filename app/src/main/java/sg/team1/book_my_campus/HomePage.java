@@ -21,6 +21,7 @@ public class HomePage extends AppCompatActivity {
     private static final int mybooking_id = R.id.mybookings;
     private static final int profile_id = R.id.profile;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

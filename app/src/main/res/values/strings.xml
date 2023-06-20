@@ -27,6 +27,8 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="room_name">iSpace</string>
+    <string name="select_date">Select Date</string>
+    <string name="available_timeslot">Available Time Slots</string>
     <string-array name="room_name_full_text">
         <item>iSpace</item>
         <item>Smart Room 1</item>
@@ -42,6 +44,7 @@
         <item>Library 5</item>
     </string-array>
 
+    
 
     <string name="BookNow">Book Now</string>
     <!-- TODO: Remove or change this placeholder text -->
