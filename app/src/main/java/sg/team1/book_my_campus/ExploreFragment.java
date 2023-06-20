@@ -102,8 +102,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface{
     private void setUpRoomModels(){
         //pulling the text inside the string[] that I have created in the string.xml file
         String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
+        String[] roomLocation = getResources().getStringArray(R.array.room_location);
         for(int i=0; i<roomNamesFromString.length;i++){
-            roomModels.add(new Room(0, roomNamesFromString[i], null, null, 0,null,0,null,false, roomImages[i]));
+            roomModels.add(new Room(0, roomNamesFromString[i], null, roomLocation[i], 0,null,0,null,false, roomImages[i]));
         }
     }
     private void filterList(String text){
@@ -132,6 +133,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface{
         //the below code will pass the information to our new activity page, MoreRoomInfo
         moreInfoPageIntent.putExtra("roomName", roomModels.get(position).getRoomName());
         moreInfoPageIntent.putExtra("roomImage", roomModels.get(position).getImage());
+        moreInfoPageIntent.putExtra("roomLocation", roomModels.get(position).getLocation());
         startActivity(moreInfoPageIntent);
     }
 }

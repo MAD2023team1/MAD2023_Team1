@@ -3,6 +3,7 @@ package sg.team1.book_my_campus;
 import androidx.appcompat.app.ActionBar;
 
 import android.content.Intent;
+import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 public class MoreRoomInfo extends AppCompatActivity {
     Button bookNowbt;
@@ -26,14 +29,17 @@ public class MoreRoomInfo extends AppCompatActivity {
         //Extract the variables and information passed from the explore fragment
         String roomName = getIntent().getStringExtra("roomName");
         int roomImage = getIntent().getIntExtra("roomImage",0);
+        String roomLocation = getIntent().getStringExtra("roomLocation");
 
         //grab the textViews display in the MoreRoomInfo.xml file
         TextView rmTV = findViewById(R.id.textView10);
         ImageView rmImg = findViewById(R.id.imageView2);
+        TextView rmLocation = findViewById(R.id.textView11);
 
         //Assign the values from what we have extracted from the ExploreFragment to the MoreRoomInfo.xml file
         rmTV.setText(roomName);
         rmImg.setImageResource(roomImage);
+        rmLocation.setText("Location:"+ roomLocation);
         //set the title of the action bar based on each room name
         actionBar.setTitle(roomName);
 
@@ -51,13 +57,18 @@ public class MoreRoomInfo extends AppCompatActivity {
     //to handle the back button on the tool bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
+        int itemId = item.getItemId();
+        if (itemId == android.R.id.home)  {
             // Title bar back press triggers onBackPressed()
             onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+    // ltr come back and do share
+    //SHARE THE SMART ROOM
+
+
 
 
 
