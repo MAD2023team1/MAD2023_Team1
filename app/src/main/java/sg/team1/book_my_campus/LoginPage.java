@@ -85,6 +85,7 @@ public class LoginPage extends AppCompatActivity {
 
                                     String userID = firebaseAuth.getCurrentUser().getUid();
                                     Log.w(title, "myuserid: "+userID);
+                                    String myName = firebaseAuth.getCurrentUser().getDisplayName();
 
                                     // Get the previous password from Firestore
                                     usersCollection.document(userID).get()
