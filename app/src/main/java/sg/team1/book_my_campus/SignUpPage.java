@@ -14,11 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -96,11 +99,39 @@ public class SignUpPage extends AppCompatActivity{
 
                                         }
                                     });
+
+                                    CollectionReference usersCollection = firestore.collection("users");
                                     Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
-                                    // pass user info to home page
-                                    myIntent.putExtra("name", myName);
-                                    startActivity(myIntent);
-                                    finish();
+
+                                    usersCollection.document(userID).get()
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    if (documentSnapshot.exists()) {
+                                                        String name = documentSnapshot.getString("Name");
+                                                        String email = documentSnapshot.getString("Email");
+                                                        String password = documentSnapshot.getString("Password");
+                                                        myIntent.putExtra("userId", userID);
+                                                        myIntent.putExtra("name", name);
+                                                        myIntent.putExtra("email", email);
+                                                        myIntent.putExtra("password", password);
+
+                                                        // Start the home page activity
+                                                        startActivity(myIntent);
+                                                        finish();
+                                                    } else {
+                                                        // User document does not exist
+                                                        Log.w(title, "User document does not exist");
+                                                    }
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(title, "Failed to retrieve user info from Firestore");
+                                                }
+                                            });
+
                                 }
                                 else {
                                     // If sign in fails, display a message to the user.
