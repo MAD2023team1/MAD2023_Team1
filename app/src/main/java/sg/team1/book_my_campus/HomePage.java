@@ -4,6 +4,8 @@ import sg.team1.book_my_campus.databinding.HomePageBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -54,12 +56,11 @@ public class HomePage extends AppCompatActivity {
 
     }
     //replace fragment method
-    private void replaceFragment(Fragment fragment){
+    void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framelayout, fragment);
         fragmentTransaction.commit();
-
     }
 
 }

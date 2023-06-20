@@ -1,7 +1,6 @@
 package sg.team1.book_my_campus;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -66,7 +64,7 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             //this is the constructor of the inner class
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.profileImage2);
             tvroomName = itemView.findViewById(R.id.textView);
             //attach a on click listener to our itemView
             itemView.setOnClickListener(new View.OnClickListener() {
