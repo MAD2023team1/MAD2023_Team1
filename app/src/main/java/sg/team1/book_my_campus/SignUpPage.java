@@ -55,7 +55,7 @@ public class SignUpPage extends AppCompatActivity{
 
             @Override
             public void onClick(View v) {
-                Log.v(title,"Login button to app Pressed!");
+                Log.v(title,"Sign up button to app Pressed!");
                 myName = String.valueOf(etName.getText());
                 myEmail = String.valueOf(etEmail.getText());
                 myPassword = String.valueOf(etPassword.getText());

@@ -30,6 +30,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private String myName,myEmail,myPassword,userId;
 
     public ExploreFragment() {
         // Required empty public constructor
@@ -66,6 +67,12 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        // get intent values from LoginPage to HomePage
+
+        myName = getActivity().getIntent().getStringExtra("name");
+        userId = getActivity().getIntent().getStringExtra("userId");
+        myEmail = getActivity().getIntent().getStringExtra("email");
+        myPassword = getActivity().getIntent().getStringExtra("password");
 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_explore, container, false);
@@ -140,6 +147,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         //I cannot put ExploreFragment.this because it is a fragment not an activity
         Intent moreInfoPageIntent = new Intent(getActivity(), MoreRoomInfo.class);
         //the below code will pass the information to our new activity page, MoreRoomInfo
+        moreInfoPageIntent.putExtra("name",myName);
+        moreInfoPageIntent.putExtra("password",myPassword);
+        moreInfoPageIntent.putExtra("email",myEmail);
         moreInfoPageIntent.putExtra("roomName", roomModels.get(position).getRoomName());
         moreInfoPageIntent.putExtra("roomImage", roomModels.get(position).getImage());
         moreInfoPageIntent.putExtra("roomLocation", roomModels.get(position).getLocation());
