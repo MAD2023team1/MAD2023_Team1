@@ -30,16 +30,22 @@ public class MoreRoomInfo extends AppCompatActivity {
         String roomName = getIntent().getStringExtra("roomName");
         int roomImage = getIntent().getIntExtra("roomImage",0);
         String roomLocation = getIntent().getStringExtra("roomLocation");
+        int roomLevel = getIntent().getIntExtra("roomLevel",0);
+        int roomCapacity = getIntent().getIntExtra("roomCapacity",0);
 
         //grab the textViews display in the MoreRoomInfo.xml file
         TextView rmTV = findViewById(R.id.textView10);
         ImageView rmImg = findViewById(R.id.imageView2);
         TextView rmLocation = findViewById(R.id.textView11);
+        TextView rmLevel = findViewById(R.id.textView13);
+        TextView rmCapacity = findViewById(R.id.textView12);
 
         //Assign the values from what we have extracted from the ExploreFragment to the MoreRoomInfo.xml file
         rmTV.setText(roomName);
         rmImg.setImageResource(roomImage);
         rmLocation.setText("Location:"+ roomLocation);
+        rmLevel.setText("Level "+roomLevel);
+        rmCapacity.setText("Capacity:"+roomCapacity);
         //set the title of the action bar based on each room name
         actionBar.setTitle(roomName);
 
