@@ -14,23 +14,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import sg.team1.book_my_campus.R;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class SignUpPage extends AppCompatActivity{
 
-    String title = "Sign Up Page";
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    String userID;
+    private String title = "Sign Up Page";
+    private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private String userID;
 
 
     @Override
@@ -40,7 +42,6 @@ public class SignUpPage extends AppCompatActivity{
         setContentView(R.layout.signup_page);
         Log.v(title, "Create");
 
-        Intent myRecvIntent = getIntent();
         EditText etName = findViewById(R.id.editTextText4);
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
@@ -95,11 +96,42 @@ public class SignUpPage extends AppCompatActivity{
                                         @Override
                                         public void onSuccess(Void unused) {
                                             Log.i(title, "Success: user profile created" + userID);
+
                                         }
                                     });
+
+                                    CollectionReference usersCollection = firestore.collection("users");
                                     Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
-                                    startActivity(myIntent);
-                                    finish();
+
+                                    usersCollection.document(userID).get()
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    if (documentSnapshot.exists()) {
+                                                        String name = documentSnapshot.getString("Name");
+                                                        String email = documentSnapshot.getString("Email");
+                                                        String password = documentSnapshot.getString("Password");
+                                                        myIntent.putExtra("userId", userID);
+                                                        myIntent.putExtra("name", name);
+                                                        myIntent.putExtra("email", email);
+                                                        myIntent.putExtra("password", password);
+
+                                                        // Start the home page activity
+                                                        startActivity(myIntent);
+                                                        finish();
+                                                    } else {
+                                                        // User document does not exist
+                                                        Log.w(title, "User document does not exist");
+                                                    }
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.w(title, "Failed to retrieve user info from Firestore");
+                                                }
+                                            });
+
                                 }
                                 else {
                                     // If sign in fails, display a message to the user.
@@ -113,22 +145,6 @@ public class SignUpPage extends AppCompatActivity{
                                 Log.i(title, "createUserWithEmailAndPassword:success");
                             }
                         });
-
-                /*firestore.collection("Users").add(users).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
-                    }
-                });
-                */
-
-                /*Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
-                myIntent.putExtra("name",myName);
-                myIntent.putExtra("email",myEmail);
-                myIntent.putExtra("password", myPassword);
-                startActivity(myIntent);
-                Log.v(title,"Extrcted name " + myName +
-                        "Email " + myEmail + "Password "+ myPassword);*/
             }
         });
 

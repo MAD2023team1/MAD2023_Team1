@@ -4,16 +4,20 @@ import sg.team1.book_my_campus.databinding.HomePageBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import sg.team1.book_my_campus.R;
 
 public class HomePage extends AppCompatActivity {
-    String title = "Home Page";
-    HomePageBinding binding;
+    private String title = "Home Page";
+    private HomePageBinding binding;
     private static final int home_id = R.id.Home;
     private static final int explore_id = R.id.explore;
     private static final int mybooking_id = R.id.mybookings;
@@ -40,14 +44,22 @@ public class HomePage extends AppCompatActivity {
             return true;
         });
 
+        //receive user info
+        getIntent().getStringExtra("name");
+        getIntent().getStringExtra("userId");
+        getIntent().getStringExtra("email");
+        getIntent().getStringExtra("password");
+        Log.i(title, "User info: "+ getIntent().getStringExtra("name")+ getIntent().getStringExtra("userId")+
+                getIntent().getStringExtra("email") + getIntent().getStringExtra("password"));
+
+
     }
     //replace fragment method
-    private void replaceFragment(Fragment fragment){
+    void replaceFragment(Fragment fragment){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.framelayout, fragment);
         fragmentTransaction.commit();
-
     }
 
 }
