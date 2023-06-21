@@ -15,7 +15,7 @@ public class Booking {
 
     public String date;
 
-    public int timeSlot;
+    public String timeSlot;
 
     public boolean isCanceled;
     public boolean isCheckedIn;
@@ -23,7 +23,7 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(String name, String roomName, String date, int timeSlot, boolean isCanceled, boolean isCheckedIn) {
+    public Booking(String name, String roomName, String date, String timeSlot, boolean isCanceled, boolean isCheckedIn) {
         this.name = name;
         this.roomName = roomName;
         this.date = date;
@@ -56,11 +56,11 @@ public class Booking {
         this.date = date;
     }
 
-    public int getTimeSlot() {
+    public String getTimeSlot() {
         return timeSlot;
     }
 
-    public void setTimeSlot(int timeSlot) {
+    public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
     }
 
