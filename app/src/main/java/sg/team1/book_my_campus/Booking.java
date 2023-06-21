@@ -3,20 +3,36 @@ package sg.team1.book_my_campus;
 import java.sql.Time;
 import java.util.Date;
 
+
+import java.sql.Time;
+import java.util.Date;
+
 public class Booking {
 
     public User user;
 
-    public int roomNumber;
+    public Room room;
 
-    public Date date;
+    public String date;
 
-    public Time startTime;
-
-    public Time endTime;
+    public TimeSlot timeSlot;
 
     public boolean isCanceled;
     public boolean isCheckedIn;
+
+    public Booking() {
+    }
+
+    public Booking(User user, Room room, String date, TimeSlot timeSlot, boolean isCanceled, boolean isCheckedIn) {
+        this.user = user;
+        this.room = room;
+        this.date = date;
+        this.timeSlot = timeSlot;
+        this.isCanceled = isCanceled;
+        this.isCheckedIn = isCheckedIn;
+    }
+
+
 
     public User getUser() {
         return user;
@@ -26,36 +42,28 @@ public class Booking {
         this.user = user;
     }
 
-    public int getRoomNumber() {
-        return roomNumber;
+    public Room getRoom() {
+        return room;
     }
 
-    public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+    public void setRoom(Room room) {
+        this.room = room;
     }
 
-    public java.util.Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(java.util.Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
-    public Time getStartTime() {
-        return startTime;
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
     }
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
-
-    public Time getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
     }
 
     public boolean isCanceled() {
@@ -63,26 +71,14 @@ public class Booking {
     }
 
     public void setCanceled(boolean canceled) {
-        this.isCanceled = canceled;
+        isCanceled = canceled;
     }
-    public boolean isCheckedIn(){
+
+    public boolean isCheckedIn() {
         return isCheckedIn;
     }
 
     public void setCheckedIn(boolean checkedIn) {
-        this.isCheckedIn = checkedIn;
+        isCheckedIn = checkedIn;
     }
-
-    public Booking(User user, int roomNumber, java.util.Date date, Time startTime, Time endTime, boolean isCanceled,boolean isCheckedIn) {
-        this.user = user;
-        this.roomNumber = roomNumber;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isCanceled = isCanceled;
-        this.isCheckedIn=isCheckedIn;
-    }
-    public Booking(){}
-
-
 }
