@@ -76,6 +76,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 HomePage ParentActivity = (HomePage) getActivity();
+                //
                 // ParentActivity.switchToEditProfile(EditProfileFragment.newInstance(mParam1, mParam2));
             }
         });

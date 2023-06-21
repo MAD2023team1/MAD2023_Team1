@@ -24,6 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="60dp"
+        app:cardBackgroundColor="#4F5F68"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileImage2">
 
@@ -40,9 +41,11 @@
                     android:id="@+id/newNameInput"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/baseline_person_24"
                     android:ems="10"
                     android:hint="New name"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textColorHint="@color/off_white" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -54,6 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:drawableStart="@drawable/baseline_email_24"
                     android:ems="10"
                     android:hint="New email"
                     android:inputType="text" />
@@ -68,6 +72,7 @@
         android:layout_height="82dp"
         android:layout_marginStart="112dp"
         android:layout_marginTop="60dp"
+        android:backgroundTint="@color/design_default_color_secondary_variant"
         android:text="Save"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView" />
