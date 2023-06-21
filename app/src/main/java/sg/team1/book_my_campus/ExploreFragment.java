@@ -2,6 +2,7 @@ package sg.team1.book_my_campus;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
  * Use the {@link ExploreFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ExploreFragment extends Fragment implements RecyclerViewInterface{
+public class ExploreFragment extends Fragment implements RecyclerViewInterface {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -92,32 +93,40 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface{
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         return rootView;
+
+
     }
+
     //this will hold all of our models, and we will send this list to the recycler's view adpater later on
     ArrayList<Room> roomModels = new ArrayList<>();
     //images array
-    int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4,R.drawable.smartcube3and4};
+    int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4};
     private SearchView searchView;
 
-    private void setUpRoomModels(){
+    private void setUpRoomModels() {
         //pulling the text inside the string[] that I have created in the string.xml file
         String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
         String[] roomLocation = getResources().getStringArray(R.array.room_location);
-        for(int i=0; i<roomNamesFromString.length;i++){
-            roomModels.add(new Room(0, roomNamesFromString[i], null, roomLocation[i], 0,null,0,null,false, roomImages[i]));
+        int[] roomLevel = getResources().getIntArray(R.array.room_level);
+        int[] roomCapacity = getResources().getIntArray(R.array.room_capacity);
+
+
+        for (int i = 0; i < roomNamesFromString.length; i++) {
+            roomModels.add(new Room(0, roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, true, roomImages[i]));
         }
     }
-    private void filterList(String text){
+
+    private void filterList(String text) {
         ArrayList<Room> filteredList = new ArrayList<>();
-        for (Room room: roomModels){
-            if(room.getRoomName().toLowerCase().contains(text.toLowerCase())){
+        for (Room room : roomModels) {
+            if (room.getRoomName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(room);
             }
 
         }
-        if (filteredList.isEmpty()){
-            Toast.makeText(getContext(),"No data found",Toast.LENGTH_SHORT).show();
-        }else{
+        if (filteredList.isEmpty()) {
+            Toast.makeText(getContext(), "No data found", Toast.LENGTH_SHORT).show();
+        } else {
             room_recyclerviewadapter adapter = new room_recyclerviewadapter(getContext(), filteredList, this);//because we implemented the recyclerView on top, we can just pass it as this
             RecyclerView recyclerView = getView().findViewById(R.id.mRecyclerView);
             recyclerView.setAdapter(adapter);
@@ -134,6 +143,8 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface{
         moreInfoPageIntent.putExtra("roomName", roomModels.get(position).getRoomName());
         moreInfoPageIntent.putExtra("roomImage", roomModels.get(position).getImage());
         moreInfoPageIntent.putExtra("roomLocation", roomModels.get(position).getLocation());
+        moreInfoPageIntent.putExtra("roomCapacity", roomModels.get(position).getCapacity());
+        moreInfoPageIntent.putExtra("roomLevel",roomModels.get(position).getLevel());
         startActivity(moreInfoPageIntent);
     }
 }
