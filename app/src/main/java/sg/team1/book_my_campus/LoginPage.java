@@ -55,8 +55,8 @@ public class LoginPage extends AppCompatActivity {
 
             public void onClick(View v) {
                 Log.v(title,"Log in button to app Pressed!");
-                myEmail = "1234@gmail.com";
-                myPassword = "hello123";
+                myEmail = String.valueOf(etEmail.getText());
+                myPassword = String.valueOf(etPassword.getText());
 
                 if(TextUtils.isEmpty(myEmail)){
                     Toast.makeText(LoginPage.this,"Enter Email", Toast.LENGTH_SHORT).show();
