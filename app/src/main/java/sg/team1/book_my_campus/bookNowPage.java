@@ -16,11 +16,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -43,12 +49,7 @@ public class bookNowPage extends AppCompatActivity {
         setContentView(R.layout.activity_book_now_page);
         createTimeSlots();
         selectDate();
-
-
-
-
-
-
+        checkTimeSlots();
 
 
         MyTimeSlotAdapter myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
@@ -58,7 +59,7 @@ public class bookNowPage extends AppCompatActivity {
 
 
             }
-        },date);
+        });
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -101,12 +102,13 @@ public class bookNowPage extends AppCompatActivity {
 
             }
         });
+
     }
 
 
     private void createTimeSlots() {
         for (int i = 0; i < 9; i++) {
-            TimeSlot timeSlot = new TimeSlot(i);
+            TimeSlot timeSlot = new TimeSlot(true,i);
             timeSlots.add(timeSlot);
         }
 
@@ -146,6 +148,7 @@ public class bookNowPage extends AppCompatActivity {
         room.setLocation(roomLocation);
         room.setLevel(roomLevel);
         room.setCapacity(roomCapacity);
+        timeSlot.setAvail(false);
         Booking booking = new Booking(user,room,date.getText().toString(),timeSlot,false,false);
         bookingToDB(booking);
     }
@@ -168,6 +171,35 @@ public class bookNowPage extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void checkTimeSlots() {
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference cref = db.collection("bookings");
+        Query q1 = cref.whereEqualTo("Date", date.getText().toString()).whereEqualTo("Room", roomName);
+        q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot ds : task.getResult()) {
+                        Log.d(title, ds.getId() + " => " + ds.getData());
+                        TimeSlot ts = (TimeSlot) ds.get("Timeslot");
+                        for (TimeSlot timeslot : timeSlots) {
+                            if (ts.getSlot() == timeslot.getSlot()) {
+                                timeslot.setAvail(false);
+                            } else {
+                                timeslot.setAvail(true);
+                            }
+
+                        }
+                    }
+                } else {
+                    Log.v(title, "Error getting documents");
+                }
+
+            }
+        });
+
     }
 
 
