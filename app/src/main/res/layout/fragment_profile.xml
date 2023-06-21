@@ -13,6 +13,8 @@
         android:layout_height="160dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="284dp"
+        android:background="@drawable/search_view_bg"
+        android:backgroundTint="@color/design_default_color_secondary_variant"
         android:outlineProvider="paddedBounds"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,6 +25,7 @@
         android:layout_height="158dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="286dp"
+        app:cardBackgroundColor="#A0D3DA"
         app:layout_constraintStart_toEndOf="@+id/profileImage2"
         app:layout_constraintTop_toTopOf="parent">
 
