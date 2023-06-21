@@ -9,13 +9,13 @@ import java.util.Date;
 
 public class Booking {
 
-    public User user;
+    public String name;
 
-    public Room room;
+    public String roomName;
 
     public String date;
 
-    public TimeSlot timeSlot;
+    public int timeSlot;
 
     public boolean isCanceled;
     public boolean isCheckedIn;
@@ -23,31 +23,29 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(User user, Room room, String date, TimeSlot timeSlot, boolean isCanceled, boolean isCheckedIn) {
-        this.user = user;
-        this.room = room;
+    public Booking(String name, String roomName, String date, int timeSlot, boolean isCanceled, boolean isCheckedIn) {
+        this.name = name;
+        this.roomName = roomName;
         this.date = date;
         this.timeSlot = timeSlot;
         this.isCanceled = isCanceled;
         this.isCheckedIn = isCheckedIn;
     }
 
-
-
-    public User getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Room getRoom() {
-        return room;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public String getDate() {
@@ -58,11 +56,11 @@ public class Booking {
         this.date = date;
     }
 
-    public TimeSlot getTimeSlot() {
+    public int getTimeSlot() {
         return timeSlot;
     }
 
-    public void setTimeSlot(TimeSlot timeSlot) {
+    public void setTimeSlot(int timeSlot) {
         this.timeSlot = timeSlot;
     }
 
