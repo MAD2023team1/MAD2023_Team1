@@ -35,12 +35,21 @@ public class bookNowPage extends AppCompatActivity {
     int roomLevel,roomCapacity;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_now_page);
         createTimeSlots();
         selectDate();
+
+
+
+
+
+
+
 
         MyTimeSlotAdapter myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
             @Override
@@ -49,7 +58,7 @@ public class bookNowPage extends AppCompatActivity {
 
 
             }
-        });
+        },date);
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -160,4 +169,7 @@ public class bookNowPage extends AppCompatActivity {
             }
         });
     }
+
+
+
 }
