@@ -2,6 +2,7 @@ package sg.team1.book_my_campus;
 
 import android.content.Context;
 import android.telecom.Call;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,20 +28,18 @@ import java.util.Date;
 
 public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder> {
 
-
+    String Title = "Time Slot Adapter";
     ArrayList<TimeSlot> timeSlotList;
-    ArrayList<CardView>cardViewList=new ArrayList<>();
+    ArrayList<CardView> cardViewList = new ArrayList<>();
     private ItemClickListener mItemClickListener;
-    String switchStatus=" ";
-    FirebaseFirestore timeslotdb;
-    TextView date;
 
-    public MyTimeSlotAdapter(ArrayList<TimeSlot> timeSlotList,ItemClickListener itemClickListener,TextView date) {
+
+    public MyTimeSlotAdapter(ArrayList<TimeSlot> timeSlotList, ItemClickListener itemClickListener) {
 
         this.timeSlotList = timeSlotList;
-        this.date=date;
 
-        this.mItemClickListener=itemClickListener;
+
+        this.mItemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -56,7 +55,7 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
         holder.txt_time_slot.setText(new StringBuilder(Variables.convertTimeSlot(position)).toString());
 
 
-        if (timeSlotList.size() == 0) {
+        if (timeSlotList.get(position).isAvail()) {
             holder.txt_time_slot_description.setText("Available");
 
         } //if all slots is available,show
@@ -66,22 +65,7 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
         }//if some are booked
         holder.itemView.setOnClickListener(view -> {
             mItemClickListener.onItemClick(timeSlotList.get(position));//get position of item in recyclerview
-
-
-
-
-
-
-
-
-
-
         });
-
-
-
-
-
 
     }
 
@@ -91,33 +75,10 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
         return timeSlotList.size();
     }
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void onItemClick(TimeSlot timeslot);
     }
 
-    public boolean CheckTimeSlots(){
-        boolean s;
-        timeslotdb.collection("bookings")
-                .whereEqualTo("Date",date)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()){
-                            for(QueryDocumentSnapshot document :task.getResult()){
-                                for (TimeSlot timeSlot:timeSlotList){
-                                    if(timeSlot==document.get("Timeslot")){
-                                        boolean s = true;
-                                    }
-                                    boolean s = false;
-
-                                }
-
-
-                            }
-                        }
-                    }
-                });
-    }
-
 }
+
+
