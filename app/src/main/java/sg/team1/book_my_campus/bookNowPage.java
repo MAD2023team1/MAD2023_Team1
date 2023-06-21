@@ -1,11 +1,4 @@
 package sg.team1.book_my_campus;
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.arch.core.internal.SafeIterableMap;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -14,21 +7,24 @@ import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,24 +40,30 @@ public class bookNowPage extends AppCompatActivity {
     String name, password, email, roomName, roomLocation;
     int roomLevel, roomCapacity;
 
+    MyTimeSlotAdapter myTimeSlotAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_now_page);
-        readDocument();
-        createTimeSlots();
-        selectDate();
 
+        date = findViewById(R.id.date);
+        date.setText(getCurrentDate());
 
-        MyTimeSlotAdapter myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
+        myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
             @Override
             public void onItemClick(TimeSlot timeslot) {
                 openAlertBox(timeslot);
 
 
             }
-        },date.getText().toString(),bookingList,roomName);
+        },null, bookingList,roomName);
+
+        readDocument();
+        createTimeSlots();
+        selectDate();
+
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -71,9 +73,7 @@ public class bookNowPage extends AppCompatActivity {
 
         CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setMinDate((new Date().getTime()));
-
-        date = findViewById(R.id.date);
-        date.setText(getCurrentDate());
+        myTimeSlotAdapter.setDate(getCurrentDate());
 
         name = getIntent().getStringExtra("name");
         password = getIntent().getStringExtra("password");
@@ -83,11 +83,11 @@ public class bookNowPage extends AppCompatActivity {
         roomLevel = getIntent().getIntExtra("roomLevel", 0);
         roomCapacity = getIntent().getIntExtra("roomCapacity", 0);
 
-
+        myTimeSlotAdapter.CheckTimeSlots();
     }
 
     private String getCurrentDate() {
-        return new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        return new SimpleDateFormat("dd/M/yyyy", Locale.getDefault()).format(new Date());
     }
 
     private void selectDate() {
@@ -100,6 +100,8 @@ public class bookNowPage extends AppCompatActivity {
                 String selected_Date = dayOfMonth + "/" + (month + 1) + "/" + year;
                 date.setText(selected_Date);
 
+                myTimeSlotAdapter.setDate(selected_Date);
+                myTimeSlotAdapter.notifyDataSetChanged();
 
             }
         });
@@ -129,6 +131,7 @@ public class bookNowPage extends AppCompatActivity {
 
                 bookRoom(timeSlot);
                 Toast.makeText(bookNowPage.this, "Booking made", Toast.LENGTH_SHORT).show();
+                readDocument();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -175,7 +178,7 @@ public class bookNowPage extends AppCompatActivity {
     }
 
     public void readDocument() {
-        FirebaseFirestore.getInstance()
+        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
                 .collection("bookings")
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -192,7 +195,8 @@ public class bookNowPage extends AppCompatActivity {
 
 
                         }
-
+                        myTimeSlotAdapter.notifyDataSetChanged();
+                        myTimeSlotAdapter.CheckTimeSlots();
                     }
 
                 })
@@ -202,7 +206,6 @@ public class bookNowPage extends AppCompatActivity {
                         Log.v(title, "onFailure: ", e);
                     }
                 });
-
     }
 
     public void CheckTimeSlots() {
