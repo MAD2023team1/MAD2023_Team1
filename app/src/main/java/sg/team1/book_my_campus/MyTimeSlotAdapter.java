@@ -1,42 +1,30 @@
 package sg.team1.book_my_campus;
 
-import android.content.Context;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextClock;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder> {
 
     String Title = "Time Slot Adapter";
-    ArrayList<TimeSlot> timeSlotList;
-    ArrayList<Booking> bookingList;
+    List<TimeSlot> timeSlotList;
+    List<Booking> bookingList;
     String date;
     String roomName;
     private ItemClickListener mItemClickListener;
 
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-    public MyTimeSlotAdapter(ArrayList<TimeSlot> timeSlotList, ItemClickListener itemClickListener, String date, ArrayList<Booking> bookingList, String roomName) {
+    public MyTimeSlotAdapter(ArrayList<TimeSlot> timeSlotList, ItemClickListener itemClickListener, String date, List<Booking> bookingList, String roomName) {
 
         this.timeSlotList = timeSlotList;
         this.bookingList = bookingList;
@@ -89,9 +77,14 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
     public void CheckTimeSlots() {
         Log.v(Title, "checktimecrate" + bookingList.size());
-        for (int i = 0; i < bookingList.size(); i++) {
-            timeSlotList.get(i).setAvail(false);
-            Log.v(Title, "che");
+        for (int j = 0; j < timeSlotList.size(); j++) {
+            timeSlotList.get(j).setAvail(true);
+            for (int i = 0; i < bookingList.size(); i++) {
+                if (bookingList.get(i).getTimeSlot().equals(timeSlotList.get(j).getSlot()) && bookingList.get(i).getDate().equals(date)) {
+                    timeSlotList.get(j).setAvail(false);
+                    Log.v(Title, bookingList.get(i).getTimeSlot()+" is booked");
+                }
+            }
         }
 
             /*if (roomName == bookingList.get(i).roomName && date.getText().toString() == bookingList.get(i).getDate()) {
@@ -135,5 +128,4 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
     }
 }
-
 

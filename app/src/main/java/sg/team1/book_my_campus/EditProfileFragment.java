@@ -9,7 +9,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -83,31 +85,37 @@ public class EditProfileFragment extends Fragment {
 
         // create a view so that i can use findViewById to get objects for EditText objects
         this.inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
-        EditText NewNameInput = inflatedView.findViewById(R.id.newNameInput);
-        EditText NewEmailInput = inflatedView.findViewById(R.id.newEmailInput);
+        Button saveProfileButton = inflatedView.findViewById(R.id.saveProfileButton);
+        saveProfileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText NewNameInput = inflatedView.findViewById(R.id.newNameInput);
+                EditText NewEmailInput = inflatedView.findViewById(R.id.newEmailInput);
 
-        // extracting values from editText for new name and email
-        String NewName = String.valueOf(NewNameInput.getText());
-        String NewEmail = String.valueOf(NewEmailInput.getText());
+                String NewName = String.valueOf(NewNameInput.getText());
+                String NewEmail = String.valueOf(NewEmailInput.getText());
 
-        Map<String, Object> user = new HashMap<>();
-        user.put("Name", NewName);
-        user.put("Email", NewEmail);
-        user.put("Password", myPassword);
+                Map<String, Object> user = new HashMap<>();
+                user.put("Name", NewName);
+                user.put("Email", NewEmail);
+                user.put("Password", myPassword);
 
-        firestore.collection("users").document(userId).set(user)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        Log.v(title, "Update Successful");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.v(title, "Update failed");
-                    }
-                });
+                firestore.collection("users").document(userId).set(user)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Log.v(title, "Update Successful");
+                                Toast.makeText(getContext(), "Successfully edited!", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.v(title, "Update failed");
+                            }
+                        });
+            }
+        });
 
         // Inflate the layout for this fragment
         return inflatedView;

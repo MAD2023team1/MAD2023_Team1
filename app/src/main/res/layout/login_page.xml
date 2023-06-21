@@ -98,7 +98,7 @@
                     android:background="@color/darkblue"
                     android:text="@string/loginButton"
                     android:textColor="@color/off_white"
-                    android:textSize="20sp"
+                    android:textSize="20dp"
                     app:backgroundTint="@color/darkblue" />
 
             </LinearLayout>
@@ -113,7 +113,7 @@
         android:fontFamily="sans-serif-medium"
         android:text="@string/newUserText"
         android:textColor="@color/white"
-        android:textSize="16sp" />
+        android:textSize="16dp" />
 
     </LinearLayout>
 
