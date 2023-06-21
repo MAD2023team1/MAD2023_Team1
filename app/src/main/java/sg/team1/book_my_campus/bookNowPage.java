@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,11 +31,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class bookNowPage extends AppCompatActivity {
     ArrayList<TimeSlot> timeSlots = new ArrayList<>();
+    ArrayList<Booking> bookingList = new ArrayList<>();
     String title = "book now page";
     CalendarView calendarView;
     TextView date;
@@ -49,7 +53,8 @@ public class bookNowPage extends AppCompatActivity {
         setContentView(R.layout.activity_book_now_page);
         createTimeSlots();
         selectDate();
-        checkTimeSlots();
+        readDocument();
+
 
 
         MyTimeSlotAdapter myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
@@ -142,26 +147,26 @@ public class bookNowPage extends AppCompatActivity {
         alertDialog.show();
     }
     private void bookRoom(TimeSlot timeSlot){
-        User user = new User(name,email,password);
         Room room = new Room();
         room.setRoomName(roomName);
         room.setLocation(roomLocation);
         room.setLevel(roomLevel);
         room.setCapacity(roomCapacity);
         timeSlot.setAvail(false);
-        Booking booking = new Booking(user,room,date.getText().toString(),timeSlot,false,false);
+        Booking booking = new Booking(name,roomName,date.getText().toString(),timeSlot.getSlot(),false,false);
         bookingToDB(booking);
     }
     private void bookingToDB(Booking booking)
     {
         FirebaseFirestore db =  FirebaseFirestore.getInstance();
         Map<String, Object> bookings = new HashMap<>();
-        bookings.put("Name", booking.user.name);
-        bookings.put("Room", booking.room.roomName);
-        bookings.put("Date",booking.date);
-        bookings.put("Timeslot", booking.timeSlot);
-        bookings.put("IsCheckedIn",booking.isCheckedIn());
-        bookings.put("IsCanceled",booking.isCanceled());
+        //bookings.put("booking",booking);
+        bookings.put("name", booking.name);
+        bookings.put("roomName", booking.roomName);
+        bookings.put("date",booking.date);
+        bookings.put("timeSlot", booking.timeSlot);
+        bookings.put("isCheckedIn",booking.isCheckedIn());
+        bookings.put("isCanceled",booking.isCanceled());
         db.collection("bookings").add(bookings).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -172,35 +177,33 @@ public class bookNowPage extends AppCompatActivity {
             }
         });
     }
-    public void checkTimeSlots() {
-
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference cref = db.collection("bookings");
-        Query q1 = cref.whereEqualTo("Date", date.getText().toString()).whereEqualTo("Room", roomName);
-        q1.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DocumentSnapshot ds : task.getResult()) {
-                        Log.d(title, ds.getId() + " => " + ds.getData());
-                        TimeSlot ts = (TimeSlot) ds.get("Timeslot");
-                        for (TimeSlot timeslot : timeSlots) {
-                            if (ts.getSlot() == timeslot.getSlot()) {
-                                timeslot.setAvail(false);
-                            } else {
-                                timeslot.setAvail(true);
-                            }
+    public void readDocument(){
+        FirebaseFirestore.getInstance()
+                .collection("bookings")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title,"Getting booking data");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot:snapshotList)
+                        {
+                            Booking booking = snapshot.toObject(Booking.class);
+                            Log.v(title,"onSuccess: "+ snapshot.getData().toString());
+                            bookingList.add(booking);
+                            Log.v(title,"onSuccess: "+ booking.name);
 
                         }
                     }
-                } else {
-                    Log.v(title, "Error getting documents");
-                }
-
-            }
-        });
-
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v(title,"onFailure: ",e);
+                    }
+                });
     }
+
 
 
 
