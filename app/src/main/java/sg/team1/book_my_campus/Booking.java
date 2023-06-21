@@ -32,6 +32,8 @@ public class Booking {
         this.isCheckedIn = isCheckedIn;
     }
 
+
+
     public User getUser() {
         return user;
     }

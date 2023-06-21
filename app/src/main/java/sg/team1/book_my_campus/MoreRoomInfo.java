@@ -27,6 +27,9 @@ public class MoreRoomInfo extends AppCompatActivity {
 
 
         //Extract the variables and information passed from the explore fragment
+        String name = getIntent().getStringExtra("name");
+        String password = getIntent().getStringExtra("password");
+        String email = getIntent().getStringExtra("email");
         String roomName = getIntent().getStringExtra("roomName");
         int roomImage = getIntent().getIntExtra("roomImage",0);
         String roomLocation = getIntent().getStringExtra("roomLocation");
@@ -56,6 +59,13 @@ public class MoreRoomInfo extends AppCompatActivity {
         bookNowbt.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent bookNowGo = new Intent(MoreRoomInfo.this, bookNowPage.class);
+                bookNowGo.putExtra("name",name);
+                bookNowGo.putExtra("password",password);
+                bookNowGo.putExtra("email",email);
+                bookNowGo.putExtra("roomName",roomName);
+                bookNowGo.putExtra("roomLocation",roomLocation);
+                bookNowGo.putExtra("roomLevel",roomLevel);
+                bookNowGo.putExtra("roomCapacity",roomCapacity);
                 startActivity(bookNowGo);
             }
         });

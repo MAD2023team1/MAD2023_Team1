@@ -1,4 +1,5 @@
 package sg.team1.book_my_campus;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.internal.SafeIterableMap;
@@ -8,20 +9,30 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class bookNowPage extends AppCompatActivity {
     ArrayList<TimeSlot> timeSlots = new ArrayList<>();
-
+    String title = "book now page";
     CalendarView calendarView;
     TextView date;
+    String name,password,email,roomName,roomLocation;
+    int roomLevel,roomCapacity;
 
 
     @Override
@@ -51,6 +62,15 @@ public class bookNowPage extends AppCompatActivity {
 
         date =findViewById(R.id.date);
         date.setText(getCurrentDate());
+
+        name = getIntent().getStringExtra("name");
+        password = getIntent().getStringExtra("password");
+        email = getIntent().getStringExtra("email");
+        roomName = getIntent().getStringExtra("roomName");
+        roomLocation = getIntent().getStringExtra("roomLocation");
+        roomLevel = getIntent().getIntExtra("roomLevel",0);
+        roomCapacity = getIntent().getIntExtra("roomCapacity",0);
+
 
     }
     private String getCurrentDate()
@@ -94,7 +114,7 @@ public class bookNowPage extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
-
+                bookRoom(timeSlot);
                 Toast.makeText(bookNowPage.this,"Booking made", Toast.LENGTH_SHORT).show();
             }
         });
@@ -109,5 +129,35 @@ public class bookNowPage extends AppCompatActivity {
 
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
+    }
+    private void bookRoom(TimeSlot timeSlot){
+        User user = new User(name,email,password);
+        Room room = new Room();
+        room.setRoomName(roomName);
+        room.setLocation(roomLocation);
+        room.setLevel(roomLevel);
+        room.setCapacity(roomCapacity);
+        Booking booking = new Booking(user,room,date.getText().toString(),timeSlot,false,false);
+        bookingToDB(booking);
+    }
+    private void bookingToDB(Booking booking)
+    {
+        FirebaseFirestore db =  FirebaseFirestore.getInstance();
+        Map<String, Object> bookings = new HashMap<>();
+        bookings.put("Name", booking.user.name);
+        bookings.put("Room", booking.room.roomName);
+        bookings.put("Date",booking.date);
+        bookings.put("Timeslot", booking.timeSlot);
+        bookings.put("IsCheckedIn",booking.isCheckedIn());
+        bookings.put("IsCanceled",booking.isCanceled());
+        db.collection("bookings").add(bookings).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if(task.isSuccessful())
+                {
+                    Log.v(title,"booking added to db");
+                }
+            }
+        });
     }
 }
