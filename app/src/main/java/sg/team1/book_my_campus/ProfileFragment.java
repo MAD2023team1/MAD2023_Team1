@@ -1,15 +1,21 @@
 package sg.team1.book_my_campus;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +23,12 @@ import androidx.fragment.app.Fragment;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
+
+    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    String myName = getActivity().getIntent().getStringExtra("name");
+    String userId = getActivity().getIntent().getStringExtra("userId");
+    String myEmail = getActivity().getIntent().getStringExtra("email");
+    String myPassword = getActivity().getIntent().getStringExtra("password");
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,11 +71,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        String myName = getActivity().getIntent().getStringExtra("name");
-        String userId = getActivity().getIntent().getStringExtra("userId");
-        String myEmail = getActivity().getIntent().getStringExtra("email");
-        String myPassword = getActivity().getIntent().getStringExtra("password");
-
         this.inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
         Button EditProfileButton = inflatedView.findViewById(R.id.editProfileButton);
         TextView NameDisplay = inflatedView.findViewById(R.id.nameDisplay);
@@ -75,16 +82,52 @@ public class ProfileFragment extends Fragment {
         EditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HomePage ParentActivity = (HomePage) getActivity();
-                //
-                // ParentActivity.switchToEditProfile(EditProfileFragment.newInstance(mParam1, mParam2));
+                showEditProfile();
             }
         });
 
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_profile, container, false);
         return inflatedView;
+    }
 
+    private void showEditProfile() {
+        // Inflate alert
+        View dialogView = getLayoutInflater().inflate(R.layout.edit_profile, null);
+
+        // Declaring variables
+        EditText NewNameInput = dialogView.findViewById(R.id.NewNameInput);
+        EditText NewEmailInput = dialogView.findViewById(R.id.NewEmailInput);
+        Button CancelButton = dialogView.findViewById(R.id.editprofileCancel);
+        Button ChangeButton = dialogView.findViewById(R.id.editprofileCancel);
+
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog alert = builder.create();
+        builder.setView(dialogView);
+
+        CancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alert.dismiss();
+            }
+        });
+
+        ChangeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String NewName = NewNameInput.getText().toString();
+                String NewEmail = NewEmailInput.getText().toString();
+
+
+
+
+            }
+        });
 
     }
+
 }
