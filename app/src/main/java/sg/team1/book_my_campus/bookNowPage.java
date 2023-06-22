@@ -3,12 +3,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.arch.core.internal.SafeIterableMap;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -39,8 +41,6 @@ public class bookNowPage extends AppCompatActivity {
     TextView date;
     String name,password,email,roomName,roomLocation;
     int roomLevel,roomCapacity;
-
-
 
 
     @Override
@@ -151,6 +151,12 @@ public class bookNowPage extends AppCompatActivity {
         timeSlot.setAvail(false);
         Booking booking = new Booking(user,room,date.getText().toString(),timeSlot,false,false);
         bookingToDB(booking);
+        //pass the room book to upcoming booking
+        Fragment upcomingBooking = new upcomingBookingFragment();
+        Bundle bundleBooking = new Bundle();
+        bundleBooking.putParcelable("BookingObject", booking);
+        upcomingBooking.setArguments(bundleBooking);
+
     }
     private void bookingToDB(Booking booking)
     {

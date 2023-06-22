@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -149,7 +150,13 @@ public class LoginPage extends AppCompatActivity {
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
                                                         myIntent.putExtra("password", password);
-
+                                                        //pass the whole user class
+                                                        User user = new User(name,email,password);
+                                                        //need to send to a fragment so must use bundle
+                                                        Fragment upcomingBookingFragment = new upcomingBookingFragment();
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putParcelable("User", user);
+                                                        upcomingBookingFragment.setArguments(bundle);
                                                         // Start the home page activity
                                                         startActivity(myIntent);
                                                         finish();

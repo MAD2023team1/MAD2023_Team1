@@ -1,5 +1,10 @@
 package sg.team1.book_my_campus;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -7,7 +12,7 @@ import java.util.Date;
 import java.sql.Time;
 import java.util.Date;
 
-public class Booking {
+public class Booking implements Parcelable {
 
     public User user;
 
@@ -33,6 +38,25 @@ public class Booking {
     }
 
 
+    protected Booking(Parcel in) {
+        user = in.readParcelable(User.class.getClassLoader());
+        room = in.readParcelable(Room.class.getClassLoader());
+        date = in.readString();
+        isCanceled = in.readByte() != 0;
+        isCheckedIn = in.readByte() != 0;
+    }
+
+    public static final Creator<Booking> CREATOR = new Creator<Booking>() {
+        @Override
+        public Booking createFromParcel(Parcel in) {
+            return new Booking(in);
+        }
+
+        @Override
+        public Booking[] newArray(int size) {
+            return new Booking[size];
+        }
+    };
 
     public User getUser() {
         return user;
@@ -80,5 +104,19 @@ public class Booking {
 
     public void setCheckedIn(boolean checkedIn) {
         isCheckedIn = checkedIn;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+        parcel.writeParcelable(user, i);
+        parcel.writeParcelable(room, i);
+        parcel.writeString(date);
+        parcel.writeByte((byte) (isCanceled ? 1 : 0));
+        parcel.writeByte((byte) (isCheckedIn ? 1 : 0));
     }
 }
