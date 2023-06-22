@@ -215,54 +215,7 @@ public class bookNowPage extends AppCompatActivity {
                 });
     }
 
-    public void CheckTimeSlots() {
-        Log.v(title, "checktimecrate"+bookingList.size());
-        for (int i = 0; i < bookingList.size(); i++) {
-            timeSlots.get(i).setAvail(false);
 
-            Log.v(title, "che");
-        }
-
-            /*if (roomName == bookingList.get(i).roomName && date.getText().toString() == bookingList.get(i).getDate()) {
-                {
-                    for (int z = 0; i < timeSlots.size(); z++) {
-                        if (timeSlots.get(z).getSlot() == bookingList.get(i).getTimeSlot()) {
-                            timeSlots.get(z).setAvail(false);
-                        }
-
-                    }
-                }
-            }
-        for (Booking booking : bookingList) {
-            Log.v(title,"booker");
-            if (roomName.equals(booking.getRoomName())) {
-                Log.v(title,"checkdateif");
-                if (date.getText().toString().equals(booking.getDate()))
-                {
-                    Log.v(title,"ifdate");
-                    for (TimeSlot time:timeSlots)
-                    {
-                        Log.v(title,"timeloop");
-                        if(time.getSlot()==booking.getTimeSlot())
-                        {
-                            time.setAvail(false);
-                            Log.v(title,"setava false");
-                        }
-                        else {
-                            time.setAvail(true);
-                            Log.v(title,"setava true");
-
-                        }
-                    }
-                }
-
-            }
-
-
-        }*/
-
-
-    }
 
 
 
