@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,15 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBookingAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -168,9 +162,9 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
-            tvroomName = itemView.findViewById(R.id.roomName);
-            tvtimeslot = itemView.findViewById(R.id.timeslot);
-            tvdateBooked = itemView.findViewById(R.id.date2);
+            tvroomName = itemView.findViewById(R.id.roomHist);
+            tvtimeslot = itemView.findViewById(R.id.timeslothist);
+            tvdateBooked = itemView.findViewById(R.id.datehist);
             checkInBtn = itemView.findViewById(R.id.button8);
             cancelBtn = itemView.findViewById(R.id.button7);
 
