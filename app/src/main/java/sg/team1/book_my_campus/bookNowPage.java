@@ -164,12 +164,6 @@ public class bookNowPage extends AppCompatActivity {
         room.setCapacity(roomCapacity);
         timeSlot.setAvail(false);
         Booking booking = new Booking(name, roomName, date.getText().toString(), timeSlot.getSlot(), false, false);
-        //send booking object to booking history
-        bookingHistoryFragment fragment = (bookingHistoryFragment) getSupportFragmentManager().findFragmentByTag("bookingHistoryFragment");
-        Bundle bookingHistBundle = new Bundle();
-        bookingHistBundle.putParcelable("history", bookingHistBundle);
-        fragment.setArguments(bookingHistBundle);
-        Log.v(title, "Send Booking Info to booking history"+ bookingHistBundle.toString());
         bookingToDB(booking);
         Log.v(title, "This is the booking object:" +booking.toString());
     }

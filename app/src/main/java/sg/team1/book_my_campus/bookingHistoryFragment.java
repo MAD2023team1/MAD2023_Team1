@@ -12,8 +12,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +37,11 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String title = "Booking History";
     ArrayList<Booking> bookingHistModels = new ArrayList<>();
+    ArrayList<Booking> bookinghistList = new ArrayList<>();
+    bookingHistory_adapter adapter;
+    String myName;
 
     public bookingHistoryFragment() {
         // Required empty public constructor
@@ -66,30 +77,47 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        myName =getActivity().getIntent().getStringExtra("name");
+        readDoc();
         View rootView = inflater.inflate(R.layout.fragment_booking_history, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewHist);
-        //obtain the items
-        //setUpBookingHistModel();
-        bookingHistory_adapter adapter = new bookingHistory_adapter(getContext(), bookingHistModels, this);
+
+        adapter = new bookingHistory_adapter(getContext(), bookingHistModels, this,bookinghistList,myName);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        adapter.checkBookings();
         return rootView;
     }
-    //private void setUpBookingHistModel() {
-        //Bundle bookingHistBundle = this.getArguments();
-        //Log.v("bookdate", "this is checking before checking if bundle is null");
-        //if (bookingHistBundle != null) {
-            //Booking book = bookingHistBundle.getParcelable("history");
-            //Obtain booking date
-            //String date = book.getDate();
-            //Log.v("bookdate", date);
+    public void readDoc(){
+        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
+                .collection("bookings")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title,"retrieving data");
+                        List<DocumentSnapshot> docsnapList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot:docsnapList
+                        ) { Booking booking=snapshot.toObject(Booking.class);
+                            Log.v(title,"Success"+snapshot.getData().toString());
+                            Log.v(title,"Success"+booking.name);
+                            booking.docid = snapshot.getId();
+                            bookingHistModels.add(booking);
+                            Log.v(title,"Success"+bookingHistModels.size());
+                            Log.v(title,"Success"+snapshot.getId());
 
-        //}else{
-            //Log.v("BookDate", "Book Object is null");
-        //}
 
-    //}
+
+                        }
+                        adapter.notifyDataSetChanged();
+                        adapter.checkBookings();
+                    }
+                });
+
+    }
+
 
     @Override
     public void onItemClick(int position) {

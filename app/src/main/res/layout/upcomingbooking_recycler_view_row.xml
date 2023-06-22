@@ -79,10 +79,10 @@
                 android:text="@string/CheckIn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/date2" />
+                app:layout_constraintTop_toBottomOf="@+id/datehist" />
 
             <TextView
-                android:id="@+id/roomName"
+                android:id="@+id/roomHist"
                 android:layout_width="185dp"
                 android:layout_height="29dp"
                 android:layout_marginTop="32dp"
@@ -92,24 +92,24 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/timeslot"
+                android:id="@+id/timeslothist"
                 android:layout_width="188dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="47dp"
                 android:text="@string/room_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/roomName" />
+                app:layout_constraintTop_toBottomOf="@+id/roomHist" />
 
             <TextView
-                android:id="@+id/date2"
+                android:id="@+id/datehist"
                 android:layout_width="186dp"
                 android:layout_height="29dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="47dp"
                 android:text="@string/room_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/timeslot" />
+                app:layout_constraintTop_toBottomOf="@+id/timeslothist" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
