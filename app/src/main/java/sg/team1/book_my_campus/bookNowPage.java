@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -55,9 +56,14 @@ public class bookNowPage extends AppCompatActivity {
         date.setText(getCurrentDate());
 
         myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
+
+
             @Override
             public void onItemClick(TimeSlot timeslot) {
-                openAlertBox(timeslot);
+                if(timeslot.isAvail()==true) {
+                    openAlertBox(timeslot);
+                }
+                else{}
 
 
             }
@@ -69,7 +75,7 @@ public class bookNowPage extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myTimeSlotAdapter);
@@ -200,11 +206,6 @@ public class bookNowPage extends AppCompatActivity {
                         for (DocumentSnapshot snapshot : snapshotList) {
                             Booking booking = snapshot.toObject(Booking.class);
                             Log.v(title, "onSuccess: " + snapshot.getData().toString());
-                            // send booking object to upcoming booking fragment
-                            Fragment upComingBooking = new upcomingBookingFragment();
-                            Bundle bookingBundle = new Bundle();
-                            bookingBundle.putParcelable("BookingObject",booking);
-                            upComingBooking.setArguments(bookingBundle);
                             bookingList.add(booking);
                             Log.v(title, "onSuccess: " + booking.name);
                             Log.v(title,"tssdsd"+bookingList.size());
@@ -224,54 +225,7 @@ public class bookNowPage extends AppCompatActivity {
                 });
     }
 
-    public void CheckTimeSlots() {
-        Log.v(title, "checktimecrate"+bookingList.size());
-        for (int i = 0; i < bookingList.size(); i++) {
-            timeSlots.get(i).setAvail(false);
 
-            Log.v(title, "che");
-        }
-
-            /*if (roomName == bookingList.get(i).roomName && date.getText().toString() == bookingList.get(i).getDate()) {
-                {
-                    for (int z = 0; i < timeSlots.size(); z++) {
-                        if (timeSlots.get(z).getSlot() == bookingList.get(i).getTimeSlot()) {
-                            timeSlots.get(z).setAvail(false);
-                        }
-
-                    }
-                }
-            }
-        for (Booking booking : bookingList) {
-            Log.v(title,"booker");
-            if (roomName.equals(booking.getRoomName())) {
-                Log.v(title,"checkdateif");
-                if (date.getText().toString().equals(booking.getDate()))
-                {
-                    Log.v(title,"ifdate");
-                    for (TimeSlot time:timeSlots)
-                    {
-                        Log.v(title,"timeloop");
-                        if(time.getSlot()==booking.getTimeSlot())
-                        {
-                            time.setAvail(false);
-                            Log.v(title,"setava false");
-                        }
-                        else {
-                            time.setAvail(true);
-                            Log.v(title,"setava true");
-
-                        }
-                    }
-                }
-
-            }
-
-
-        }*/
-
-
-    }
 
 
 

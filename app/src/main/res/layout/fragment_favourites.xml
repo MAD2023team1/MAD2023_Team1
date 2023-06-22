@@ -23,16 +23,17 @@
             tools:layout_editor_absoluteY="-112dp" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id = "@+id/favRecyclerView"
+            android:id="@+id/favRecyclerView"
             android:layout_width="408dp"
             android:layout_height="618dp"
             android:layout_marginStart="2dp"
             android:layout_marginTop="114dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textView3" />
+            app:layout_constraintTop_toTopOf="@+id/textView3"
+            app:layout_constraintVertical_bias="1.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
