@@ -30,6 +30,7 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
         this.bookingList = bookingList;
         this.date = date;
         this.roomName = roomName;
+
         this.mItemClickListener = itemClickListener;
     }
 
@@ -71,7 +72,9 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
     }
 
     public interface ItemClickListener {
+
         void onItemClick(TimeSlot timeslot);
+
     }
 
     public void CheckTimeSlots() {

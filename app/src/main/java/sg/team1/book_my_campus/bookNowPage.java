@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -54,9 +55,14 @@ public class bookNowPage extends AppCompatActivity {
         date.setText(getCurrentDate());
 
         myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
+
+
             @Override
             public void onItemClick(TimeSlot timeslot) {
-                openAlertBox(timeslot);
+                if(timeslot.isAvail()==true) {
+                    openAlertBox(timeslot);
+                }
+                else{}
 
 
             }
@@ -68,7 +74,7 @@ public class bookNowPage extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myTimeSlotAdapter);
