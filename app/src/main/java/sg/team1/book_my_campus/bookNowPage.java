@@ -1,6 +1,7 @@
 package sg.team1.book_my_campus;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CalendarView;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -189,6 +191,11 @@ public class bookNowPage extends AppCompatActivity {
                         for (DocumentSnapshot snapshot : snapshotList) {
                             Booking booking = snapshot.toObject(Booking.class);
                             Log.v(title, "onSuccess: " + snapshot.getData().toString());
+                            // send booking object to upcoming booking fragment
+                            Fragment upComingBooking = new upcomingBookingFragment();
+                            Bundle bookingBundle = new Bundle();
+                            bookingBundle.putParcelable("BookingObject",booking);
+                            upComingBooking.setArguments(bookingBundle);
                             bookingList.add(booking);
                             Log.v(title, "onSuccess: " + booking.name);
                             Log.v(title,"tssdsd"+bookingList.size());
