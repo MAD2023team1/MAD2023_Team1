@@ -1,10 +1,5 @@
 package sg.team1.book_my_campus;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import androidx.annotation.NonNull;
-
 import java.sql.Time;
 import java.util.Date;
 
@@ -12,15 +7,15 @@ import java.util.Date;
 import java.sql.Time;
 import java.util.Date;
 
-public class Booking implements Parcelable {
+public class Booking {
 
-    public User user;
+    public String name;
 
-    public Room room;
+    public String roomName;
 
     public String date;
 
-    public TimeSlot timeSlot;
+    public String timeSlot;
 
     public boolean isCanceled;
     public boolean isCheckedIn;
@@ -28,50 +23,29 @@ public class Booking implements Parcelable {
     public Booking() {
     }
 
-    public Booking(User user, Room room, String date, TimeSlot timeSlot, boolean isCanceled, boolean isCheckedIn) {
-        this.user = user;
-        this.room = room;
+    public Booking(String name, String roomName, String date, String timeSlot, boolean isCanceled, boolean isCheckedIn) {
+        this.name = name;
+        this.roomName = roomName;
         this.date = date;
         this.timeSlot = timeSlot;
         this.isCanceled = isCanceled;
         this.isCheckedIn = isCheckedIn;
     }
 
-
-    protected Booking(Parcel in) {
-        user = in.readParcelable(User.class.getClassLoader());
-        room = in.readParcelable(Room.class.getClassLoader());
-        date = in.readString();
-        isCanceled = in.readByte() != 0;
-        isCheckedIn = in.readByte() != 0;
+    public String getName() {
+        return name;
     }
 
-    public static final Creator<Booking> CREATOR = new Creator<Booking>() {
-        @Override
-        public Booking createFromParcel(Parcel in) {
-            return new Booking(in);
-        }
-
-        @Override
-        public Booking[] newArray(int size) {
-            return new Booking[size];
-        }
-    };
-
-    public User getUser() {
-        return user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public String getRoomName() {
+        return roomName;
     }
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
     }
 
     public String getDate() {
@@ -82,11 +56,11 @@ public class Booking implements Parcelable {
         this.date = date;
     }
 
-    public TimeSlot getTimeSlot() {
+    public String getTimeSlot() {
         return timeSlot;
     }
 
-    public void setTimeSlot(TimeSlot timeSlot) {
+    public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
     }
 
@@ -104,19 +78,5 @@ public class Booking implements Parcelable {
 
     public void setCheckedIn(boolean checkedIn) {
         isCheckedIn = checkedIn;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeParcelable(user, i);
-        parcel.writeParcelable(room, i);
-        parcel.writeString(date);
-        parcel.writeByte((byte) (isCanceled ? 1 : 0));
-        parcel.writeByte((byte) (isCheckedIn ? 1 : 0));
     }
 }
