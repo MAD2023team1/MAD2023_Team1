@@ -14,24 +14,24 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="284dp"
         android:background="@drawable/search_view_bg"
-        android:backgroundTint="@color/design_default_color_secondary_variant"
+        android:backgroundTint="@color/darkblue"
         android:outlineProvider="paddedBounds"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/myprofileicon" />
+        app:srcCompat="@drawable/baseline_person_24" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="264dp"
         android:layout_height="158dp"
         android:layout_marginStart="1dp"
         android:layout_marginTop="286dp"
-        app:cardBackgroundColor="#A0D3DA"
         app:layout_constraintStart_toEndOf="@+id/profileImage2"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animationCache="false"
             android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -41,12 +41,13 @@
                 <TextView
                     android:id="@+id/nameDisplay"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="TextView"
                     android:textColor="#000000"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:autoSizeTextType="uniform" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,12 +58,13 @@
                 <TextView
                     android:id="@+id/emailDisplay"
                     android:layout_width="match_parent"
-                    android:layout_height="59dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="TextView"
                     android:textColor="#333131"
-                    android:textSize="16sp"
-                    android:textStyle="italic" />
+                    android:textSize="18dp"
+                    android:textStyle="italic"
+                    app:autoSizeTextType="none" />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -74,7 +76,7 @@
         android:layout_height="66dp"
         android:layout_marginStart="109dp"
         android:layout_marginTop="12dp"
-        android:backgroundTint="@color/design_default_color_secondary_variant"
+        android:backgroundTint="@color/darkblue"
         android:text="Edit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profileImage2" />

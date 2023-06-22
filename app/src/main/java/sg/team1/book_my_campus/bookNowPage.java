@@ -167,7 +167,7 @@ public class bookNowPage extends AppCompatActivity {
         //send booking object to booking history
         bookingHistoryFragment fragment = (bookingHistoryFragment) getSupportFragmentManager().findFragmentByTag("bookingHistoryFragment");
         Bundle bookingHistBundle = new Bundle();
-        bookingHistBundle.putParcelable("history", booking);
+        bookingHistBundle.putParcelable("history", bookingHistBundle);
         fragment.setArguments(bookingHistBundle);
         Log.v(title, "Send Booking Info to booking history"+ bookingHistBundle.toString());
         bookingToDB(booking);

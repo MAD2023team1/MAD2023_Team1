@@ -151,7 +151,7 @@ public class LoginPage extends AppCompatActivity {
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
-                                                        myIntent.putExtra("password", password)
+                                                        myIntent.putExtra("password", password);
                                                           
                                                         //pass the whole user class
                                                         User user = new User(name,email,password);
