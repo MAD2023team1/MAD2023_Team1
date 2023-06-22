@@ -42,6 +42,8 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
         Log.v(title, "Create");
+        Log.i(title, String.valueOf(firebaseAuth));
+
 
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
@@ -149,7 +151,8 @@ public class LoginPage extends AppCompatActivity {
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
-                                                        myIntent.putExtra("password", password);
+                                                        myIntent.putExtra("password", password)
+                                                          
                                                         //pass the whole user class
                                                         User user = new User(name,email,password);
                                                         //need to send to a fragment so must use bundle
@@ -157,6 +160,7 @@ public class LoginPage extends AppCompatActivity {
                                                         Bundle bundle = new Bundle();
                                                         bundle.putParcelable("User", user);
                                                         upcomingBookingFragment.setArguments(bundle);
+                                                      
                                                         // Start the home page activity
                                                         startActivity(myIntent);
                                                         finish();
