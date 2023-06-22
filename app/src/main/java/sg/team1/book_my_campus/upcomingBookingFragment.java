@@ -74,7 +74,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         upComingBookingAdapter = new upComingBookingAdapter(getContext(), this,myName,upcomingList,bookingList);
         recyclerView.setAdapter(upComingBookingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-
+        upComingBookingAdapter.checkUpcomingBookings();
         return rootView;
     }
     /*private void setUpBookingModel() {
@@ -109,10 +109,13 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                         for (DocumentSnapshot snapshot:docsnapList
                         ) { Booking booking=snapshot.toObject(Booking.class);
                             Log.v(title,"Success"+snapshot.getData().toString());
-                            Log.v(title,"Suceessssss"+booking.name);
+                            Log.v(title,"Success"+booking.name);
+                            booking.docid = snapshot.getId();
                             bookingList.add(booking);
-                            Log.v(title,"Suceessssss"+booking.name);
-                            Log.v(title,"suuessss"+bookingList.size());
+                            Log.v(title,"Success"+bookingList.size());
+                            Log.v(title,"Success"+snapshot.getId());
+
+
 
                         }
                         upComingBookingAdapter.notifyDataSetChanged();
