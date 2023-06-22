@@ -53,6 +53,7 @@
     <string name="date">date</string>
     <string name ="CheckIn">Check In</string>
     <string name ="CancelBooking">Cancel Booking</string>
+    <string name= "BookedOn"></string>
 
     <string name="logoutText"> Log out</string>
 
