@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class bookNowPage extends AppCompatActivity {
+public class bookNowPage extends AppCompatActivity implements SelectListener {
     ArrayList<TimeSlot> timeSlots = new ArrayList<>();
     ArrayList<Booking> bookingList = new ArrayList<>();
     String title = "book now page";
@@ -62,20 +62,7 @@ public class bookNowPage extends AppCompatActivity {
         roomLevel = getIntent().getIntExtra("roomLevel", 0);
         roomCapacity = getIntent().getIntExtra("roomCapacity", 0);
 
-        myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
-
-
-            @Override
-            public void onItemClick(TimeSlot timeslot) {
-                if(timeslot.isAvail()==true) {
-                    openAlertBox(timeslot);
-                }
-                else
-                {}
-
-
-            }
-        },null, bookingList,roomName);
+        myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, this,null, bookingList,roomName);
 
         readDocument();
         createTimeSlots();
@@ -223,7 +210,17 @@ public class bookNowPage extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClicked(TimeSlot timeSlot) {
+        if (timeSlot.isAvail)
+        {
+            openAlertBox(timeSlot);
 
+        }
+        else
+        {
+            Toast.makeText(this,"Please select another timeslot.",Toast.LENGTH_SHORT).show();
+        }
 
-
+    }
 }
