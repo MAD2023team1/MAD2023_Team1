@@ -35,7 +35,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     private String mParam2;
     String title="upcomingFragment";
     User user;
-    ArrayList<Booking>bookingList;
+    ArrayList<Booking>bookingList = new ArrayList<>();
     String myName;
     upComingBookingAdapter upComingBookingAdapter;
 
@@ -109,6 +109,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                         for (DocumentSnapshot snapshot:docsnapList
                         ) { Booking booking=snapshot.toObject(Booking.class);
                             Log.v(title,"Success"+snapshot.getData().toString());
+                            Log.v(title,"Suceessssss"+booking.name);
                             bookingList.add(booking);
                             Log.v(title,"Suceessssss"+booking.name);
                             Log.v(title,"suuessss"+bookingList.size());
