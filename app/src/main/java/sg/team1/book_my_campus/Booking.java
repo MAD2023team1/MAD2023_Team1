@@ -12,9 +12,10 @@ import java.util.Date;
 import java.sql.Time;
 import java.util.Date;
 
-public class Booking implements Parcelable {
+public class Booking {
 
     public String name;
+    public String docid;
 
     public String roomName;
 
@@ -28,6 +29,16 @@ public class Booking implements Parcelable {
     public Booking() {
     }
 
+    public Booking(String name, String docid, String roomName, String date, String timeSlot, boolean isCanceled, boolean isCheckedIn) {
+        this.name = name;
+        this.docid = docid;
+        this.roomName = roomName;
+        this.date = date;
+        this.timeSlot = timeSlot;
+        this.isCanceled = isCanceled;
+        this.isCheckedIn = isCheckedIn;
+    }
+
     public Booking(String name, String roomName, String date, String timeSlot, boolean isCanceled, boolean isCheckedIn) {
         this.name = name;
         this.roomName = roomName;
@@ -36,27 +47,6 @@ public class Booking implements Parcelable {
         this.isCanceled = isCanceled;
         this.isCheckedIn = isCheckedIn;
     }
-
-    protected Booking(Parcel in) {
-        name = in.readString();
-        roomName = in.readString();
-        date = in.readString();
-        timeSlot = in.readString();
-        isCanceled = in.readByte() != 0;
-        isCheckedIn = in.readByte() != 0;
-    }
-
-    public static final Creator<Booking> CREATOR = new Creator<Booking>() {
-        @Override
-        public Booking createFromParcel(Parcel in) {
-            return new Booking(in);
-        }
-
-        @Override
-        public Booking[] newArray(int size) {
-            return new Booking[size];
-        }
-    };
 
     public String getName() {
         return name;
@@ -106,18 +96,5 @@ public class Booking implements Parcelable {
         isCheckedIn = checkedIn;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(name);
-        parcel.writeString(roomName);
-        parcel.writeString(date);
-        parcel.writeString(timeSlot);
-        parcel.writeByte((byte) (isCanceled ? 1 : 0));
-        parcel.writeByte((byte) (isCheckedIn ? 1 : 0));
-    }
 }
