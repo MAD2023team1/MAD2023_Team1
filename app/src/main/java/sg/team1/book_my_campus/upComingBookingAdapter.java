@@ -33,7 +33,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
     @Override
     public void onBindViewHolder(@NonNull upComingBookingAdapter.MyViewHolder holder, int position) {
-        holder.tvroomName.setText(bookingModel.get(position).getRoom().getRoomName());
+        holder.tvroomName.setText(bookingModel.get(position).getRoomName());
     }
 
     @Override
