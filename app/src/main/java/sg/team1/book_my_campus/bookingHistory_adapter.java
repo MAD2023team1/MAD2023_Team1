@@ -39,10 +39,10 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
     @Override
     public void onBindViewHolder(@NonNull bookingHistory_adapter.MyViewHolder holder, int position) {
         //assigning values to each of our rows
-        holder.roomName.setText(bookingHistModels.get(position).getRoomName());
-        holder.DateBooked.setText(bookingHistModels.get(position).getDate());
-        holder.Timeslot.setText(bookingHistModels.get(position).getTimeSlot());
-        if (bookingHistModels.get(position).isCanceled)
+        holder.roomName.setText(bookingHistList.get(position).getRoomName());
+        holder.DateBooked.setText(bookingHistList.get(position).getDate());
+        holder.Timeslot.setText(bookingHistList.get(position).getTimeSlot());
+        if (bookingHistList.get(position).isCanceled)
         {
             holder.Status.setText("Cancelled");
         }
@@ -60,15 +60,18 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
 
     @Override
     public int getItemCount() {
-        return bookingHistModels.size();
+        return bookingHistList.size();
     }
     public void checkBookings(){
         for (Booking booking:bookingHistModels)
         {
+            Log.v(title,"booking Hist"+booking.name);
+            Log.v(title,"booking Hist"+myName);
             if(booking.getName().equals(myName))
             {
+                Log.v(title,"booking added to history" + booking.name);
                 bookingHistList.add(booking);
-                Log.v(title,"booking added to upcoming" + booking.name);
+                Log.v(title,"booking added to history" + booking.name);
             }
         }
 
