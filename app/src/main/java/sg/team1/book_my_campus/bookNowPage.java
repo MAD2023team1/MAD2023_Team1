@@ -54,6 +54,13 @@ public class bookNowPage extends AppCompatActivity {
 
         date = findViewById(R.id.date);
         date.setText(getCurrentDate());
+        name = getIntent().getStringExtra("name");
+        password = getIntent().getStringExtra("password");
+        email = getIntent().getStringExtra("email");
+        roomName = getIntent().getStringExtra("roomName");
+        roomLocation = getIntent().getStringExtra("roomLocation");
+        roomLevel = getIntent().getIntExtra("roomLevel", 0);
+        roomCapacity = getIntent().getIntExtra("roomCapacity", 0);
 
         myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
 
@@ -63,7 +70,8 @@ public class bookNowPage extends AppCompatActivity {
                 if(timeslot.isAvail()==true) {
                     openAlertBox(timeslot);
                 }
-                else{}
+                else
+                {}
 
 
             }
@@ -72,6 +80,7 @@ public class bookNowPage extends AppCompatActivity {
         readDocument();
         createTimeSlots();
         selectDate();
+
 
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
@@ -84,13 +93,7 @@ public class bookNowPage extends AppCompatActivity {
         calendarView.setMinDate((new Date().getTime()));
         myTimeSlotAdapter.setDate(getCurrentDate());
 
-        name = getIntent().getStringExtra("name");
-        password = getIntent().getStringExtra("password");
-        email = getIntent().getStringExtra("email");
-        roomName = getIntent().getStringExtra("roomName");
-        roomLocation = getIntent().getStringExtra("roomLocation");
-        roomLevel = getIntent().getIntExtra("roomLevel", 0);
-        roomCapacity = getIntent().getIntExtra("roomCapacity", 0);
+
 
         myTimeSlotAdapter.CheckTimeSlots();
     }
