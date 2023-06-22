@@ -46,7 +46,7 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         {
             holder.Status.setText("Cancelled");
         }
-        else if (bookingHistModels.get(position).isCheckedIn)
+        else if (bookingHistList.get(position).isCheckedIn)
         {
             holder.Status.setText("Checked In");
 
