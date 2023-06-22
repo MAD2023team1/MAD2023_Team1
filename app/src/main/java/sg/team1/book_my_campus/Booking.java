@@ -1,5 +1,10 @@
 package sg.team1.book_my_campus;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.sql.Time;
 import java.util.Date;
 
@@ -10,12 +15,13 @@ import java.util.Date;
 public class Booking {
 
     public String name;
+    public String docid;
 
     public String roomName;
 
     public String date;
 
-    public int timeSlot;
+    public String timeSlot;
 
     public boolean isCanceled;
     public boolean isCheckedIn;
@@ -23,7 +29,17 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(String name, String roomName, String date, int timeSlot, boolean isCanceled, boolean isCheckedIn) {
+    public Booking(String name, String docid, String roomName, String date, String timeSlot, boolean isCanceled, boolean isCheckedIn) {
+        this.name = name;
+        this.docid = docid;
+        this.roomName = roomName;
+        this.date = date;
+        this.timeSlot = timeSlot;
+        this.isCanceled = isCanceled;
+        this.isCheckedIn = isCheckedIn;
+    }
+
+    public Booking(String name, String roomName, String date, String timeSlot, boolean isCanceled, boolean isCheckedIn) {
         this.name = name;
         this.roomName = roomName;
         this.date = date;
@@ -56,11 +72,11 @@ public class Booking {
         this.date = date;
     }
 
-    public int getTimeSlot() {
+    public String getTimeSlot() {
         return timeSlot;
     }
 
-    public void setTimeSlot(int timeSlot) {
+    public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
     }
 
@@ -79,4 +95,6 @@ public class Booking {
     public void setCheckedIn(boolean checkedIn) {
         isCheckedIn = checkedIn;
     }
+
+
 }

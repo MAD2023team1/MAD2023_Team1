@@ -1,13 +1,17 @@
 package sg.team1.book_my_campus;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import sg.team1.book_my_campus.databinding.FragmentMyBookingsBinding;
+import sg.team1.book_my_campus.databinding.HomePageBinding;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +19,8 @@ import sg.team1.book_my_campus.databinding.FragmentMyBookingsBinding;
  * create an instance of this fragment.
  */
 public class myBookingsFragment extends Fragment {
+
+    private FragmentMyBookingsBinding binding;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,7 +66,35 @@ public class myBookingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        binding = FragmentMyBookingsBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        //first page when we open up my bookings
+        replaceFragment(new upcomingBookingFragment());
+        binding.upperNavigationView2.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.upcomingbookings) {
+                replaceFragment(new upcomingBookingFragment());
+                Log.v("Upcoming Bookings!", "Upcoming Bookings!");
+            } else if (itemId == R.id.bookinghistory) {
+                replaceFragment(new bookingHistoryFragment());
+                Log.v("Bookings History!", "Bookings History!");
+            } else if (itemId == R.id.favourites) {
+                replaceFragment(new favouritesFragment());
+                Log.v("Favourites!", "Favourites!");
+            }
+            return true;
+        });
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_bookings, container, false);
+        return view;
     }
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Log.d("FragmentTransaction", "Replacing fragment");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.framelayout2, fragment);
+        fragmentTransaction.commit();
+        Log.d("FragmentTransaction", "Fragment replaced");
+    }
+
 }

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -64,7 +63,7 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             //this is the constructor of the inner class
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageViewUP);
             tvroomName = itemView.findViewById(R.id.textView);
             //attach a on click listener to our itemView
             itemView.setOnClickListener(new View.OnClickListener() {

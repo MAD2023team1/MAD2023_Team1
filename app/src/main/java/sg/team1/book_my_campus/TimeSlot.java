@@ -3,11 +3,12 @@ package sg.team1.book_my_campus;
 import android.content.Intent;
 
 public class TimeSlot {
-    private boolean isAvail;
-    private int slot;
-    public  TimeSlot(){}
+    public boolean isAvail;
+    private String slot;
 
-    public TimeSlot(boolean isAvail, int slot) {
+    public TimeSlot(){}
+
+    public TimeSlot(boolean isAvail, String slot) {
         this.isAvail = isAvail;
         this.slot = slot;
     }
@@ -20,11 +21,12 @@ public class TimeSlot {
         isAvail = avail;
     }
 
-    public int getSlot() {
+    public String getSlot() {
         return slot;
     }
 
-    public void setSlot(int slot) {
+    public void setSlot(String slot) {
         this.slot = slot;
     }
 }
+

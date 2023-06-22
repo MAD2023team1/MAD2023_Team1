@@ -19,17 +19,16 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <!-- Your content here -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewHist"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:layout_marginTop="190dp"
+                android:layout_marginTop="56dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="TextView"
                 android:textAlignment="center"
@@ -37,23 +36,35 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/room_name" />
 
-            <ImageView
-                android:id="@+id/imageViewUP"
-                android:layout_width="match_parent"
-                android:layout_height="179dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="1dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView"
+            <TextView
+                android:id="@+id/textViewHist1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="316dp"
+                android:layout_marginBottom="23dp"
+                android:text="TextView"
+                app:layout_constraintBottom_toTopOf="@+id/textView16"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ispace" />
+                app:layout_constraintTop_toBottomOf="@+id/textViewHist" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="62dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="23dp"
+                android:text="@string/BookedOn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewHist1" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>

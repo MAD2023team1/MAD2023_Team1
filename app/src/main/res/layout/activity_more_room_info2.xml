@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/off_white"
     tools:context=".MoreRoomInfo">
 
     <ImageView
@@ -27,6 +28,7 @@
         android:text="TextView"
         android:textSize="24dp"
         android:textStyle="bold"
+        android:textColor="@color/darkblue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -42,6 +44,7 @@
         android:layout_marginBottom="312dp"
         android:text="TextView"
         android:textSize="24dp"
+        android:textColor="@color/darkblue"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +58,7 @@
         android:layout_marginStart="88dp"
         android:layout_marginTop="112dp"
         android:text="TextView"
+        android:textColor="@color/darkblue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
@@ -80,9 +84,23 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="115dp"
         android:text="TextView"
+        android:textColor="@color/darkblue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="51dp"
+        android:layout_marginTop="198dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/Like"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/darkblue"
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

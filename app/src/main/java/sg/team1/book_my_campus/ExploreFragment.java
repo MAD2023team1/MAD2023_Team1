@@ -119,7 +119,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
 
 
         for (int i = 0; i < roomNamesFromString.length; i++) {
-            roomModels.add(new Room(0, roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, true, roomImages[i]));
+            roomModels.add(new Room(0, roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, true, roomImages[i],false));
         }
     }
 
@@ -155,6 +155,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         moreInfoPageIntent.putExtra("roomLocation", roomModels.get(position).getLocation());
         moreInfoPageIntent.putExtra("roomCapacity", roomModels.get(position).getCapacity());
         moreInfoPageIntent.putExtra("roomLevel",roomModels.get(position).getLevel());
+        moreInfoPageIntent.putExtra("roomLiked",roomModels.get(position).isRoomLiked());
         startActivity(moreInfoPageIntent);
     }
 }
