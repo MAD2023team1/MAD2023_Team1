@@ -110,17 +110,5 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                 });
 
     }
-    public void checkUpcomingBookings(){
 
-
-        for (Booking booking:bookingList)
-        {
-            if(booking.getName().equals(myName)&& booking.isCheckedIn()==false&& booking.isCanceled()==false)
-            {
-                upcomingList.add(booking);
-
-            }
-        }
-
-    }
 }
