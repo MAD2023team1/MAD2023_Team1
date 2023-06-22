@@ -3,6 +3,7 @@ package sg.team1.book_my_campus;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -134,6 +135,7 @@ public class bookNowPage extends AppCompatActivity {
                 bookRoom(timeSlot);
                 Toast.makeText(bookNowPage.this, "Booking made", Toast.LENGTH_SHORT).show();
                 readDocument();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -156,7 +158,14 @@ public class bookNowPage extends AppCompatActivity {
         room.setCapacity(roomCapacity);
         timeSlot.setAvail(false);
         Booking booking = new Booking(name, roomName, date.getText().toString(), timeSlot.getSlot(), false, false);
+        //send booking object to booking history
+        bookingHistoryFragment fragment = (bookingHistoryFragment) getSupportFragmentManager().findFragmentByTag("bookingHistoryFragment");
+        Bundle bookingHistBundle = new Bundle();
+        bookingHistBundle.putParcelable("history", booking);
+        fragment.setArguments(bookingHistBundle);
+        Log.v(title, "Send Booking Info to booking history"+ bookingHistBundle.toString());
         bookingToDB(booking);
+        Log.v(title, "This is the booking object:" +booking.toString());
     }
 
     private void bookingToDB(Booking booking) {

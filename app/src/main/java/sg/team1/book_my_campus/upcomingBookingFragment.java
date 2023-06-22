@@ -64,7 +64,6 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         return rootView;
     }
     private void setUpBookingModel() {
-        //pulling variables from all sorts of places
         Bundle bookingBundle = this.getArguments();
         if (bookingBundle != null) {
             Booking bookingObject = bookingBundle.getParcelable("BookingObject");
