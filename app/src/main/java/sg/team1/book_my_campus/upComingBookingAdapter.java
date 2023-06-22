@@ -49,7 +49,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvroomName;
+        TextView tvroomName, tvtimeslot;
         TextView tvdateBooked;
 
         Button checkInBtn;
@@ -58,15 +58,17 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
-            tvroomName = itemView.findViewById(R.id.textViewUP);
-            tvdateBooked = itemView.findViewById(R.id.textView14);
-            checkInBtn = itemView.findViewById(R.id.button4);
-            cancelBtn = itemView.findViewById(R.id.button6);
+            tvroomName = itemView.findViewById(R.id.roomName);
+            tvtimeslot = itemView.findViewById(R.id.timeslot);
+            tvdateBooked = itemView.findViewById(R.id.date2);
+            checkInBtn = itemView.findViewById(R.id.button8);
+            cancelBtn = itemView.findViewById(R.id.button7);
 
 
             checkInBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
 
 
                 }
