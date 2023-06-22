@@ -69,8 +69,8 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         if (bookingBundle != null) {
             Booking bookingObject = bookingBundle.getParcelable("BookingObject");
             //delete the below if don't need idk
-            User user = bookingObject.getUser();
-            Room room = bookingObject.getRoom();
+            String userName = bookingObject.getName();
+            String room = bookingObject.getRoomName(); 
             String date = bookingObject.getDate();
             bookingModel.add(bookingObject);
             Log.d("Booking Object", "Booking Object" + bookingModel.toString());
