@@ -41,6 +41,8 @@
         <item>Library 4</item>
         <item>Library 5</item>
     </string-array>
+    <string name="Favourites">Favourites</string>
+    <string name="Like">Like</string>
 
     <string name="BookNow">Book Now</string>
     <!-- TODO: Remove or change this placeholder text -->
