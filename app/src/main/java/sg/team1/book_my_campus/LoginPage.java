@@ -44,7 +44,7 @@ public class LoginPage extends AppCompatActivity {
         Log.v(title, "Create");
         Log.i(title, String.valueOf(firebaseAuth));
 
-
+        // Find all text and buttons in page
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
         Button loginButtonToApp = findViewById(R.id.loginBtn);
@@ -58,9 +58,7 @@ public class LoginPage extends AppCompatActivity {
 
             public void onClick(View v) {
                 Log.v(title,"Log in button to app Pressed!");
-                myEmail = "1234@gmail.com";
-                myPassword = "hello123";
-
+                // Add toast message if either email or password is empty
                 if(TextUtils.isEmpty(myEmail)){
                     Toast.makeText(LoginPage.this,"Enter Email", Toast.LENGTH_SHORT).show();
                     return;
@@ -70,7 +68,7 @@ public class LoginPage extends AppCompatActivity {
                     Toast.makeText(LoginPage.this,"Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //sign in feature with email and password using firebase authentication
                 firebaseAuth.signInWithEmailAndPassword(myEmail, myPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -85,12 +83,12 @@ public class LoginPage extends AppCompatActivity {
                                     // Updating password in Firestore
                                     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                                     CollectionReference usersCollection = firestore.collection("users");
-
+                                    // Get userID of the user
                                     String userID = firebaseAuth.getCurrentUser().getUid();
                                     Log.w(title, "myuserid: "+userID);
                                     String myName = firebaseAuth.getCurrentUser().getDisplayName();
 
-                                    // Get the previous password from Firestore
+                                    // Get the previous password from Firestore using userID
                                     usersCollection.document(userID).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
@@ -109,6 +107,7 @@ public class LoginPage extends AppCompatActivity {
 
                                                                     // Update the password with the new value
                                                                     Map<String, Object> newUpdates = new HashMap<>();
+                                                                    // Insert new password value
                                                                     newUpdates.put("Password", myPassword);
 
                                                                     usersCollection.document(userID).update(newUpdates)
@@ -140,22 +139,26 @@ public class LoginPage extends AppCompatActivity {
                                                     Log.w(title, "Failed to retrieve previous password from Firestore", e);
                                                 }
                                             });
+
+                                    //Get user info and pass to home page
                                     usersCollection.document(userID).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
                                                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                                                     if (documentSnapshot.exists()) {
+                                                        //Getting name,email and password
                                                         String name = documentSnapshot.getString("Name");
                                                         String email = documentSnapshot.getString("Email");
                                                         String password = documentSnapshot.getString("Password");
+                                                        //Add into intent
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
                                                         myIntent.putExtra("password", password);
                                                           
-                                                        //pass the whole user class
+                                                        //Pass the whole user class
                                                         User user = new User(name,email,password);
-                                                        //need to send to a fragment so must use bundle
+                                                        //Need to send to a fragment so must use bundle
                                                         Fragment upcomingBookingFragment = new upcomingBookingFragment();
                                                         Bundle bundle = new Bundle();
                                                         bundle.putParcelable("User", user);
@@ -187,7 +190,7 @@ public class LoginPage extends AppCompatActivity {
             }
         });
 
-        // click do not have account text, switch to signup
+        // Click do not have account text, switch to signup
         switchToSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,12 +222,13 @@ public class LoginPage extends AppCompatActivity {
                             Toast.makeText(LoginPage.this,"Enter your registered email", Toast.LENGTH_SHORT).show();
                             return;
                         }
+                        // Using firebase, send password reset email to email address filled in
                         firebaseAuth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
 
                                 if (task.isSuccessful()) {
-                                    // If email is correct, display a message to the user.
+                                    // If email is correct, display a message to the user to check email
                                     Toast.makeText(LoginPage.this,"Check your email", Toast.LENGTH_SHORT).show();
                                     Log.i(title, "Reset password email sent:success");
                                     dialog.dismiss();
@@ -239,7 +243,7 @@ public class LoginPage extends AppCompatActivity {
                         });
                     }
                 });
-                //click on cancel button to close pop up
+                //Click on cancel button to close pop up
                 dialogView.findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

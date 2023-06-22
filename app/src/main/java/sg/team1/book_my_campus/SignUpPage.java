@@ -41,13 +41,12 @@ public class SignUpPage extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_page);
         Log.v(title, "Create");
-
+        // Find all text and buttons in page
         EditText etName = findViewById(R.id.editTextText4);
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
         Button signUpButtonToApp = findViewById(R.id.signupBtn);
         TextView switchToLogin = findViewById(R.id.textView19);
-
         signUpButtonToApp.setOnClickListener(new View.OnClickListener() {
             String myName;
             String myEmail;
@@ -59,7 +58,7 @@ public class SignUpPage extends AppCompatActivity{
                 myName = String.valueOf(etName.getText());
                 myEmail = String.valueOf(etEmail.getText());
                 myPassword = String.valueOf(etPassword.getText());
-
+                //Prompt user to enter values for each field if left blank
                 if(TextUtils.isEmpty(myName)){
                     Toast.makeText(SignUpPage.this,"Enter Name", Toast.LENGTH_SHORT).show();
                     return;
@@ -74,24 +73,25 @@ public class SignUpPage extends AppCompatActivity{
                     Toast.makeText(SignUpPage.this,"Enter Password", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
+                //Using firebase, creating user with email and password
                 firebaseAuth.createUserWithEmailAndPassword(myEmail, myPassword)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                 if (task.isSuccessful()) {
+                                    // If sign up successful, display a message to the user.
                                     Toast.makeText(SignUpPage.this,"Sign Up was successful", Toast.LENGTH_SHORT).show();
                                     Log.i(title, "signUpWithEmail:success");
-                                    // retrieve userID of current user
+                                    // Retrieve userID of current user
                                     userID= firebaseAuth.getCurrentUser().getUid();
                                     DocumentReference documentReference= firestore.collection("users").document(userID);
-                                    //Hashmap for doc
+                                    //Hashmap for document
                                     Map<String, Object> user = new HashMap<>();
                                     user.put("Name", myName);
                                     user.put("Email", myEmail);
                                     user.put("Password", myPassword);
-                                    //insert into database
+                                    //Insert information into database
                                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
                                         public void onSuccess(Void unused) {
@@ -99,10 +99,10 @@ public class SignUpPage extends AppCompatActivity{
 
                                         }
                                     });
-
+                                    //Creating users collection
                                     CollectionReference usersCollection = firestore.collection("users");
                                     Intent myIntent = new Intent(SignUpPage.this,HomePage.class);
-
+                                    //Getting name,email and password
                                     usersCollection.document(userID).get()
                                             .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                                                 @Override
@@ -111,6 +111,7 @@ public class SignUpPage extends AppCompatActivity{
                                                         String name = documentSnapshot.getString("Name");
                                                         String email = documentSnapshot.getString("Email");
                                                         String password = documentSnapshot.getString("Password");
+                                                        //Add all information including userID into database
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
@@ -134,7 +135,7 @@ public class SignUpPage extends AppCompatActivity{
 
                                 }
                                 else {
-                                    // If sign in fails, display a message to the user.
+                                    // If sign up fails, display a message to the user.
                                     Log.w(title, "createUserWithEmailAndPassword:failure", task.getException());
                                     Toast.makeText(SignUpPage.this, "Authentication failed: "+task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
@@ -148,7 +149,7 @@ public class SignUpPage extends AppCompatActivity{
             }
         });
 
-        // click already have account text, switch to login
+        // Click already have account text, switch to login
         switchToLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
