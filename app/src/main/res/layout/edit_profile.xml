@@ -63,6 +63,7 @@
             android:layout_marginStart="17dp"
             android:layout_marginTop="19dp"
             android:text="Cancel"
+            android:textColor="#FFFFFF"
             app:backgroundTint="@color/darkblue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/NewEmailInput" />
@@ -74,6 +75,7 @@
             android:layout_marginTop="19dp"
             android:layout_marginEnd="18dp"
             android:text="Change"
+            android:textColor="#FFFFFF"
             app:backgroundTint="@color/darkblue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/NewEmailInput" />

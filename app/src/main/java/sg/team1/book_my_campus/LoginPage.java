@@ -41,6 +41,8 @@ public class LoginPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_page);
         Log.v(title, "Create");
+        Log.i(title, String.valueOf(firebaseAuth));
+
 
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
