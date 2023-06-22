@@ -25,37 +25,55 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
     String title ="upcomingAdapter";
-    ArrayList<Booking> bookingModel;
-    ArrayList<Booking>bookingList = new ArrayList<>();
+    ArrayList<Booking>bookingList;
+    List<Booking> upcomingList;
+    String myName;
 
-    public upComingBookingAdapter(Context context, ArrayList<Booking> bookingModels, RecyclerViewInterface recyclerViewInterface) {
+
+    public upComingBookingAdapter(Context context, RecyclerViewInterface recyclerViewInterface, String myName,List<Booking> upcomingList,ArrayList<Booking>bookingList) {
         this.context = context;
-        this.bookingModel = bookingModels;
+        this.bookingList = bookingList;
         this.recyclerViewInterface = recyclerViewInterface;
+        this.myName = myName;
+        this.upcomingList = upcomingList;
     }
 
     @NonNull
     @Override
     public upComingBookingAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.recycler_view_row_upcoming, parent, false);
-        return new upComingBookingAdapter.MyViewHolder(view, recyclerViewInterface);
+        View itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.upcomingbooking_recycler_view_row, parent, false);
+        return new upComingBookingAdapter.MyViewHolder(itemView, recyclerViewInterface);
     }
 
     @Override
     public void onBindViewHolder(@NonNull upComingBookingAdapter.MyViewHolder holder, int position) {
 
-        holder.tvroomName.setText(bookingModel.get(position).getRoomName());
-        holder.
+        holder.tvroomName.setText(upcomingList.get(position).getRoomName());
+        holder.tvtimeslot.setText(upcomingList.get(position).getTimeSlot());
+        holder.tvdateBooked.setText(upcomingList.get(position).getDate());
     }
 
     @Override
     public int getItemCount() {
-        int count = bookingModel.size();
-        if(bookingModel != null){
+        int count = upcomingList.size();
+        if(upcomingList != null){
             return count;
         }else{//the user can choose not to book anything
             return 0;
+        }
+
+    }
+    public void checkUpcomingBookings(){
+        for (Booking booking:bookingList)
+        {
+            if(booking.getName().equals(myName)&& booking.isCheckedIn()==false&& booking.isCanceled()==false)
+            {
+                upcomingList.add(booking);
+
+                Log.v(title,"booking added to upcoming" + booking.name);
+
+            }
         }
 
     }

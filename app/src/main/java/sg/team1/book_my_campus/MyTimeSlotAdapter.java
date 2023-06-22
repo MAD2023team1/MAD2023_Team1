@@ -30,8 +30,6 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
         this.bookingList = bookingList;
         this.date = date;
         this.roomName = roomName;
-
-
         this.mItemClickListener = itemClickListener;
     }
 
@@ -58,6 +56,7 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
         } //if all slots is available,show
         else {
+            timeSlotList.get(position).setAvail(false);
             holder.txt_time_slot_description.setText("Booked");
 
         }//if some are booked

@@ -23,7 +23,6 @@ import java.util.List;
 
 public class upcomingBookingFragment extends Fragment implements RecyclerViewInterface {
 
-    ArrayList<Booking> bookingModel = new ArrayList<>();
     ArrayList<Booking> upcomingList = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -37,6 +36,8 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     String title="upcomingFragment";
     User user;
     ArrayList<Booking>bookingList;
+    String myName;
+    upComingBookingAdapter upComingBookingAdapter;
 
     public upcomingBookingFragment() {
         // Required empty public constructor
@@ -57,25 +58,26 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            readDoc();
-            CheckUpcomingBookings();
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        myName =getActivity().getIntent().getStringExtra("name");
+        readDoc();
         View rootView = inflater.inflate(R.layout.fragment_upcoming_booking2, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUp);
 
-        setUpBookingModel();
 
-        upComingBookingAdapter adapter = new upComingBookingAdapter(getContext(), bookingModel, this);
-        recyclerView.setAdapter(adapter);
+        upComingBookingAdapter = new upComingBookingAdapter(getContext(), this,myName,upcomingList,bookingList);
+        recyclerView.setAdapter(upComingBookingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
         return rootView;
     }
-    private void setUpBookingModel() {
+    /*private void setUpBookingModel() {
         //pulling variables from all sorts of places
         Bundle bookingBundle = this.getArguments();
         if (bookingBundle != null) {
@@ -89,7 +91,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         }
 
 
-    }
+    }*/
     public void onItemClick(int position) {
         // Handle the item click event here
         // ...
@@ -112,14 +114,15 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                             Log.v(title,"suuessss"+bookingList.size());
 
                         }
+                        upComingBookingAdapter.notifyDataSetChanged();
+                        upComingBookingAdapter.checkUpcomingBookings();
                     }
                 });
 
     }
-    public void CheckUpcomingBookings(){
+    public void checkUpcomingBookings(){
 
-        String myName =getActivity().getIntent().getStringExtra("name");
-        String myId = getActivity().getIntent().getStringExtra("userId");
+
         for (Booking booking:bookingList)
         {
             if(booking.getName().equals(myName)&& booking.isCheckedIn()==false&& booking.isCanceled()==false)

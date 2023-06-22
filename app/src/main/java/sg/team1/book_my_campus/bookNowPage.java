@@ -191,11 +191,6 @@ public class bookNowPage extends AppCompatActivity {
                         for (DocumentSnapshot snapshot : snapshotList) {
                             Booking booking = snapshot.toObject(Booking.class);
                             Log.v(title, "onSuccess: " + snapshot.getData().toString());
-                            // send booking object to upcoming booking fragment
-                            Fragment upComingBooking = new upcomingBookingFragment();
-                            Bundle bookingBundle = new Bundle();
-                            bookingBundle.putParcelable("BookingObject",booking);
-                            upComingBooking.setArguments(bookingBundle);
                             bookingList.add(booking);
                             Log.v(title, "onSuccess: " + booking.name);
                             Log.v(title,"tssdsd"+bookingList.size());
