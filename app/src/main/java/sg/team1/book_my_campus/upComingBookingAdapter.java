@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,25 +49,26 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView imageView;
         TextView tvroomName;
         TextView tvdateBooked;
 
+        Button checkInBtn;
+
+        Button cancelBtn;
+
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageViewUP);
             tvroomName = itemView.findViewById(R.id.textViewUP);
             tvdateBooked = itemView.findViewById(R.id.textView14);
+            checkInBtn = itemView.findViewById(R.id.button4);
+            cancelBtn = itemView.findViewById(R.id.button6);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+
+            checkInBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (recyclerViewInterface != null) {
-                        int pos = getAdapterPosition();
-                        if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
-                        }
-                    }
+
+
                 }
             });
         }
