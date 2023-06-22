@@ -11,12 +11,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class upcomingBookingFragment extends Fragment implements RecyclerViewInterface {
 
     ArrayList<Booking> bookingModel = new ArrayList<>();
+    ArrayList<Booking> upcomingList = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +34,9 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    String title="upcomingFragment";
     User user;
+    ArrayList<Booking>bookingList;
 
     public upcomingBookingFragment() {
         // Required empty public constructor
@@ -47,6 +57,8 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            readDoc();
+            CheckUpcomingBookings();
         }
     }
 
@@ -81,5 +93,41 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     public void onItemClick(int position) {
         // Handle the item click event here
         // ...
+    }
+
+    public void readDoc(){
+        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
+                .collection("bookings")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title,"retrieving data");
+                        List<DocumentSnapshot> docsnapList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot:docsnapList
+                        ) { Booking booking=snapshot.toObject(Booking.class);
+                            Log.v(title,"Success"+snapshot.getData().toString());
+                            bookingList.add(booking);
+                            Log.v(title,"Suceessssss"+booking.name);
+                            Log.v(title,"suuessss"+bookingList.size());
+
+                        }
+                    }
+                });
+
+    }
+    public void CheckUpcomingBookings(){
+
+        String myName =getActivity().getIntent().getStringExtra("name");
+        String myId = getActivity().getIntent().getStringExtra("userId");
+        for (Booking booking:bookingList)
+        {
+            if(booking.getName().equals(myName)&& booking.isCheckedIn()==false&& booking.isCanceled()==false)
+            {
+                upcomingList.add(booking);
+
+            }
+        }
+
     }
 }

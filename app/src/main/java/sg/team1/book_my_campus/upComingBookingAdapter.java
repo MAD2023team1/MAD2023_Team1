@@ -1,6 +1,7 @@
 package sg.team1.book_my_campus;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBookingAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
     Context context;
+    String title ="upcomingAdapter";
     ArrayList<Booking> bookingModel;
+    ArrayList<Booking>bookingList = new ArrayList<>();
 
     public upComingBookingAdapter(Context context, ArrayList<Booking> bookingModels, RecyclerViewInterface recyclerViewInterface) {
         this.context = context;
@@ -34,7 +44,9 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
     @Override
     public void onBindViewHolder(@NonNull upComingBookingAdapter.MyViewHolder holder, int position) {
+
         holder.tvroomName.setText(bookingModel.get(position).getRoomName());
+        holder.
     }
 
     @Override
@@ -47,6 +59,9 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         }
 
     }
+
+
+
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvroomName, tvtimeslot;
