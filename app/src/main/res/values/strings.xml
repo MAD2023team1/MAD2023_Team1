@@ -52,4 +52,6 @@
     <string name="available_time_slots">Available Time Slots</string>
     <string name="date">date</string>
 
+    <string name="logoutText"> Log out</string>
+
 </resources>

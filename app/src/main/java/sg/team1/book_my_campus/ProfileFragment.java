@@ -1,6 +1,7 @@
 package sg.team1.book_my_campus;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -8,8 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +31,7 @@ public class ProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private View inflatedView;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -43,10 +48,6 @@ public class ProfileFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static ProfileFragment newInstance(String param1, String param2) {
         ProfileFragment fragment = new ProfileFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -72,6 +73,7 @@ public class ProfileFragment extends Fragment {
         Button EditProfileButton = inflatedView.findViewById(R.id.editProfileButton);
         TextView NameDisplay = inflatedView.findViewById(R.id.nameDisplay);
         TextView EmailDisplay = inflatedView.findViewById(R.id.emailDisplay);
+        TextView logoutText = inflatedView.findViewById(R.id.textView3);
 
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
@@ -80,13 +82,27 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 HomePage ParentActivity = (HomePage) getActivity();
-                ParentActivity.replaceFragment(new EditProfileFragment());
+                //
+                // ParentActivity.switchToEditProfile(EditProfileFragment.newInstance(mParam1, mParam2));
+            }
+        });
+        logoutText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Sign out the current user
+                firebaseAuth.signOut();
+
+                Toast.makeText(getActivity(),"Log out was successful", Toast.LENGTH_SHORT).show();
+                Intent myIntent = new Intent(getActivity(), MainActivity.class);
+                startActivity(myIntent);
+                getActivity().finish();
             }
         });
 
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_profile, container, false);
         return inflatedView;
+
 
 
     }
