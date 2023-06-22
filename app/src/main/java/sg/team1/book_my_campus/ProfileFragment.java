@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,8 +95,10 @@ public class ProfileFragment extends Fragment {
         String myEmail = getActivity().getIntent().getStringExtra("email");
         String myPassword = getActivity().getIntent().getStringExtra("password");
 
-        //make a view in order to set variables to textviews and buttons
+        // make a view in order to set variables to textviews and buttons
         this.inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        // declare variables for the elements in the layout
         Button EditProfileButton = inflatedView.findViewById(R.id.editProfileButton);
         TextView NameDisplay = inflatedView.findViewById(R.id.nameDisplay);
         TextView EmailDisplay = inflatedView.findViewById(R.id.emailDisplay);
@@ -117,20 +120,22 @@ public class ProfileFragment extends Fragment {
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
-                // If "Cancel" button is pressed
+                // If "Cancel" button is pressed, close the dialog
                 Button CancelButton = dialogView.findViewById(R.id.editprofileCancel);
                 CancelButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.v(title, "Cancel button pressed");
                         dialog.dismiss();
                     }
                 });
 
-                // If "Change" button is pressed
+                // If "Change" button is pressed,
                 Button ChangeButton = dialogView.findViewById(R.id.editprofileChange);
                 ChangeButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Log.v(title, "Change button pressed");
 
                         // On click, extract string data from EditText and declare them as variables
                         EditText NewNameInput = dialogView.findViewById(R.id.NewNameInput);
@@ -143,52 +148,41 @@ public class ProfileFragment extends Fragment {
                             Toast.makeText(getContext(), "Enter new name", Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        if(TextUtils.isEmpty(NewEmail)){
-                            Toast.makeText(getContext(), "Enter new email", Toast.LENGTH_SHORT).show();
+
+                        if(TextUtils.isEmpty(NewEmail) || android.util.Patterns.EMAIL_ADDRESS.matcher(NewEmail).matches() == false){
+                            Toast.makeText(getContext(), "Enter a valid email", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
 
-                        firebaseAuth.signInWithEmailAndPassword(myEmail, myPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if(task.isSuccessful()){
+                        // Updating email and name in firestore
+                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                        CollectionReference usersCollection = firestore.collection("users");
 
-                                    // Updating email and name in firestore
-                                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                                    CollectionReference usersCollection = firestore.collection("users");
+                        String userId = firebaseAuth.getCurrentUser().getUid();
+                        usersCollection.document(userId);
 
-                                    String userId = firebaseAuth.getCurrentUser().getUid();
-                                    usersCollection.document(userId);
+                        // Updating (adding new values into) current user
+                        Map<String, Object> editMap = new HashMap<>();
+                        editMap.put("Email", NewEmail);
+                        editMap.put("Name", NewName);
+                        usersCollection.document(userId).update(editMap);
 
-                                    // Updating (adding new values into) current user
-                                    Map<String, Object> editMap = new HashMap<>();
-                                    editMap.put("Email", NewEmail);
-                                    editMap.put("Name", NewName);
-
-                                    usersCollection.document(userId).update(editMap);
-
-                                    // Changing the values separately in firebase authentication as well
-                                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                                    user.updateEmail(NewEmail)
-                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<Void> task) {
-                                                    if (task.isSuccessful()) {
-                                                        // Email address successfully updated in Firebase Authentication
-                                                        // You can update the email address in Firestore as well, if needed
-                                                        Toast.makeText(getContext(), "Details successfully updated!", Toast.LENGTH_SHORT).show();
-                                                    } else {
-                                                        Toast.makeText(getContext(), "Unsuccessful update", Toast.LENGTH_SHORT).show();
-                                                    }
-                                                }
-                                            });
-
-                                }
-                            }
-                        });
-
-
+                        // Changing the values separately in firebase authentication as well
+                            //Here I get the current user
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        user.updateEmail(NewEmail)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "Details successfully updated!", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        } else {
+                                            Toast.makeText(getContext(), "Unsuccessful update", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                });
                     }
                 });
             }

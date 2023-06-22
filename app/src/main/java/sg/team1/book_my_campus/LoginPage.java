@@ -151,6 +151,7 @@ public class LoginPage extends AppCompatActivity {
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
                                                         myIntent.putExtra("password", password);
+                                                        myIntent.putExtra("current_user", firebaseAuth.getCurrentUser());
 
                                                         // Start the home page activity
                                                         startActivity(myIntent);
