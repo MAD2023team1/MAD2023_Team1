@@ -81,27 +81,26 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
     }
 
-    public void CheckTimeSlots() {
+    public void CheckTimeSlots()
+    {
         Log.v(Title, "checktimecrate" + bookingList.size());
-        for (int j = 0; j < timeSlotList.size(); j++) {
+        for (int j = 0; j < timeSlotList.size(); j++) 
+        {
             Log.v(Title, "check1" + bookingList.size());
             timeSlotList.get(j).setAvail(true);
-            for (int i = 0; i < bookingList.size(); i++) {
+            for (int i = 0; i < bookingList.size(); i++) 
+            {   
                 Log.v(Title, "check2" + roomName);
-                if (bookingList.get(i).getRoomName().equals(roomName)){
-                    Log.v(Title, "checkroom" );
-
-                    if (bookingList.get(i).getTimeSlot().equals(timeSlotList.get(j).getSlot()) && bookingList.get(i).getDate().equals(date)) {
-                        Log.v(Title, "check3" + bookingList.size());
+                if (bookingList.get(i).getRoomName().equals(roomName))
+                {   Log.v(Title, "checkroom" );
+                    if (bookingList.get(i).getTimeSlot().equals(timeSlotList.get(j).getSlot()) && bookingList.get(i).getDate().equals(date)) 
+                    {   Log.v(Title, "check3" + bookingList.size());
                         timeSlotList.get(j).setAvail(false);
                         Log.v(Title, bookingList.get(i).getTimeSlot()+" is booked");
                     }
-                }
-            }
-
-        }
-
+                 }
+             }
+         }
     }
-
 }
 
