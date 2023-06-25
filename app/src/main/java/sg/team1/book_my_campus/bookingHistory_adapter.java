@@ -76,17 +76,6 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         }
 
     }
-    public void checkBookings(){
-        for (Booking booking:bookingHistModels)
-        {
-            if(booking.getName().equals(myName))
-            {
-                bookingHistList.add(booking);
-                Log.v(title,"booking added to upcoming" + booking.name);
-            }
-        }
-
-    }
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView roomName, DateBooked, Timeslot, Status;
         public MyViewHolder(@NonNull View itemView) {
