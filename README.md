@@ -7,7 +7,7 @@ Geraldine                   S10242807
 Li Yan						S10246159
 Clayton					    S10243162
 Xin Quan					S10243101
-Andrew
+Andrew                      S10243027
 
 Description Of Application
 Brief Explanation
@@ -50,7 +50,7 @@ This allows the student to search a suitable room based on their required needs
 Dark mode & light mode
 Users will be able to customize their experience based on their preferences.
 
-FAQ page?
+FAQ page
 Give students the option of the most likely to ask questions and provide an answer for the questions.
 
 All relevant appendices
