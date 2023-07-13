@@ -1,7 +1,9 @@
 package sg.team1.book_my_campus;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -10,7 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +35,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class bookNowPage extends AppCompatActivity {
+public class bookNowPage extends AppCompatActivity implements SelectListener {
     ArrayList<TimeSlot> timeSlots = new ArrayList<>();
     ArrayList<Booking> bookingList = new ArrayList<>();
     String title = "book now page";
@@ -50,23 +54,24 @@ public class bookNowPage extends AppCompatActivity {
 
         date = findViewById(R.id.date);
         date.setText(getCurrentDate());
+        name = getIntent().getStringExtra("name");
+        password = getIntent().getStringExtra("password");
+        email = getIntent().getStringExtra("email");
+        roomName = getIntent().getStringExtra("roomName");
+        roomLocation = getIntent().getStringExtra("roomLocation");
+        roomLevel = getIntent().getIntExtra("roomLevel", 0);
+        roomCapacity = getIntent().getIntExtra("roomCapacity", 0);
 
-        myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, new MyTimeSlotAdapter.ItemClickListener() {
-            @Override
-            public void onItemClick(TimeSlot timeslot) {
-                openAlertBox(timeslot);
-
-
-            }
-        },null, bookingList,roomName);
+        myTimeSlotAdapter = new MyTimeSlotAdapter(timeSlots, this,null, bookingList,roomName);
 
         readDocument();
         createTimeSlots();
         selectDate();
 
+
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        GridLayoutManager layoutManager = new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(myTimeSlotAdapter);
@@ -75,13 +80,7 @@ public class bookNowPage extends AppCompatActivity {
         calendarView.setMinDate((new Date().getTime()));
         myTimeSlotAdapter.setDate(getCurrentDate());
 
-        name = getIntent().getStringExtra("name");
-        password = getIntent().getStringExtra("password");
-        email = getIntent().getStringExtra("email");
-        roomName = getIntent().getStringExtra("roomName");
-        roomLocation = getIntent().getStringExtra("roomLocation");
-        roomLevel = getIntent().getIntExtra("roomLevel", 0);
-        roomCapacity = getIntent().getIntExtra("roomCapacity", 0);
+
 
         myTimeSlotAdapter.CheckTimeSlots();
     }
@@ -132,6 +131,7 @@ public class bookNowPage extends AppCompatActivity {
                 bookRoom(timeSlot);
                 Toast.makeText(bookNowPage.this, "Booking made", Toast.LENGTH_SHORT).show();
                 readDocument();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -155,6 +155,7 @@ public class bookNowPage extends AppCompatActivity {
         timeSlot.setAvail(false);
         Booking booking = new Booking(name, roomName, date.getText().toString(), timeSlot.getSlot(), false, false);
         bookingToDB(booking);
+        Log.v(title, "This is the booking object:" +booking.toString());
     }
 
     private void bookingToDB(Booking booking) {
@@ -208,55 +209,18 @@ public class bookNowPage extends AppCompatActivity {
                 });
     }
 
-    public void CheckTimeSlots() {
-        Log.v(title, "checktimecrate"+bookingList.size());
-        for (int i = 0; i < bookingList.size(); i++) {
-            timeSlots.get(i).setAvail(false);
 
-            Log.v(title, "che");
+    @Override
+    public void onItemClicked(TimeSlot timeSlot) {
+        if (timeSlot.isAvail)
+        {
+            openAlertBox(timeSlot);
+
+        }
+        else
+        {
+            Toast.makeText(this,"Please select another timeslot.",Toast.LENGTH_SHORT).show();
         }
 
-            /*if (roomName == bookingList.get(i).roomName && date.getText().toString() == bookingList.get(i).getDate()) {
-                {
-                    for (int z = 0; i < timeSlots.size(); z++) {
-                        if (timeSlots.get(z).getSlot() == bookingList.get(i).getTimeSlot()) {
-                            timeSlots.get(z).setAvail(false);
-                        }
-
-                    }
-                }
-            }
-        for (Booking booking : bookingList) {
-            Log.v(title,"booker");
-            if (roomName.equals(booking.getRoomName())) {
-                Log.v(title,"checkdateif");
-                if (date.getText().toString().equals(booking.getDate()))
-                {
-                    Log.v(title,"ifdate");
-                    for (TimeSlot time:timeSlots)
-                    {
-                        Log.v(title,"timeloop");
-                        if(time.getSlot()==booking.getTimeSlot())
-                        {
-                            time.setAvail(false);
-                            Log.v(title,"setava false");
-                        }
-                        else {
-                            time.setAvail(true);
-                            Log.v(title,"setava true");
-
-                        }
-                    }
-                }
-
-            }
-
-
-        }*/
-
-
     }
-
-
-
 }

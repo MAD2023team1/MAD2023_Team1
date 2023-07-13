@@ -18,21 +18,21 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
     List<Booking> bookingList;
     String date;
     String roomName;
-    private ItemClickListener mItemClickListener;
+    private SelectListener listener;
 
     public void setDate(String date) {
         this.date = date;
     }
 
-    public MyTimeSlotAdapter(ArrayList<TimeSlot> timeSlotList, ItemClickListener itemClickListener, String date, List<Booking> bookingList, String roomName) {
+    public MyTimeSlotAdapter(ArrayList<TimeSlot> timeSlotList, SelectListener listener, String date, List<Booking> bookingList, String roomName) {
 
         this.timeSlotList = timeSlotList;
         this.bookingList = bookingList;
         this.date = date;
         this.roomName = roomName;
+        this.listener = listener;
 
 
-        this.mItemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -49,19 +49,23 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
         CheckTimeSlots();
 
 
+
         if (timeSlotList.get(position).isAvail() == true) {
             holder.txt_time_slot_description.setText("Available");
-            holder.itemView.setOnClickListener(view -> {
-                mItemClickListener.onItemClick(timeSlotList.get(position));//get position of item in recyclerview
-            });
 
 
         } //if all slots is available,show
         else {
+            timeSlotList.get(position).setAvail(false);
             holder.txt_time_slot_description.setText("Booked");
 
         }//if some are booked
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onItemClicked(timeSlotList.get(holder.getAdapterPosition()));
+            }
+        });
 
     }
 
@@ -72,60 +76,31 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
     }
 
     public interface ItemClickListener {
+
         void onItemClick(TimeSlot timeslot);
+
     }
 
-    public void CheckTimeSlots() {
+    public void CheckTimeSlots()
+    {
         Log.v(Title, "checktimecrate" + bookingList.size());
-        for (int j = 0; j < timeSlotList.size(); j++) {
+        for (int j = 0; j < timeSlotList.size(); j++) 
+        {
+            Log.v(Title, "check1" + bookingList.size());
             timeSlotList.get(j).setAvail(true);
-            for (int i = 0; i < bookingList.size(); i++) {
-                if (bookingList.get(i).getTimeSlot().equals(timeSlotList.get(j).getSlot()) && bookingList.get(i).getDate().equals(date)) {
-                    timeSlotList.get(j).setAvail(false);
-                    Log.v(Title, bookingList.get(i).getTimeSlot()+" is booked");
-                }
-            }
-        }
-
-            /*if (roomName == bookingList.get(i).roomName && date.getText().toString() == bookingList.get(i).getDate()) {
-                {
-                    for (int z = 0; i < timeSlots.size(); z++) {
-                        if (timeSlots.get(z).getSlot() == bookingList.get(i).getTimeSlot()) {
-                            timeSlots.get(z).setAvail(false);
-                        }
-
+            for (int i = 0; i < bookingList.size(); i++) 
+            {   
+                Log.v(Title, "check2" + roomName);
+                if (bookingList.get(i).getRoomName().equals(roomName))
+                {   Log.v(Title, "checkroom" );
+                    if (bookingList.get(i).getTimeSlot().equals(timeSlotList.get(j).getSlot()) && bookingList.get(i).getDate().equals(date)) 
+                    {   Log.v(Title, "check3" + bookingList.size());
+                        timeSlotList.get(j).setAvail(false);
+                        Log.v(Title, bookingList.get(i).getTimeSlot()+" is booked");
                     }
-                }
-            }
-        for (Booking booking : bookingList) {
-            Log.v(title,"booker");
-            if (roomName.equals(booking.getRoomName())) {
-                Log.v(title,"checkdateif");
-                if (date.getText().toString().equals(booking.getDate()))
-                {
-                    Log.v(title,"ifdate");
-                    for (TimeSlot time:timeSlots)
-                    {
-                        Log.v(title,"timeloop");
-                        if(time.getSlot()==booking.getTimeSlot())
-                        {
-                            time.setAvail(false);
-                            Log.v(title,"setava false");
-                        }
-                        else {
-                            time.setAvail(true);
-                            Log.v(title,"setava true");
-
-                        }
-                    }
-                }
-
-            }
-
-
-        }*/
-
-
+                 }
+             }
+         }
     }
 }
 

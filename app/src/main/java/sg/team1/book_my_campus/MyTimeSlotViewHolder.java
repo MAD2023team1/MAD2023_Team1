@@ -19,6 +19,7 @@ public class MyTimeSlotViewHolder extends RecyclerView.ViewHolder {
         txt_time_slot= itemView.findViewById(R.id.txt_time_slot);
         txt_time_slot_description=itemView.findViewById(R.id.txt_time_slot_description);
 
+
     }
 
 

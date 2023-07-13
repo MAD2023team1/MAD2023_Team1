@@ -2,7 +2,10 @@ package sg.team1.book_my_campus;
 
 import androidx.appcompat.app.ActionBar;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,11 +15,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+
 public class MoreRoomInfo extends AppCompatActivity {
     Button bookNowbt;
+    boolean isRoomLiked;
+    ArrayList<String>roomNameFavourites = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +43,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         String roomLocation = getIntent().getStringExtra("roomLocation");
         int roomLevel = getIntent().getIntExtra("roomLevel",0);
         int roomCapacity = getIntent().getIntExtra("roomCapacity",0);
+        isRoomLiked = getIntent().getBooleanExtra("isRoomLiked",false);
 
         //grab the textViews display in the MoreRoomInfo.xml file
         TextView rmTV = findViewById(R.id.textView10);
@@ -69,7 +78,27 @@ public class MoreRoomInfo extends AppCompatActivity {
                 startActivity(bookNowGo);
             }
         });
+        Button likedButton = (Button)findViewById(R.id.button5);
+        likedButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                //set the boolean to not equal the orignial state when the button is clicked.
+                isRoomLiked = !isRoomLiked;
+                SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("roomName", roomName);
+                editor.putBoolean("isRoomLiked", isRoomLiked);
+                editor.apply();
+                if(isRoomLiked == true)
+                {
+                    likedButton.setText("Unlike");
+                }
+                else{
+                    likedButton.setText("Like");
+                }
+            }
+        });
     }
+;
     //to handle the back button on the tool bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -81,6 +110,15 @@ public class MoreRoomInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void onDefaultToggleClick(View view, String roomName){
+        isRoomLiked = !isRoomLiked; // Toggle the boolean value
+        Intent passInfoToFav = new Intent(MoreRoomInfo.this, favouritesFragment.class);
+        passInfoToFav.putExtra("roomName", roomName);
+        passInfoToFav.putExtra("isLiked", isRoomLiked);
+        Log.d("Liked & Unliked", "Liked & Unliked");
+    }
+
     // ltr come back and do share
     //SHARE THE SMART ROOM
 
