@@ -117,21 +117,16 @@ public class bookNowPage extends AppCompatActivity implements SelectListener {
 
 
     private void createTimeSlots() {
-        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
 
         for (int i = 0; i < 9; i++) {
             String slot = Variables.convertTimeSlot(i);
             TimeSlot timeSlot = new TimeSlot(true, slot,true);
-            int startHour = Integer.parseInt(slot.substring(0, 2));
-            Log.v(title,"time"+startHour);
             timeSlots.add(timeSlot);
-            if(startHour<currentHour || startHour==currentHour) {
-                timeSlot.setCheckTime(false);
-
             }
 
 
-    }}
+    }
 
     private void openAlertBox(TimeSlot timeSlot) {
 
