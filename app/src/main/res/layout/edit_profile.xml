@@ -9,13 +9,11 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/popUpBox"
-        android:layout_width="334dp"
-        android:layout_height="262dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id= "@+id/popUpBox"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="-2dp">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/textView7"
@@ -32,41 +30,63 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/NewEmailInput"
-            android:layout_width="300dp"
+        <TextView
+            android:id="@+id/textView16"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="28dp"
-            android:hint="New email"
-            android:inputType="textEmailAddress"
-            android:textColor="#000000"
+            android:text="Please enter new name"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/blue"
             android:textSize="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/NewNameInput" />
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
         <EditText
             android:id="@+id/NewNameInput"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
-            android:ems="10"
-            android:hint="New name"
+            android:layout_marginTop="1dp"
             android:inputType="text"
+            android:textSize="16dp"
             android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintTop_toBottomOf="@+id/textView16" />
+
+
+        <TextView
+            android:id="@+id/textView17"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please enter new name"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/blue"
+            android:textSize="16dp"
+            app:layout_constraintTop_toBottomOf= "@+id/NewNameInput"/>
+
+        <EditText
+            android:id="@+id/NewEmailInput"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:inputType="text"
+            android:textSize="16dp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
         <Button
             android:id="@+id/editprofileCancel"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginStart="17dp"
-            android:layout_marginTop="19dp"
-            android:text="Cancel"
-            android:textColor="#FFFFFF"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="44dp"
+            android:text="@string/cancelButton"
             app:backgroundTint="@color/darkblue"
+            app:layout_constraintEnd_toStartOf="@+id/editprofileChange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/NewEmailInput" />
 
@@ -74,14 +94,12 @@
             android:id="@+id/editprofileChange"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_marginTop="19dp"
-            android:layout_marginEnd="18dp"
-            android:text="Change"
-            android:textColor="#FFFFFF"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="48dp"
+            android:text="@string/resetButton"
             app:backgroundTint="@color/darkblue"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/NewEmailInput" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
