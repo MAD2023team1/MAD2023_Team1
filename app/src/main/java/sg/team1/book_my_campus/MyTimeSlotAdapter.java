@@ -1,5 +1,6 @@
 package sg.team1.book_my_campus;
 
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,14 +53,24 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
         if (timeSlotList.get(position).isAvail() == true) {
             holder.txt_time_slot_description.setText("Available");
+            if(timeSlotList.get(position).isCheckTime()==false){
+                holder.txt_time_slot_description.setText("Unavailable");
+                holder.card_time_slot.setCardBackgroundColor(Color.LTGRAY);
+            }
+
 
 
         } //if all slots is available,show
-        else {
-            timeSlotList.get(position).setAvail(false);
+        else{
             holder.txt_time_slot_description.setText("Booked");
+            if(timeSlotList.get(position).isCheckTime()==false){
+                holder.txt_time_slot_description.setText("Unavailable");
+                holder.card_time_slot.setCardBackgroundColor(Color.LTGRAY);
+            }
+
 
         }//if some are booked
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
