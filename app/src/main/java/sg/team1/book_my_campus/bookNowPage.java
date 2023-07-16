@@ -29,6 +29,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -67,6 +68,9 @@ public class bookNowPage extends AppCompatActivity implements SelectListener {
         readDocument();
         createTimeSlots();
         selectDate();
+        int currentTime= Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+        Log.v(title,"current time hour "+currentTime);
 
 
         RecyclerView recyclerView = findViewById(R.id.RecyclerView);
@@ -78,6 +82,10 @@ public class bookNowPage extends AppCompatActivity implements SelectListener {
 
         CalendarView calendarView = findViewById(R.id.calendarView);
         calendarView.setMinDate((new Date().getTime()));
+
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss",Locale.getDefault());
+        String time= timeFormat.format(currentTime);
+
         myTimeSlotAdapter.setDate(getCurrentDate());
 
 
@@ -109,11 +117,14 @@ public class bookNowPage extends AppCompatActivity implements SelectListener {
 
 
     private void createTimeSlots() {
+
+
         for (int i = 0; i < 9; i++) {
             String slot = Variables.convertTimeSlot(i);
-            TimeSlot timeSlot = new TimeSlot(true, slot);
+            TimeSlot timeSlot = new TimeSlot(true, slot,true);
             timeSlots.add(timeSlot);
-        }
+            }
+
 
     }
 
@@ -214,7 +225,10 @@ public class bookNowPage extends AppCompatActivity implements SelectListener {
     public void onItemClicked(TimeSlot timeSlot) {
         if (timeSlot.isAvail)
         {
-            openAlertBox(timeSlot);
+            if(timeSlot.isCheckTime()==true)
+            {
+            openAlertBox(timeSlot);}
+            else{  Toast.makeText(this,"Timeslot Unavailable.",Toast.LENGTH_SHORT).show();}
 
         }
         else
