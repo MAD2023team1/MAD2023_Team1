@@ -27,8 +27,8 @@
 
             <TextView
                 android:id="@+id/favname"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_width="383dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="190dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="TextView"
