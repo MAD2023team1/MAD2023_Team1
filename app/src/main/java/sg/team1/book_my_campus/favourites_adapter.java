@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,12 +15,12 @@ import java.util.ArrayList;
 public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.MyViewHolder> {
 
     private final RecyclerViewInterface recyclerViewInterface;
-    ArrayList<String> roomNameFavourites;
+    ArrayList<Room> roomFavourites;
     Context context;
 
-    public favourites_adapter(Context context,ArrayList<String> roomNameFavourites, RecyclerViewInterface recyclerViewInterface){
+    public favourites_adapter(Context context,ArrayList<Room> roomFavourites, RecyclerViewInterface recyclerViewInterface){
         this.context = context;
-        this.roomNameFavourites = roomNameFavourites;
+        this.roomFavourites = roomFavourites;
         this.recyclerViewInterface = recyclerViewInterface;
     }
     @NonNull
@@ -32,21 +33,31 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
 
     @Override
     public void onBindViewHolder(@NonNull favourites_adapter.MyViewHolder holder, int position) {
-        holder.roomNameFavourites.setText(roomNameFavourites.get(position));
+        if (roomFavourites != null) {
+            holder.roomNameFavourites.setText(roomFavourites.get(position).getRoomName());
+            holder.roomImageFavourites.setImageResource(roomFavourites.get(position).getImage());
+        } else {
+            holder.roomNameFavourites.setText("No Liked Rooms");
+            holder.roomImageFavourites.setImageResource(0);
+        }
+
+
     }
 
     @Override
     public int getItemCount() {
-        return roomNameFavourites.size();
+        return roomFavourites.size();
     }
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // Define your ViewHolder components here
         TextView roomNameFavourites;
+        ImageView roomImageFavourites;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             // Initialize your ViewHolder components here
             roomNameFavourites = itemView.findViewById(R.id.favname);
+            roomImageFavourites = itemView.findViewById(R.id.favimage);
         }
     }
 }
