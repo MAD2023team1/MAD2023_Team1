@@ -5,8 +5,8 @@ import androidx.appcompat.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,16 +15,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MoreRoomInfo extends AppCompatActivity {
     Button bookNowbt;
     boolean isRoomLiked;
-    ArrayList<String>roomNameFavourites = new ArrayList<>();
+    ArrayList<Room>favRoomList = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +42,8 @@ public class MoreRoomInfo extends AppCompatActivity {
         int roomLevel = getIntent().getIntExtra("roomLevel",0);
         int roomCapacity = getIntent().getIntExtra("roomCapacity",0);
         isRoomLiked = getIntent().getBooleanExtra("isRoomLiked",false);
+        Room roomReceived = new Room(000, roomName, null, roomLocation, roomLevel,null, roomCapacity, null, true, roomImage,isRoomLiked );
+        Log.d("MoreRoomInfo", "Receiving Room Info passed from explore fragment"+ roomName);
 
         //grab the textViews display in the MoreRoomInfo.xml file
         TextView rmTV = findViewById(R.id.textView10);
@@ -79,22 +79,19 @@ public class MoreRoomInfo extends AppCompatActivity {
             }
         });
         Button likedButton = (Button)findViewById(R.id.button5);
+        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+        // Get the serialized array string from SharedPreferences
+        String serializedArray = sharedPreferences.getString("favouriteList", "");
+
+        // Convert the serialized string back to an ArrayList using the delimiter
+        String[] arrayElements = serializedArray.split(",");
+        ArrayList<String> storedFavList = new ArrayList<>(Arrays.asList(arrayElements));
+
         likedButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                //set the boolean to not equal the orignial state when the button is clicked.
-                isRoomLiked = !isRoomLiked;
-                SharedPreferences preferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("roomName", roomName);
-                editor.putBoolean("isRoomLiked", isRoomLiked);
-                editor.apply();
-                if(isRoomLiked == true)
-                {
-                    likedButton.setText("Unlike");
-                }
-                else{
-                    likedButton.setText("Like");
-                }
+                checkRoomLiked(likedButton, roomReceived);
+                Log.d("MoreRoomInfo", "The favourite room List contains"+ favRoomList.size() + "elements");
+                onDefaultToggleClick(view, favRoomList);
             }
         });
     }
@@ -110,20 +107,34 @@ public class MoreRoomInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    public void checkRoomLiked(Button likedButton, Room room){
+        SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        //set the boolean to not equal the original state when the button is clicked.
+        Log.d("MoreRoomInfo", "Room Liked Boolean:"+ isRoomLiked);
+        if(room.isRoomLiked == true)
+        {
+            likedButton.setText("Unlike");
+            favRoomList.add(room);
+        }else{
+            //if room isLiked is false, and it the list contains favRoomList, remove the room from the favourite list
+            if(favRoomList.contains(room)){
+                likedButton.setText("Like");
+                favRoomList.remove(room);
+            }
+            // Serialize the array to a string using a delimiter
+            String serializedArray = TextUtils.join(",", favRoomList);
+            editor.putString("favouriteList",serializedArray );
+            editor.apply();
+        }
 
-    public void onDefaultToggleClick(View view, String roomName){
-        isRoomLiked = !isRoomLiked; // Toggle the boolean value
-        Intent passInfoToFav = new Intent(MoreRoomInfo.this, favouritesFragment.class);
-        passInfoToFav.putExtra("roomName", roomName);
-        passInfoToFav.putExtra("isLiked", isRoomLiked);
-        Log.d("Liked & Unliked", "Liked & Unliked");
+    }
+
+    public void onDefaultToggleClick(View view, ArrayList<Room> favRoomList){
+        favouritesFragment fragment = favouritesFragment.newInstance(favRoomList);
     }
 
     // ltr come back and do share
     //SHARE THE SMART ROOM
-
-
-
-
 
 }

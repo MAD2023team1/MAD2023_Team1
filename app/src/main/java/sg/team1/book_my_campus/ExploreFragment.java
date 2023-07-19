@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.widget.SearchView;
+
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -77,7 +79,8 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_explore, container, false);
         searchView = rootView.findViewById(R.id.searchView);
-        searchView.clearFocus();
+        //searchView.clearFocus();
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -90,6 +93,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
                 return true;
             }
         });
+
         RecyclerView recyclerView = rootView.findViewById(R.id.mRecyclerView);
 
         // Create the new array of rooms to loop through
@@ -98,8 +102,19 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         room_recyclerviewadapter adapter = new room_recyclerviewadapter(getContext(), roomModels, this);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        //initially i put this instead of requireContext()
+        //but there was an error like LinearLayoutManager cannot be applied to ExploreFragment
+        //This is because fragment cannot be casted as a context.
+        //get Context returns the context view only current running activity.
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Adjust windowSoftInputMode for the activity
+        //getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+
         return rootView;
+
+
+
+
 
 
     }
@@ -125,6 +140,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
 
     private void filterList(String text) {
         ArrayList<Room> filteredList = new ArrayList<>();
+        //for each room object in roomModels
         for (Room room : roomModels) {
             if (room.getRoomName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(room);
