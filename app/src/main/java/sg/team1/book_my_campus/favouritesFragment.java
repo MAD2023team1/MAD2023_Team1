@@ -87,6 +87,10 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
         // You can implement the desired behavior when an item is clicked
     }
 
+    @Override
+    public void onItemClicked(Booking booking) {
+
+    }
 
 
 }
