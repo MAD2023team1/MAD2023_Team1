@@ -75,7 +75,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         View rootView = inflater.inflate(R.layout.fragment_upcoming_booking2, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUp);
 
-
+        //create Adapter
         upComingBookingAdapter = new upComingBookingAdapter(getContext(), this,myName,upcomingList,bookingList);
         recyclerView.setAdapter(upComingBookingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
