@@ -51,9 +51,10 @@
     <string name="select_date">Select Date</string>
     <string name="available_time_slots">Select Time Slot</string>
     <string name="date">date</string>
-    <string name ="CheckIn">Check In</string>
+    <string name ="CheckInorCancel">Click to Check In / Cancel</string>
     <string name ="CancelBooking">Cancel Booking</string>
     <string name= "BookedOn"></string>
+    <string name="Status">Status:</string>
 
     <string name="logoutText"> Log out</string>
 

@@ -174,4 +174,9 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         moreInfoPageIntent.putExtra("roomLiked",roomModels.get(position).isRoomLiked());
         startActivity(moreInfoPageIntent);
     }
+
+    @Override
+    public void onItemClicked(Booking booking) {
+
+    }
 }

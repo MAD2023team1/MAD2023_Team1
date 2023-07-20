@@ -88,8 +88,6 @@ public class bookNowPage extends AppCompatActivity implements SelectListener {
 
         myTimeSlotAdapter.setDate(getCurrentDate());
 
-
-
         myTimeSlotAdapter.CheckTimeSlots();
     }
 
