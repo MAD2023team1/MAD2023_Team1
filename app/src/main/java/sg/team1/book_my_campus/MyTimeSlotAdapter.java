@@ -137,6 +137,15 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
                         timeSlotList.get(j).setAvail(false);
                         Log.v(Title, bookingList.get(i).getTimeSlot()+" is booked");
+                        if(bookingList.get(i).isCanceled()==true)
+                        {
+                            timeSlotList.get(j).setAvail(true);
+                            bookingList.get(i).setCanceled(true);
+                        }
+                        else
+                        {
+                            timeSlotList.get(j).setAvail(false);
+                        }
 
                     }
 
