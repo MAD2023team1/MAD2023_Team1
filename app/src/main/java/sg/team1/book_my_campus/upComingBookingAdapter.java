@@ -154,6 +154,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         alertDialog.show();
     }
     public void checkUpcomingBookings(){
+        //Add to upcoming list
         upcomingList.clear();
         for (Booking booking:bookingList)
         {
