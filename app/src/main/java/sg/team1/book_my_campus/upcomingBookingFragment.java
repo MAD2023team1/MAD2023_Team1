@@ -1,7 +1,10 @@
 package sg.team1.book_my_campus;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -78,9 +83,14 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         return rootView;
     }
 
+    @Override
     public void onItemClick(int position) {
-        // Handle the item click event here
-        // ...
+
+    }
+
+    public void onItemClicked(Booking booking) {
+
+
     }
 
     public void readDoc(){
@@ -94,14 +104,12 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                         List<DocumentSnapshot> docsnapList = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot snapshot:docsnapList
                         ) { Booking booking=snapshot.toObject(Booking.class);
-                            Log.v(title,"Success"+snapshot.getData().toString());
-                            Log.v(title,"Success"+booking.name);
+                            Log.v(title,"Success "+snapshot.getData().toString());
+                            Log.v(title,"Success "+booking.name);
                             booking.docid = snapshot.getId();
                             bookingList.add(booking);
-                            Log.v(title,"Success"+bookingList.size());
-                            Log.v(title,"Success"+snapshot.getId());
-
-
+                            Log.v(title,"Success "+bookingList.size());
+                            Log.v(title,"Success "+snapshot.getId());
 
                         }
                         upComingBookingAdapter.notifyDataSetChanged();
@@ -110,5 +118,6 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                 });
 
     }
+
 
 }

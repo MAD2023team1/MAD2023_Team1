@@ -123,4 +123,9 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     public void onItemClick(int position) {
 
     }
+
+    @Override
+    public void onItemClicked(Booking booking) {
+
+    }
 }
