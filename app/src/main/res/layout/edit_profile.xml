@@ -27,19 +27,49 @@
             android:textColor="@color/white"
             android:textSize="16dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/editProfile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/circularoutline"
+            android:backgroundTint="@color/darkblue"
+            android:src="@drawable/baseline_person_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/editPicture"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/circularoutline"
+            android:backgroundTint="@color/blue"
+            android:outlineProvider="paddedBounds"
+            android:src="@drawable/baseline_local_see_24"
+            app:layout_constraintBottom_toTopOf="@+id/textView16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="@+id/editProfile"
+            app:layout_constraintTop_toBottomOf="@+id/editProfile"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/textView16"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="16dp"
             android:text="Please enter new name"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="20dp"
             android:textColor="@color/blue"
             android:textSize="16dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView7" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editProfile" />
 
         <EditText
             android:id="@+id/NewNameInput"
@@ -58,12 +88,14 @@
             android:id="@+id/textView17"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Please enter new name"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="16dp"
+            android:text="Please enter new email address"
             android:textColor="@color/blue"
             android:textSize="16dp"
-            app:layout_constraintTop_toBottomOf= "@+id/NewNameInput"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/NewNameInput" />
 
         <EditText
             android:id="@+id/NewEmailInput"
@@ -86,6 +118,7 @@
             android:layout_marginEnd="44dp"
             android:text="@string/cancelButton"
             app:backgroundTint="@color/darkblue"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/editprofileChange"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/NewEmailInput" />
@@ -96,8 +129,9 @@
             android:layout_height="50dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="48dp"
-            android:text="@string/resetButton"
+            android:text="Change"
             app:backgroundTint="@color/darkblue"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/NewEmailInput" />
 
