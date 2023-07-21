@@ -1,6 +1,8 @@
 package sg.team1.book_my_campus;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,6 +29,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     ArrayList<Booking>bookingList;
     List<Booking> upcomingList;
     String myName;
+
 
 
     public upComingBookingAdapter(Context context, RecyclerViewInterface recyclerViewInterface, String myName,List<Booking> upcomingList,ArrayList<Booking>bookingList) {
@@ -48,71 +52,18 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     @Override
     public void onBindViewHolder(@NonNull upComingBookingAdapter.MyViewHolder holder, int position) {
 
+
         holder.tvroomName.setText(upcomingList.get(position).getRoomName());
         holder.tvtimeslot.setText(upcomingList.get(position).getTimeSlot());
         holder.tvdateBooked.setText(upcomingList.get(position).getDate());
-        if (upcomingList.get(position).isCheckedIn)
-        {
-            holder.checkInBtn.setText("Checked In");
-        }
-        else
-        {
-            holder.checkInBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection("bookings").document(upcomingList.get(position).docid)
-                            .update("isCheckedIn",true)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    holder.checkInBtn.setText("Checked In");
-                                    Toast.makeText(context,"Check in Successfully",Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    holder.checkInBtn.setText("Check In");
-                                    Toast.makeText(context,"Check in Unsuccessfully",Toast.LENGTH_SHORT).show();
-                                }
-                            });
+        holder.tvstatus.setText("Booked");
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkInOrCancelAlertBox(holder);
+            }
+        });
 
-
-                }
-            });
-        }
-        if (upcomingList.get(position).isCanceled)
-        {
-            holder.checkInBtn.setText("Cancelled In");
-        }
-        else
-        {
-            holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection("bookings").document(upcomingList.get(position).docid)
-                            .update("isCanceled",true)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    holder.cancelBtn.setText("Cancelled");
-                                    Toast.makeText(context,"Cancelled Successfully",Toast.LENGTH_SHORT).show();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    holder.cancelBtn.setText("Cancel");
-                                    Toast.makeText(context,"Cancelled Unsuccessfully",Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-
-                }
-            });
-        }
 
 
     }
@@ -127,7 +78,83 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         }
 
     }
+    private void checkInOrCancelAlertBox(upComingBookingAdapter.MyViewHolder holder) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Check In / Cancel Confirmation");
+
+        builder.setPositiveButton("Check In Booking", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("bookings").document(upcomingList.get(holder.getAdapterPosition()).docid)
+                        .update("isCheckedIn",true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                holder.tvstatus.setText("Checked In");
+
+                                Toast.makeText(context,"Check in Successfully",Toast.LENGTH_SHORT).show();
+                                upcomingList.get(holder.getAdapterPosition()).setCheckedIn(true);
+                                holder.itemView.setClickable(false);
+                                holder.tvinfo.setVisibility(View.GONE);
+
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                holder.tvstatus.setText("Booked");
+                                Toast.makeText(context,"Check in Unsuccessfully",Toast.LENGTH_SHORT).show();
+                                upcomingList.get(holder.getAdapterPosition()).setCheckedIn(false);
+
+                            }
+                        });
+
+
+
+
+
+            }
+        });
+        builder.setNegativeButton("Cancel Booking", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("bookings").document(upcomingList.get(holder.getAdapterPosition()).docid)
+                        .update("isCanceled",true)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                holder.tvstatus.setText("Cancelled");
+
+                                Toast.makeText(context,"Cancelled Successfully",Toast.LENGTH_SHORT).show();
+                                upcomingList.get(holder.getAdapterPosition()).setCanceled(true);
+                                holder.itemView.setClickable(false);
+                                holder.tvinfo.setVisibility(View.GONE);
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                holder.tvstatus.setText("Booked");
+                                Toast.makeText(context,"Cancelled Unsuccessfully",Toast.LENGTH_SHORT).show();
+                                upcomingList.get(holder.getAdapterPosition()).setCanceled(false);
+
+                            }
+                        });
+
+            }
+        });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
     public void checkUpcomingBookings(){
+        upcomingList.clear();
         for (Booking booking:bookingList)
         {
             if(booking.getName().equals(myName))
@@ -150,24 +177,21 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     }
 
 
-
-
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvroomName, tvtimeslot;
-        TextView tvdateBooked;
+        TextView tvdateBooked,tvstatus, tvinfo;
 
-        Button checkInBtn;
 
-        Button cancelBtn;
+
+
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             tvroomName = itemView.findViewById(R.id.roomHist);
             tvtimeslot = itemView.findViewById(R.id.timeslothist);
             tvdateBooked = itemView.findViewById(R.id.datehist);
-            checkInBtn = itemView.findViewById(R.id.button8);
-            cancelBtn = itemView.findViewById(R.id.button7);
-
+            tvstatus = itemView.findViewById(R.id.statustxt);
+            tvinfo = itemView.findViewById(R.id.textView21);
 
 
         }
