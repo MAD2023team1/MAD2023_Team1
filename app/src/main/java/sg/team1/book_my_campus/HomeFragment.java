@@ -62,10 +62,9 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String myName = getActivity().getIntent().getStringExtra("name");
         this.inflatedHomeView = inflater.inflate(R.layout.fragment_home, container, false);
         TextView welcomeUser = inflatedHomeView.findViewById(R.id.textView4);
-        welcomeUser.setText(myName+"!");
+        welcomeUser.setText(UserProfile.getName()+"!");
         // Inflate the layout for this fragment
         return inflatedHomeView;
 
