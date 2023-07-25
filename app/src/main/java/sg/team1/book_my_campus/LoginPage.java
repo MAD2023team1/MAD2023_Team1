@@ -152,6 +152,10 @@ public class LoginPage extends AppCompatActivity {
                                                         String name = documentSnapshot.getString("Name");
                                                         String email = documentSnapshot.getString("Email");
                                                         String password = documentSnapshot.getString("Password");
+                                                        UserProfile.setName(name);
+                                                        UserProfile.setUserId(userID);
+                                                        UserProfile.setEmail(email);
+                                                        UserProfile.setPassword(password);
                                                         //Add into intent
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
