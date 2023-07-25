@@ -1,7 +1,9 @@
 package sg.team1.book_my_campus;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
@@ -12,13 +14,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.github.dhaval2404.imagepicker.ImagePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,10 +38,15 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,6 +57,10 @@ public class ProfileFragment extends Fragment {
     String title = "Profile";
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+    ImageView profilePic;
+    ActivityResultLauncher<Intent> imagePickLauncher;
+    Uri selectedImageUri;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -74,6 +91,13 @@ public class ProfileFragment extends Fragment {
         return fragment;
     }
 
+    //Glide for the profile picture
+    public static void setProfilePic(Context context, Uri imageUri, ImageView imageView) {
+        Glide.with(context).load(imageUri).apply(RequestOptions.circleCropTransform()).into(imageView);
+    }
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +105,17 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        imagePickLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if(result.getResultCode() == Activity.RESULT_OK){
+                        Intent data = result.getData();
+                        if(data!= null && data.getData() !=null){
+                            selectedImageUri = data.getData();
+                            ProfileFragment.setProfilePic(getContext(),selectedImageUri,profilePic);
+                        }
+                    }
+                }
+        );
     }
 
     @Override
@@ -107,16 +142,18 @@ public class ProfileFragment extends Fragment {
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
 
+        View dialogView = getLayoutInflater().inflate(R.layout.edit_profile,null);
+        profilePic = dialogView.findViewById(R.id.editPicture);
+
         EditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.v(title, "Edit Profile clicked");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                View dialogView = getLayoutInflater().inflate(R.layout.edit_profile,null);
+
                 builder.setView(dialogView);
                 builder.setCancelable(false);
-
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
@@ -155,6 +192,7 @@ public class ProfileFragment extends Fragment {
                         }
 
 
+
                         // Updating email and name in firestore
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                         CollectionReference usersCollection = firestore.collection("users");
@@ -185,6 +223,20 @@ public class ProfileFragment extends Fragment {
                                 });
                     }
                 });
+
+
+
+                profilePic.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Use the ImagePicker library with the fragment's context
+                        ImagePicker.with(ProfileFragment.this)
+                                .cropSquare()
+                                .compress(512)
+                                .maxResultSize(512, 512)
+                                .start(); // Pass the ActivityResultLauncher here
+                    }
+                });
             }
         });
 
@@ -200,6 +252,7 @@ public class ProfileFragment extends Fragment {
                 getActivity().finish();
             }
         });
+
 
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_profile, container, false);
