@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,19 +46,24 @@ public class SignUpPage extends AppCompatActivity{
         EditText etName = findViewById(R.id.editTextText4);
         EditText etEmail = findViewById(R.id.editTextText);
         EditText etPassword = findViewById(R.id.editTextText2);
+        EditText etMobile = findViewById(R.id.mobile);
         Button signUpButtonToApp = findViewById(R.id.signupBtn);
         TextView switchToLogin = findViewById(R.id.textView19);
+        Switch faSwitch = findViewById(R.id.switch1);
         signUpButtonToApp.setOnClickListener(new View.OnClickListener() {
             String myName;
             String myEmail;
             String myPassword;
-
+            String myMobile;
+            String myFASwitch;
             @Override
             public void onClick(View v) {
                 Log.v(title,"Sign up button to app Pressed!");
                 myName = String.valueOf(etName.getText());
                 myEmail = String.valueOf(etEmail.getText());
                 myPassword = String.valueOf(etPassword.getText());
+                myMobile = String.valueOf(etMobile.getText());
+                myFASwitch = String.valueOf(faSwitch.isChecked());
                 //Prompt user to enter values for each field if left blank
                 if(TextUtils.isEmpty(myName)){
                     Toast.makeText(SignUpPage.this,"Enter Name", Toast.LENGTH_SHORT).show();
@@ -66,6 +72,11 @@ public class SignUpPage extends AppCompatActivity{
 
                 if(TextUtils.isEmpty(myEmail)){
                     Toast.makeText(SignUpPage.this,"Enter Email", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if(TextUtils.isEmpty(myMobile)){
+                    Toast.makeText(SignUpPage.this,"Enter Mobile Number", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
@@ -91,6 +102,8 @@ public class SignUpPage extends AppCompatActivity{
                                     user.put("Name", myName);
                                     user.put("Email", myEmail);
                                     user.put("Password", myPassword);
+                                    user.put("Mobile", myMobile);
+                                    user.put("FASwitch",myFASwitch);
                                     //Insert information into database
                                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -111,11 +124,13 @@ public class SignUpPage extends AppCompatActivity{
                                                         String name = documentSnapshot.getString("Name");
                                                         String email = documentSnapshot.getString("Email");
                                                         String password = documentSnapshot.getString("Password");
+                                                        String mobile =  documentSnapshot.getString("Mobile");
                                                         //Add all information including userID into database
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
                                                         myIntent.putExtra("password", password);
+                                                        myIntent.putExtra("mobile", mobile);
 
                                                         // Start the home page activity
                                                         startActivity(myIntent);

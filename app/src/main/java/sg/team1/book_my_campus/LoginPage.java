@@ -77,14 +77,15 @@ public class LoginPage extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
 
                                 if (task.isSuccessful()) {
+                                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                                    CollectionReference usersCollection = firestore.collection("users");
+
                                     // If sign in successful, display a message to the user.
                                     Toast.makeText(LoginPage.this, "Login was successful", Toast.LENGTH_SHORT).show();
                                     Log.i(title, "signInWithEmail:success");
                                     Intent myIntent = new Intent(LoginPage.this, HomePage.class);
 
                                     // Updating password in Firestore
-                                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                                    CollectionReference usersCollection = firestore.collection("users");
                                     // Get userID of the user
                                     String userID = firebaseAuth.getCurrentUser().getUid();
                                     Log.w(title, "myuserid: "+userID);
@@ -152,27 +153,42 @@ public class LoginPage extends AppCompatActivity {
                                                         String name = documentSnapshot.getString("Name");
                                                         String email = documentSnapshot.getString("Email");
                                                         String password = documentSnapshot.getString("Password");
+                                                        String mobile = documentSnapshot.getString("Mobile");
+                                                        String faSwitch= documentSnapshot.getString("FASwitch");
                                                         UserProfile.setName(name);
                                                         UserProfile.setUserId(userID);
                                                         UserProfile.setEmail(email);
                                                         UserProfile.setPassword(password);
+                                                        UserProfile.setMobile(mobile);
+                                                        UserProfile.setFaSwitch(faSwitch);
+
                                                         //Add into intent
                                                         myIntent.putExtra("userId", userID);
                                                         myIntent.putExtra("name", name);
                                                         myIntent.putExtra("email", email);
                                                         myIntent.putExtra("password", password);
-                                                          
+
                                                         //Pass the whole user class
-                                                        User user = new User(name,email,password);
+                                                        User user = new User(name,email,password,mobile);
                                                         //Need to send to a fragment so must use bundle
                                                         Fragment upcomingBookingFragment = new upcomingBookingFragment();
                                                         Bundle bundle = new Bundle();
                                                         bundle.putParcelable("User", user);
                                                         upcomingBookingFragment.setArguments(bundle);
-                                                      
-                                                        // Start the home page activity
-                                                        startActivity(myIntent);
-                                                        finish();
+
+                                                        if(UserProfile.getFaSwitch() != null && UserProfile.getFaSwitch().equals("true")){
+                                                            Toast.makeText(LoginPage.this, "2 factor auth is on", Toast.LENGTH_SHORT).show();
+                                                            Log.i(title, "signInWithEmail:success");
+                                                            Intent myIntent = new Intent(LoginPage.this, LoginOtpActivity.class);
+                                                            startActivity(myIntent);
+                                                            finish();
+                                                        }
+                                                        else{
+                                                            // Start the home page activity
+                                                            startActivity(myIntent);
+                                                            finish();
+                                                        }
+
                                                     } else {
                                                         // User document does not exist
                                                         Log.w(title, "User document does not exist");

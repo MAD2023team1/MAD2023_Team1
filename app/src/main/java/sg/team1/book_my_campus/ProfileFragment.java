@@ -114,6 +114,7 @@ public class ProfileFragment extends Fragment {
         String myEmail = UserProfile.getEmail();
         String userId = UserProfile.getUserId();
         String myPassword = UserProfile.getPassword();
+        Uri myImage = UserProfile.getProfilePic();
 
 
         // make a view in order to set variables to textviews and buttons
@@ -124,9 +125,13 @@ public class ProfileFragment extends Fragment {
         TextView NameDisplay = inflatedView.findViewById(R.id.nameDisplay);
         TextView EmailDisplay = inflatedView.findViewById(R.id.emailDisplay);
         TextView logoutText = inflatedView.findViewById(R.id.textView3);
+        ImageView profileCard = inflatedView.findViewById(R.id.profileImage2);
 
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
+        Glide.with(getContext())
+                .load(myImage) // Assuming myImage is the Uri of the profile picture
+                .into(profileCard);
 
         View dialogView = getLayoutInflater().inflate(R.layout.edit_profile, null);
         profilePic = dialogView.findViewById(R.id.editProfile);
@@ -240,8 +245,10 @@ public class ProfileFragment extends Fragment {
                                                     updateProfileInformationInFirestore(usersCollection.document(userId), downloadUri.toString(), NewName, NewEmail);
                                                     NameDisplay.setText(NewName);
                                                     EmailDisplay.setText(NewEmail);
+                                                    profileCard.setImageURI(selectedImageUri);
                                                     UserProfile.setName(NewName);
                                                     UserProfile.setEmail(NewEmail);
+                                                    UserProfile.setProfilePic(selectedImageUri);
                                                 }
                                             });
                                         }
