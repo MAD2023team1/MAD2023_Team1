@@ -63,16 +63,18 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         return bookingHistList.size();
     }
     public void checkBookings(){
-        for (Booking booking:bookingHistModels)
-        {
-            Log.v(title,"booking Hist"+booking.name);
-            Log.v(title,"booking Hist"+myName);
-            if(booking.getName().equals(myName))
+        for (Booking booking:bookingHistModels) {
+            Log.v(title, "booking Hist" + booking.name);
+            Log.v(title, "booking Hist" + myName);
+            if (booking.getName() != null)
             {
-                Log.v(title,"booking added to history" + booking.name);
-                bookingHistList.add(booking);
-                Log.v(title,"booking added to history" + booking.name);
+                if(booking.getName().equals(myName))
+                {
+                    bookingHistList.add(booking);
+                    Log.v(title,"booking added to history" + booking.name);
+                }
             }
+
         }
 
     }
