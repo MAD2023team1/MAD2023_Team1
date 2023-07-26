@@ -2,6 +2,7 @@ package sg.team1.book_my_campus;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +29,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -155,12 +158,16 @@ public class LoginPage extends AppCompatActivity {
                                                         String password = documentSnapshot.getString("Password");
                                                         String mobile = documentSnapshot.getString("Mobile");
                                                         String faSwitch= documentSnapshot.getString("FASwitch");
+                                                        String profilePic= documentSnapshot.getString("ProfilePicUrl");
                                                         UserProfile.setName(name);
                                                         UserProfile.setUserId(userID);
                                                         UserProfile.setEmail(email);
                                                         UserProfile.setPassword(password);
                                                         UserProfile.setMobile(mobile);
                                                         UserProfile.setFaSwitch(faSwitch);
+                                                        if(profilePic!= null) {
+                                                            UserProfile.setProfilePic(Uri.parse(profilePic));
+                                                        }
 
                                                         //Add into intent
                                                         myIntent.putExtra("userId", userID);

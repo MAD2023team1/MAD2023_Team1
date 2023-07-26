@@ -129,6 +129,7 @@ public class ProfileFragment extends Fragment {
 
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
+        profileCard.setImageURI(myImage);
         Glide.with(getContext())
                 .load(myImage) // Assuming myImage is the Uri of the profile picture
                 .into(profileCard);

@@ -34,43 +34,64 @@
             android:textSize="30dp"
             android:textColor="@color/white"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <EditText
-                android:id="@+id/otpCode"
-                style="@style/Widget.AppCompat.AutoCompleteTextView"
-                android:layout_width="300dp"
-                android:layout_height="60dp"
-                android:hint="OTP" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/sendOtp"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="30dp"
-            android:text="Send OTP"
-            app:backgroundTint="@color/darkblue" />
-
-        <Button
-            android:id="@+id/loginBtn2fa"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:text="@string/loginButton"
-            app:backgroundTint="@color/darkblue" />
-
-        <ProgressBar
-            android:id="@+id/loginProgressBar"
-            style="?android:attr/progressBarStyle"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="30dp"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="30dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp">
+
+                <EditText
+                    android:id="@+id/otpCode"
+                    style="@style/Widget.AppCompat.AutoCompleteTextView"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:hint="OTP" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/sendOtp"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="Send OTP"
+                app:backgroundTint="@color/darkblue"
+                android:layout_marginBottom="10dp"/>
+
+            <Button
+                android:id="@+id/loginBtn2fa"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="@string/loginButton"
+                app:backgroundTint="@color/darkblue"
+                android:layout_marginBottom="10dp"/>
+
+            <ProgressBar
+                android:id="@+id/loginProgressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"/>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/resendOtp"
