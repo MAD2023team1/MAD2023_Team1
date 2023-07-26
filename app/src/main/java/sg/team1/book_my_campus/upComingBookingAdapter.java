@@ -1,8 +1,11 @@
 package sg.team1.book_my_campus;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +22,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBookingAdapter.MyViewHolder> {
@@ -57,10 +64,17 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         holder.tvtimeslot.setText(upcomingList.get(position).getTimeSlot());
         holder.tvdateBooked.setText(upcomingList.get(position).getDate());
         holder.tvstatus.setText("Booked");
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.checkInCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkInOrCancelAlertBox(holder);
+            }
+        });
+        holder.calendarInt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendarIntegration(holder);
+
             }
         });
 
@@ -76,6 +90,58 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         }else{//the user can choose not to book anything
             return 0;
         }
+
+    }
+    private void calendarIntegration(upComingBookingAdapter.MyViewHolder holder)
+    {
+        String date = holder.tvdateBooked.getText().toString();
+        String startHour = holder.tvtimeslot.getText().toString().substring(0, 2);
+        Log.v(title, "Start time:" + startHour);
+        String endHour = holder.tvtimeslot.getText().toString().substring(6, 8);
+        Log.v(title, "End time:" + endHour);
+        String startDate = date  + ";" + startHour;
+        String endDate = date + ";" + endHour;
+        Log.v(title, "Start Date: " + startDate);
+        Log.v(title, "End Date: " + endDate);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/M/yyyy;HH");
+        Date startDateTime = null;
+        Date endDateTime = null;
+        try {
+            startDateTime = simpleDateFormat.parse(startDate);
+            endDateTime = simpleDateFormat.parse(endDate);
+
+
+        } catch (ParseException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        Calendar startingDateTime =  Calendar.getInstance();
+        startingDateTime.setTime(startDateTime);
+        Calendar endingDateTime =  Calendar.getInstance();
+        endingDateTime.setTime(endDateTime);
+        long sdt = startingDateTime.getTimeInMillis();
+        long edt = endingDateTime.getTimeInMillis();
+
+
+        Intent intent = new Intent(Intent.ACTION_EDIT);
+        intent.setType("vnd.android.cursor.item/event");
+        intent.putExtra(CalendarContract.Events.TITLE,"Booking");
+        intent.putExtra(CalendarContract.Events.EVENT_LOCATION,holder.tvroomName.getText().toString());
+        intent.putExtra(CalendarContract.Events.DESCRIPTION, holder.tvroomName.getText().toString());
+        intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, sdt);
+        intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, edt);
+        try {
+            context.startActivity(intent);
+        }
+        catch (ActivityNotFoundException e)
+        {
+            Toast.makeText(context,"There is no app that can support this action",Toast.LENGTH_SHORT).show();
+            throw new RuntimeException(e);
+        }
+
+
 
     }
     private void checkInOrCancelAlertBox(upComingBookingAdapter.MyViewHolder holder) {
@@ -97,9 +163,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
                                 Toast.makeText(context,"Check in Successfully",Toast.LENGTH_SHORT).show();
                                 upcomingList.get(holder.getAdapterPosition()).setCheckedIn(true);
-                                holder.itemView.setClickable(false);
-                                holder.tvinfo.setVisibility(View.GONE);
-
+                                holder.checkInCancel.setClickable(false);
 
                             }
                         })
@@ -130,10 +194,8 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                             public void onSuccess(Void unused) {
                                 holder.tvstatus.setText("Cancelled");
 
-                                Toast.makeText(context,"Cancelled Successfully",Toast.LENGTH_SHORT).show();
-                                upcomingList.get(holder.getAdapterPosition()).setCanceled(true);
+                                Toast.makeText(context,"Cancelled Successfully",Toast.LENGTH_SHORT).show();upcomingList.get(holder.getAdapterPosition()).setCanceled(true);
                                 holder.itemView.setClickable(false);
-                                holder.tvinfo.setVisibility(View.GONE);
 
                             }
                         })
@@ -158,21 +220,27 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         upcomingList.clear();
         for (Booking booking:bookingList)
         {
-            if(booking.getName().equals(myName))
+            Log.v(title,"My name:" +myName);
+            Log.v(title,"booking name:" +booking.getName());
+            if (booking.getName() != null)
             {
-                if (!booking.isCheckedIn())
+                if(booking.getName().equals(myName))
                 {
-                    if (!booking.isCanceled())
+                    if (!booking.isCheckedIn())
                     {
-                        upcomingList.add(booking);
+                        if (!booking.isCanceled())
+                        {
+                            upcomingList.add(booking);
 
-                        Log.v(title,"booking added to upcoming" + booking.name);
+                            Log.v(title,"booking added to upcoming" + booking.name);
+                        }
+
                     }
 
+
                 }
-
-
             }
+
         }
 
     }
@@ -180,7 +248,8 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tvroomName, tvtimeslot;
-        TextView tvdateBooked,tvstatus, tvinfo;
+        TextView tvdateBooked,tvstatus;
+        Button checkInCancel, direction, calendarInt;
 
 
 
@@ -192,7 +261,10 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
             tvtimeslot = itemView.findViewById(R.id.timeslothist);
             tvdateBooked = itemView.findViewById(R.id.datehist);
             tvstatus = itemView.findViewById(R.id.statustxt);
-            tvinfo = itemView.findViewById(R.id.textView21);
+            checkInCancel = itemView.findViewById(R.id.checkincancel);
+            direction = itemView.findViewById(R.id.direction);
+            calendarInt = itemView.findViewById(R.id.calendarint);
+
 
 
         }

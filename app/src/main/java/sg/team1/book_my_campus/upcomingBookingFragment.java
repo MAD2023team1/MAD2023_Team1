@@ -70,7 +70,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        myName =getActivity().getIntent().getStringExtra("name");
+        myName = UserProfile.getName();
         readDoc();
         View rootView = inflater.inflate(R.layout.fragment_upcoming_booking2, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUp);
