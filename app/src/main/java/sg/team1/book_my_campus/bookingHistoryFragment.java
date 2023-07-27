@@ -1,5 +1,7 @@
 package sg.team1.book_my_campus;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -42,6 +44,7 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     ArrayList<Booking> bookingHistModels = new ArrayList<>();
     ArrayList<Booking> bookinghistList = new ArrayList<>();
     bookingHistory_adapter adapter;
+    private boolean submittedFeedback = false;
     String myName;
 
     public bookingHistoryFragment() {
@@ -83,8 +86,15 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
         readDoc();
         View rootView = inflater.inflate(R.layout.fragment_booking_history, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewHist);
-
-        adapter = new bookingHistory_adapter(getContext(), bookingHistModels, this,bookinghistList,myName);
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            Boolean submittedFeedback = bundle.getBoolean("submittedFeedback");
+        }
+        else{
+            Log.v(title, "Bundle is Null");
+        }
+        Log.v(title, "submitted feedback from rate now:" + submittedFeedback);
+        adapter = new bookingHistory_adapter(getContext(), bookingHistModels, this,bookinghistList,myName, submittedFeedback);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
@@ -115,6 +125,9 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                 });
 
     }
+
+
+
 
 
 
