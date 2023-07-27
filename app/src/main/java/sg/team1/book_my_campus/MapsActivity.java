@@ -34,6 +34,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -126,11 +127,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             //mMap.addMarker(new MarkerOptions().position(NP).title("NP Entrance"));
             Log.v(title, "onSuccess marker" + roomName);
             mMap.addMarker(new MarkerOptions().position(ISpace).title("iSpace rooms"));
+            moveLocation(ISpace);
         }
         if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")) {
 
             //mMap.addMarker(new MarkerOptions().position(NP).title("NP Entrance"));
             mMap.addMarker(new MarkerOptions().position(Smartroom).title("Smart Rooms"));
+            moveLocation(Smartroom);
 
         }
 
@@ -141,6 +144,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //add compass to move around
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setScrollGesturesEnabled(true);
+
+
+
+
 
     }
 
@@ -228,6 +235,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onMapReady(@NonNull GoogleMap googleMap) {
                             if (location != null) {
+                                //get last known location and mark it
                                 currentLocation=location;
 
                                 LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -255,6 +263,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
         }
+        private void moveLocation(LatLng position){
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(position,14));
+            //zoom in cam
+            mMap.animateCamera(CameraUpdateFactory.zoomIn());
+            //zoom size, duration of animation set to 2 secs
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(14),2000,null);
+        }
+
 
 
 
