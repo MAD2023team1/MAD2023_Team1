@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBookingAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -68,6 +69,12 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
             @Override
             public void onClick(View v) {
                 checkInOrCancelAlertBox(holder);
+            }
+        });
+        holder.direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleMapIntegration(holder);
             }
         });
         holder.calendarInt.setOnClickListener(new View.OnClickListener() {
@@ -140,8 +147,6 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
             Toast.makeText(context,"There is no app that can support this action",Toast.LENGTH_SHORT).show();
             throw new RuntimeException(e);
         }
-
-
 
     }
     private void checkInOrCancelAlertBox(upComingBookingAdapter.MyViewHolder holder) {
@@ -216,11 +221,17 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         alertDialog.show();
     }
     public void checkUpcomingBookings(){
+        //Add to upcoming list
         upcomingList.clear();
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        String currentDate  =  new SimpleDateFormat("dd/M/yyyy", Locale.getDefault()).format(new Date());
         for (Booking booking:bookingList)
         {
             Log.v(title,"My name:" +myName);
             Log.v(title,"booking name:" +booking.getName());
+            Log.v(title,"Timeslot:" +booking.getTimeSlot());
+            int startHour = Integer.parseInt(booking.getTimeSlot().substring(0, 2));
+            Log.v(title, "start hour:"+startHour);
             if (booking.getName() != null)
             {
                 if(booking.getName().equals(myName))
@@ -229,9 +240,58 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                     {
                         if (!booking.isCanceled())
                         {
-                            upcomingList.add(booking);
 
-                            Log.v(title,"booking added to upcoming" + booking.name);
+                            if ( (startHour<currentHour || startHour==currentHour) && booking.getDate().equals(currentDate)){
+                                upcomingList.add(booking);
+                                Log.v(title,"booking added to upcoming" + booking.name);
+                            }
+                            else{
+                                booking.setCanceled(true);
+                                Log.v(title,"booking cancelled:" + booking.isCanceled());
+                            }
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/M/yyyy");
+                            Date bookingDate = null;
+                            Date date = null;
+                            try {
+                                 bookingDate = simpleDateFormat.parse(booking.getDate());
+                                 date = simpleDateFormat.parse(currentDate);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            Log.v(title,"Booking date:"+bookingDate);
+                            Log.v(title,"Current date:"+date);
+                            if (bookingDate!=null & date!= null)
+                            {
+                                if (bookingDate.compareTo(date) < 0)
+                                {
+                                    booking.setCanceled(true);
+                                    Log.v(title,"booking expired: " + booking.getDate());
+                                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                                    firestore.collection("bookings").document(booking.docid)
+                                            .update("isCanceled",true)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Log.v(title,"booking expired, updated to db");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.v(title,"booking expired, update failure");
+
+                                                }
+                                            });
+
+
+                                }
+                                else {
+                                    upcomingList.add(booking);
+                                    Log.v(title,"booking added to upcoming:" + booking.name);
+                                }
+
+                            }
+
                         }
 
                     }
@@ -242,6 +302,13 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
         }
 
+    }
+    public void googleMapIntegration(upComingBookingAdapter.MyViewHolder holder)
+    {
+        Intent intent = new Intent(context,MapsActivity.class);
+        intent.putExtra("RoomName",upcomingList.get(holder.getAdapterPosition()).getRoomName());
+        Log.v(title,"roomname here 1+ "+upcomingList.get(holder.getAdapterPosition()).getRoomName());
+        context.startActivity(intent);
     }
 
 

@@ -22,8 +22,13 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 
 public class upcomingBookingFragment extends Fragment implements RecyclerViewInterface {
@@ -43,6 +48,8 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     ArrayList<Booking>bookingList = new ArrayList<>();
     String myName;
     upComingBookingAdapter upComingBookingAdapter;
+
+
 
     public upcomingBookingFragment() {
         // Required empty public constructor
@@ -75,7 +82,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         View rootView = inflater.inflate(R.layout.fragment_upcoming_booking2, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUp);
 
-
+        //create Adapter
         upComingBookingAdapter = new upComingBookingAdapter(getContext(), this,myName,upcomingList,bookingList);
         recyclerView.setAdapter(upComingBookingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
