@@ -155,7 +155,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         Dexter.withContext(this).withPermission(Manifest.permission.ACCESS_FINE_LOCATION).withListener(new PermissionListener() {
             @Override
             public void onPermissionGranted(PermissionGrantedResponse permissionGrantedResponse) {
-                Toast.makeText(MapsActivity.this, "Location Services Enabled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Location Permissions Enabled", Toast.LENGTH_SHORT).show();
                 PermissionGranted = true;
 
 
@@ -164,7 +164,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             @Override
             public void onPermissionDenied(PermissionDeniedResponse permissionDeniedResponse) {
-                Toast.makeText(MapsActivity.this, "Please Enable Location Services", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapsActivity.this, "Please Enable Location Permissions", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -178,7 +178,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void initialise() {
-        if (PermissionGranted==true) {
+        if (PermissionGranted=true) {
             if (GpsEnabled()) {
 
 
@@ -209,9 +209,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                     }))
                     .setCancelable(false).show();
+                    alertDialog.show();
 
 
                             }
+
         return false;
     }
 
