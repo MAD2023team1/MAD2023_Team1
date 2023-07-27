@@ -58,6 +58,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.otp_login);
 
+        //Finding each variables
         otpInput = findViewById(R.id.otpCode);
         sendBtn = findViewById(R.id.sendOtp);
         progressBar = findViewById(R.id.loginProgressBar);
@@ -82,8 +83,8 @@ public class LoginOtpActivity extends AppCompatActivity {
         });
 
         // Get the phone number passed from the previous activity
-        //phoneNumber = "+65 " + UserProfile.getMobile();
-        phoneNumber = "+6500000000";
+        phoneNumber = "+65 " + UserProfile.getMobile();
+        //phoneNumber = "+6500000000";
         Log.i(title, "User phone number: "+ phoneNumber);
 
         //make login button invisible
@@ -96,39 +97,46 @@ public class LoginOtpActivity extends AppCompatActivity {
             sendOtp(phoneNumber,false);
         });
 
+        //resend otp
         resendOtpTextView.setOnClickListener((v)->{
             sendOtp(phoneNumber,true);
         });
 
     }
 
-    // Method to send OTP to the given phone number
+    //Method to send OTP to the given phone number
     void sendOtp(String phoneNumber,boolean isResend){
+        //start timer
         startResendTimer();
+        //set the buttons
         setInProgress(true);
         //set to true for testing
-        mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
+        mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(false);
+        //Create a PhoneAuthOptions.Builder to set up the PhoneAuthOptions
         PhoneAuthOptions.Builder builder =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNumber)
                         .setTimeout(timeoutSeconds, TimeUnit.SECONDS)
                         .setActivity(this)
                         .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                            //Different outcomes
                             @Override
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-//                                signIn(phoneAuthCredential);
+                                // The verification process is successfully, link the credential
                                 linkCredential(phoneAuthCredential);
                                 finish(true);
                             }
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
+                                // The verification process failed, show a message
                                 Toast.makeText(getApplicationContext(),"OTP verification failed",Toast.LENGTH_SHORT).show();
                                 finish(true);
                             }
 
                             @Override
                             public void onCodeSent(@NonNull String s, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                // The OTP sent successfully, update the verificationCode and resendingToken, show message
                                 super.onCodeSent(s, forceResendingToken);
                                 verificationCode = s;
                                 resendingToken = forceResendingToken;
@@ -146,35 +154,30 @@ public class LoginOtpActivity extends AppCompatActivity {
     }
 
     public void linkCredential(PhoneAuthCredential credential) {
-//        if (!providerExists()) {
+        //Unlink the provider
         mAuth.getCurrentUser().unlink(PhoneAuthProvider.PROVIDER_ID).addOnCompleteListener(this, task->{
+            //Link account with provider
             mAuth.getCurrentUser().linkWithCredential(credential).addOnCompleteListener(this, task2 -> {
+                //If successful, get the user and bring to home page
                 if (task2.isSuccessful()) {
                     Log.d(TAG, "linkWithCredential:success");
-                    FirebaseUser user = task.getResult().getUser();
+                    FirebaseUser user = task2.getResult().getUser();
                     Toast.makeText(getApplicationContext(), "OTP Success", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginOtpActivity.this, HomePage.class);
                     intent.putExtra("phone", phoneNumber);
                     startActivity(intent);
-
+                    //If fail, message "otp failure" occurs, wait to resend and login
                 } else {
                     Log.w(TAG, "linkWithCredential:failure", task2.getException());
                     Toast.makeText(getApplicationContext(), "OTP Failure", Toast.LENGTH_SHORT).show();
+                    finish(true);
                 }
             });
         });
 //        }
     }
 
-    private boolean providerExists() {
-        List<String> providerIdList = new ArrayList();
-        for(UserInfo userInfo:mAuth.getCurrentUser().getProviderData()){
-            providerIdList.add(userInfo.getProviderId());
-        }
-        return providerIdList.contains(PhoneAuthProvider.PROVIDER_ID);
-    }
-
-    //Progress bar visibility
+    //Progress bar  and send otp button visibility
     void setInProgress(boolean inProgress){
         if(inProgress){
             progressBar.setVisibility(View.VISIBLE);
@@ -185,6 +188,7 @@ public class LoginOtpActivity extends AppCompatActivity {
         }
     }
 
+    //Similar to setinprogess but including login button
     void finish(boolean finish){
         if(finish){
             loginBtn.setVisibility(View.VISIBLE);
@@ -197,44 +201,41 @@ public class LoginOtpActivity extends AppCompatActivity {
     }
 
 
-    // Method to sign in with the received OTP
+    //Method to sign in with the received OTP
     void signIn(PhoneAuthCredential phoneAuthCredential){
-        //login and go to next activity
+        //Login and go to next activity
         setInProgress(true);
+        //Calls to link the accounts
         linkCredential(phoneAuthCredential);
         setInProgress(false);
-//        mAuth.signInWithCredential(phoneAuthCredential).addOnCompleteListener(task -> {
-//            setInProgress(false);
-//            if(task.isSuccessful()){
-//                linkCredential(phoneAuthCredential);
-////                    Intent intent = new Intent(LoginOtpActivity.this,HomePage.class);
-////                    intent.putExtra("phone",phoneNumber);
-////                    startActivity(intent);
-//            }else{
-//                Toast.makeText(getApplicationContext(),"OTP verification failed",Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     //Resend OTP, set timer
     void startResendTimer(){
+        //Disable the resendOtpTextView to prevent multiple clicks while the timer is running
         resendOtpTextView.setEnabled(false);
+        // Create a timer
         Timer timer = new Timer();
+
+        //Ensures timer run on fixed rate
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 timeoutSeconds--;
+                //Shows the remaining time
                 resendOtpTextView.setText("Resend OTP in "+timeoutSeconds +" seconds");
+                //Check timer if has reached 0 seconds
                 if(timeoutSeconds<=0){
+                    //set 60 seconds
                     timeoutSeconds =60L;
+                    //cancel timer
                     timer.cancel();
                     runOnUiThread(() -> {
+                        //Switch back to the resendOtptextView
                         resendOtpTextView.setEnabled(true);
                     });
                 }
             }
-        },0,1000);
+        },0,1000); //No delay and repeat every 1000 millisecond / 1 second
     }
-
-
 }
