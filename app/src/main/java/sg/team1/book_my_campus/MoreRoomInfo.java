@@ -1,5 +1,6 @@
 package sg.team1.book_my_campus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 
 import android.content.Context;
@@ -16,13 +17,24 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MoreRoomInfo extends AppCompatActivity {
     Button bookNowbt;
     boolean isRoomLiked;
     ArrayList<Room>favRoomList = new ArrayList<>();
+    ArrayList<Ratings> ratingList = new ArrayList<>();
+
+    String title ="MoreRoomInfo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +63,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         TextView rmLocation = findViewById(R.id.textView11);
         TextView rmLevel = findViewById(R.id.textView13);
         TextView rmCapacity = findViewById(R.id.textView12);
+        TextView displayRatings = findViewById(R.id.ratings);
 
         //Assign the values from what we have extracted from the ExploreFragment to the MoreRoomInfo.xml file
         rmTV.setText(roomName);
@@ -60,6 +73,9 @@ public class MoreRoomInfo extends AppCompatActivity {
         rmCapacity.setText("Capacity:"+roomCapacity);
         //set the title of the action bar based on each room name
         actionBar.setTitle(roomName);
+
+        //Read the ratings Firebase
+        readRatingsDocument();
 
         //when user click on book now button, it will redirect the user to book now page
         // Initialize the button and set the click listener
@@ -78,6 +94,8 @@ public class MoreRoomInfo extends AppCompatActivity {
                 startActivity(bookNowGo);
             }
         });
+
+
         Button likedButton = (Button)findViewById(R.id.button5);
         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         // Get the serialized array string from SharedPreferences
@@ -132,6 +150,56 @@ public class MoreRoomInfo extends AppCompatActivity {
 
     public void onDefaultToggleClick(View view, ArrayList<Room> favRoomList){
         favouritesFragment fragment = favouritesFragment.newInstance(favRoomList);
+    }
+
+    public void readRatingsDocument() {
+        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
+                .collection("ratings")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title, "Getting ratings data");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot : snapshotList) {
+                            Ratings rating = snapshot.toObject(Ratings.class);
+                            Log.v(title, "onSuccess: " + snapshot.getData().toString());
+                            ratingList.add(rating);
+                            Log.v(title, "onSuccess: " + rating.roomName);
+                            Log.v(title, "onSuccess" + rating.starRatings);
+                            Log.v(title, "onSuccess"+ rating.dateBooked);
+                            Log.v(title,"List size"+ratingList.size());
+
+
+
+                        }
+                        String roomName = getIntent().getStringExtra("roomName");
+                        float roomRatings = 0;
+                        int count = 0;
+                        for(Ratings rating: ratingList){
+                            Log.v(title, "In theloop:" + rating.roomName);
+                            Log.v(title, "In theloop2:"+  roomName);
+                            if(rating.roomName.equals(roomName)){
+                                count += 1;
+                                Log.v(title, "Count:"+count);
+                                Log.v(title, "Beach room ratings:" +rating.starRatings);
+                                roomRatings += rating.starRatings;
+                                roomRatings = roomRatings/count;
+                                Log.v(title, "each room ratings:" +rating.starRatings);
+                                Log.v(title,"sum of ratings:"+roomRatings);
+                                TextView displayRatings = findViewById(R.id.ratings);
+                                displayRatings.setText(String.valueOf(roomRatings));
+                            }
+                        }
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v(title, "onFailure: ", e);
+                    }
+                });
     }
 
     // ltr come back and do share

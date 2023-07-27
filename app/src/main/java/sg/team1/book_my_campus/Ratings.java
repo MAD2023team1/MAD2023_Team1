@@ -1,6 +1,9 @@
 package sg.team1.book_my_campus;
 
 public class Ratings {
+    public Ratings(){
+
+    }
     public Ratings(String roomName, String userID, String comment, float starRatings,String dateBooked, String timeSlot) {
         this.roomName = roomName;
         this.userID = userID;

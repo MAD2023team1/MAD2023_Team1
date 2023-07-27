@@ -174,7 +174,7 @@ public class rateNow extends AppCompatActivity {
         Map<String, Object> ratings = new HashMap<>();
         ratings.put("roomName", rating.roomName);
        ratings.put("comment", rating.comment);
-       ratings.put("starRating", rating.starRatings);
+       ratings.put("starRatings", rating.starRatings);
        ratings.put("userID", rating.userID);
        ratings.put("dateBooked", rating.dateBooked);
        ratings.put("timeSlot", rating.timeSlot);
