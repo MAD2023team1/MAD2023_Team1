@@ -78,7 +78,7 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        myName =getActivity().getIntent().getStringExtra("name");
+        myName = UserProfile.getName();
         readDoc();
         View rootView = inflater.inflate(R.layout.fragment_booking_history, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewHist);

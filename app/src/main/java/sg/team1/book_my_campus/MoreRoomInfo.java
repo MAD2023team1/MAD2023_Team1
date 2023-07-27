@@ -33,9 +33,9 @@ public class MoreRoomInfo extends AppCompatActivity {
 
 
         //Extract the variables and information passed from the explore fragment
-        String name = getIntent().getStringExtra("name");
-        String password = getIntent().getStringExtra("password");
-        String email = getIntent().getStringExtra("email");
+        String name = UserProfile.getName();
+        String password = UserProfile.getPassword();
+        String email = UserProfile.getEmail();
         String roomName = getIntent().getStringExtra("roomName");
         int roomImage = getIntent().getIntExtra("roomImage",0);
         String roomLocation = getIntent().getStringExtra("roomLocation");

@@ -1,10 +1,13 @@
 package sg.team1.book_my_campus;
 
 import sg.team1.book_my_campus.databinding.HomePageBinding;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -43,16 +46,6 @@ public class HomePage extends AppCompatActivity {
             }
             return true;
         });
-
-        //receive user info
-        getIntent().getStringExtra("name");
-        getIntent().getStringExtra("userId");
-        getIntent().getStringExtra("email");
-        getIntent().getStringExtra("password");
-        Log.i(title, "User info: "+ getIntent().getStringExtra("name")+ getIntent().getStringExtra("userId")+
-                getIntent().getStringExtra("email") + getIntent().getStringExtra("password"));
-
-
     }
     //replace fragment method
     void replaceFragment(Fragment fragment){
@@ -62,4 +55,8 @@ public class HomePage extends AppCompatActivity {
         fragmentTransaction.commit();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
