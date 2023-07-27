@@ -121,6 +121,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
 
     private void setUpRoomModels() {
         //pulling the text inside the string[] that I have created in the string.xml file
+        int[] roomID = getResources().getIntArray(R.array.room_ID);
         String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
         String[] roomLocation = getResources().getStringArray(R.array.room_location);
         int[] roomLevel = getResources().getIntArray(R.array.room_level);
@@ -128,7 +129,8 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
 
 
         for (int i = 0; i < roomNamesFromString.length; i++) {
-            roomModels.add(new Room(0, roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, true, roomImages[i],false));
+            Log.v("Explore Fragment loop", Integer.toString(roomID[i]));
+            roomModels.add(new Room(roomID[i], roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, true, roomImages[i],false));
         }
     }
 
@@ -163,6 +165,8 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         moreInfoPageIntent.putExtra("name",myName);
         moreInfoPageIntent.putExtra("password",myPassword);
         moreInfoPageIntent.putExtra("email",myEmail);
+        moreInfoPageIntent.putExtra("roomID", roomModels.get(position).getRoomID());
+        Log.d("Explore Fragment","Passing Info to MoreRoomInfo class" + Integer.toString(roomModels.get(position).getRoomID()));
         moreInfoPageIntent.putExtra("roomName", roomModels.get(position).getRoomName());
         moreInfoPageIntent.putExtra("roomImage", roomModels.get(position).getImage());
         moreInfoPageIntent.putExtra("roomLocation", roomModels.get(position).getLocation());

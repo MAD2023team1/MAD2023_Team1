@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -64,7 +66,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         this.inflatedHomeView = inflater.inflate(R.layout.fragment_home, container, false);
         TextView welcomeUser = inflatedHomeView.findViewById(R.id.textView4);
+        ImageView homeProfile = inflatedHomeView.findViewById(R.id.imageView5);
         welcomeUser.setText(UserProfile.getName()+"!");
+        //UserProfile.setProfilePic(selectedImageUri);
         // Inflate the layout for this fragment
         return inflatedHomeView;
 
