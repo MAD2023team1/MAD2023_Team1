@@ -148,8 +148,6 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
             throw new RuntimeException(e);
         }
 
-
-
     }
     private void checkInOrCancelAlertBox(upComingBookingAdapter.MyViewHolder holder) {
 

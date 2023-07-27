@@ -2,6 +2,7 @@ package sg.team1.book_my_campus;
 
 import sg.team1.book_my_campus.databinding.HomePageBinding;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -16,6 +17,20 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
+
 import sg.team1.book_my_campus.R;
 
 public class HomePage extends AppCompatActivity {
@@ -26,6 +41,7 @@ public class HomePage extends AppCompatActivity {
     private static final int mybooking_id = R.id.mybookings;
 
     private static final int profile_id = R.id.profile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,4 +76,7 @@ public class HomePage extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+
+
 }

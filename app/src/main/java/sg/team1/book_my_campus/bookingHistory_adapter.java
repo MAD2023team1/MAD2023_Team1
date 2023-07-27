@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,13 +22,18 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
     ArrayList<Booking>bookingHistModels;
     ArrayList<Booking>bookingHistList;
     String myName;
+
+    Boolean submittedFeedback;
+
     private final RecyclerViewInterface recyclerViewInterface;
-    public bookingHistory_adapter(Context context, ArrayList<Booking> bookingHistModels, RecyclerViewInterface recyclerViewInterface, ArrayList<Booking>bookingHistList,String myName){
+    public bookingHistory_adapter(Context context, ArrayList<Booking> bookingHistModels, RecyclerViewInterface recyclerViewInterface, ArrayList<Booking>bookingHistList,String myName,boolean submittedFeedback){
         this.context = context;
         this.bookingHistModels = bookingHistModels;
         this.recyclerViewInterface = recyclerViewInterface;
         this.bookingHistList = bookingHistList;
         this.myName = myName;
+        this.submittedFeedback = submittedFeedback;
+
 
     }
     @NonNull
@@ -71,12 +77,20 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
             holder.rateNowBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent rateNowPage = new Intent(holder.itemView.getContext(), rateNow.class);
-                    //pass the information of roomID, datebook and timeslot onto the next page
-                    rateNowPage.putExtra("dateBooked", bookingHistList.get(holder.getAdapterPosition()).getDate());
-                    rateNowPage.putExtra("Timeslot", bookingHistList.get(holder.getAdapterPosition()).getTimeSlot());
-                    // Start the rateNow activity
-                    holder.itemView.getContext().startActivity(rateNowPage);
+                    if(submittedFeedback == false){
+                        Intent rateNowPage = new Intent(holder.itemView.getContext(), rateNow.class);
+                        //pass the information of roomID, datebook and timeslot onto the next page
+                        rateNowPage.putExtra("roomName", bookingHistList.get(holder.getAdapterPosition()).getRoomName());
+                        rateNowPage.putExtra("dateBooked", bookingHistList.get(holder.getAdapterPosition()).getDate());
+                        rateNowPage.putExtra("Timeslot", bookingHistList.get(holder.getAdapterPosition()).getTimeSlot());
+                        // Start the rateNow activity
+                        holder.itemView.getContext().startActivity(rateNowPage);
+                    }
+                    else{
+                       holder.rateNowBtn.setEnabled(false);
+                       Toast.makeText(v.getContext(), "You have already rated the room.",Toast.LENGTH_SHORT).show();
+                    }
+
 
                 }
             });
@@ -88,6 +102,7 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         }
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -109,6 +124,10 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         }
 
     }
+
+    protected void setSubmittedFeedback(Boolean submittedFeedback) {
+    }
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView roomName, DateBooked, Timeslot, Status;
         Button rateNowBtn;
@@ -121,4 +140,5 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
             rateNowBtn = itemView.findViewById(R.id.button4);
         }
     }
+
 }
