@@ -51,6 +51,8 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
     private ImageView profilePic;
+
+    private ImageView camaraCircle;
     private Uri selectedImageUri;
 
 
@@ -130,12 +132,20 @@ public class ProfileFragment extends Fragment {
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
         profileCard.setImageURI(myImage);
-        Glide.with(getContext())
-                .load(myImage) // Assuming myImage is the Uri of the profile picture
-                .into(profileCard);
+        // Check if the user has a profile picture
+        if (myImage != null) {
+            // If the user has a profile picture, load it using Glide
+            Glide.with(getContext())
+                    .load(myImage)
+                    .into(profileCard);
+        } else {
+            // If the user does not have a profile picture, set the default image resource
+            profileCard.setImageResource(R.drawable.baseline_person_24);
+        }
 
         View dialogView = getLayoutInflater().inflate(R.layout.edit_profile, null);
         profilePic = dialogView.findViewById(R.id.editProfile);
+        camaraCircle = dialogView.findViewById(R.id.editPicture);
 
         // Get the profile picture URL from Firestore and load it into the ImageView
         DocumentReference userDocumentRef = firestore.collection("users").document(userId);
@@ -168,6 +178,12 @@ public class ProfileFragment extends Fragment {
 
                 builder.setView(dialogView);
                 builder.setCancelable(false);
+
+                ViewGroup currentParent = (ViewGroup) dialogView.getParent();
+                if (currentParent != null) {
+                    currentParent.removeView(dialogView);
+                }
+
                 AlertDialog dialog = builder.create();
                 dialog.show();
 
@@ -177,6 +193,16 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         Log.v(title, "Cancel button pressed");
+                        // Check if the user has a profile picture
+                        if (myImage != null) {
+                            // If the user has a profile picture, load it using Glide
+                            Glide.with(getContext())
+                                    .load(myImage)
+                                    .into(profilePic);
+                        } else {
+                            // If the user does not have a profile picture, set the default image resource
+                            profilePic.setImageResource(R.drawable.baseline_person_24);
+                        }
                         dialog.dismiss();
                     }
                 });
@@ -273,7 +299,7 @@ public class ProfileFragment extends Fragment {
                 });
 
 
-                profilePic.setOnClickListener(new View.OnClickListener() {
+                camaraCircle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Use the ImagePicker library with the fragment's context

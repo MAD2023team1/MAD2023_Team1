@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
+
 import org.w3c.dom.Text;
 
 /**
@@ -68,7 +70,16 @@ public class HomeFragment extends Fragment {
         TextView welcomeUser = inflatedHomeView.findViewById(R.id.textView4);
         ImageView homeProfile = inflatedHomeView.findViewById(R.id.imageView5);
         welcomeUser.setText(UserProfile.getName()+"!");
-        //UserProfile.setProfilePic(selectedImageUri);
+        homeProfile.setImageURI(UserProfile.getProfilePic());
+        if (UserProfile.getProfilePic() != null) {
+            // If the user has a profile picture, load it using Glide
+            Glide.with(getContext())
+                    .load(UserProfile.getProfilePic())
+                    .into(homeProfile);
+        } else {
+            // If the user does not have a profile picture, set the default image resource
+            homeProfile.setImageResource(R.drawable.baseline_person_24);
+        }
         // Inflate the layout for this fragment
         return inflatedHomeView;
 

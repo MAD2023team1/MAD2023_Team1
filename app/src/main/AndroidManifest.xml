@@ -37,6 +37,10 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".LoginOtpActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
             android:name=".HomePage"
             android:screenOrientation="portrait"
             android:exported="false" />
