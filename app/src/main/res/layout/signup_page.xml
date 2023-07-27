@@ -56,7 +56,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="20dp"
                         app:startIconDrawable="@drawable/baseline_person_24">
 
                         <EditText
@@ -74,7 +74,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="20dp"
                         app:startIconDrawable="@drawable/baseline_email_24">
 
                         <EditText
@@ -91,7 +91,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="20dp"
+                        app:startIconDrawable="@drawable/baseline_phone_android_24">
+
+
+                        <EditText
+                            android:id="@+id/mobile"
+                            style="@style/Widget.AppCompat.AutoCompleteTextView"
+                            android:layout_width="300dp"
+                            android:layout_height="60dp"
+                            android:hint="Mobile"
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="20dp"
                         app:startIconDrawable="@drawable/baseline_lock_24"
                         app:endIconMode="password_toggle">
 
@@ -105,12 +123,22 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
+                    <Switch
+                        android:id="@+id/switch1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2 factor authentication"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif-condensed"
+                        android:textSize="16dp"/>
+
                     <Button
                         android:id="@+id/signupBtn"
                         android:layout_width="300dp"
                         android:layout_height="60dp"
                         android:layout_gravity="center"
-                        android:layout_marginTop="30dp"
+                        android:layout_marginTop="20dp"
                         android:layout_marginBottom="30dp"
                         android:background="@color/darkblue"
                         android:text="@string/signUpButton"
