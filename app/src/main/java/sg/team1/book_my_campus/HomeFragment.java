@@ -1,6 +1,8 @@
 package sg.team1.book_my_campus;
 
+import android.media.Rating;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,11 +10,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,6 +34,9 @@ import org.w3c.dom.Text;
  * create an instance of this fragment.
  */
 public class HomeFragment extends Fragment {
+    String title = "HomeFragment";
+    ArrayList<Ratings> ratingsRoomArrayList = new ArrayList<>();
+    ArrayList<Ratings> topRatedRoomList = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -83,5 +100,42 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflatedHomeView;
 
+    }
+    public void readRatingsDocument() {
+        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
+                .collection("ratings")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title, "Getting ratings data");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot : snapshotList) {
+                            Ratings rating = snapshot.toObject(Ratings.class);
+                            Log.v(title, "onSuccess: " + snapshot.getData().toString());
+                            ratingsRoomArrayList.add(rating);
+                            Log.v(title, "onSuccess: " + rating.roomName);
+                            Log.v(title, "onSuccess" + rating.starRatings);
+                            Log.v(title, "onSuccess"+ rating.dateBooked);
+                            Log.v(title,"List size"+ratingsRoomArrayList.size());
+
+                        }
+
+                        for(Ratings room: ratingsRoomArrayList){
+                            //Find unique roomnames
+                            //Match the roomnames with each room.getName
+                            //add dictionary and divide by the number of roomsn, update dictionary accordingly.
+                            //limit the array to only 5 rooms and sort them from largest to smallest
+                            //then add them to an adapter? to show top 5 rating rooms
+                        }
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v(title, "onFailure: ", e);
+                    }
+                });
     }
 }
