@@ -24,6 +24,7 @@ public class HomePage extends AppCompatActivity {
     private static final int home_id = R.id.Home;
     private static final int explore_id = R.id.explore;
     private static final int mybooking_id = R.id.mybookings;
+
     private static final int profile_id = R.id.profile;
 
     @Override

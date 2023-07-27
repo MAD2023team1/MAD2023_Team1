@@ -83,7 +83,7 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         // Get the phone number passed from the previous activity
         //phoneNumber = "+65 " + UserProfile.getMobile();
-        phoneNumber = "+65 " + UserProfile.getMobile();
+        phoneNumber = "+6500000000";
         Log.i(title, "User phone number: "+ phoneNumber);
 
         //make login button invisible
@@ -106,6 +106,8 @@ public class LoginOtpActivity extends AppCompatActivity {
     void sendOtp(String phoneNumber,boolean isResend){
         startResendTimer();
         setInProgress(true);
+        //set to true for testing
+        mAuth.getFirebaseAuthSettings().setAppVerificationDisabledForTesting(true);
         PhoneAuthOptions.Builder builder =
                 PhoneAuthOptions.newBuilder(mAuth)
                         .setPhoneNumber(phoneNumber)
@@ -116,13 +118,13 @@ public class LoginOtpActivity extends AppCompatActivity {
                             public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
 //                                signIn(phoneAuthCredential);
                                 linkCredential(phoneAuthCredential);
-                                setInProgress(true);
+                                finish(true);
                             }
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
                                 Toast.makeText(getApplicationContext(),"OTP verification failed",Toast.LENGTH_SHORT).show();
-                                setInProgress(true);
+                                finish(true);
                             }
 
                             @Override
