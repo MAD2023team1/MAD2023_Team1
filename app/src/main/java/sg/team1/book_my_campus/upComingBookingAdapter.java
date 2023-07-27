@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBookingAdapter.MyViewHolder> {
     private final RecyclerViewInterface recyclerViewInterface;
@@ -218,10 +219,14 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     public void checkUpcomingBookings(){
         //Add to upcoming list
         upcomingList.clear();
+        int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        String currentDate  =  new SimpleDateFormat("dd/M/yyyy", Locale.getDefault()).format(new Date());
         for (Booking booking:bookingList)
         {
             Log.v(title,"My name:" +myName);
             Log.v(title,"booking name:" +booking.getName());
+            Log.v(title,"Timeslot:" +booking.getTimeSlot());
+            int startHour = Integer.parseInt(booking.getTimeSlot().substring(0, 2));
             if (booking.getName() != null)
             {
                 if(booking.getName().equals(myName))
@@ -230,9 +235,38 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                     {
                         if (!booking.isCanceled())
                         {
-                            upcomingList.add(booking);
 
-                            Log.v(title,"booking added to upcoming" + booking.name);
+                            if ( (startHour<currentHour || startHour==currentHour) && booking.getDate().equals(currentDate)){
+                                upcomingList.add(booking);
+                                Log.v(title,"booking added to upcoming" + booking.name);
+                            }
+                            else{
+                                booking.setCanceled(true);
+                                Log.v(title,"booking cancelled" + booking.isCanceled());
+                            }
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/M/yyyy");
+                            Date bookingDate = null;
+                            Date date = null;
+                            try {
+                                 bookingDate = simpleDateFormat.parse(booking.getDate());
+                                 date = simpleDateFormat.parse(currentDate);
+                            } catch (ParseException e) {
+                                throw new RuntimeException(e);
+                            }
+                            if (bookingDate!=null & date!= null)
+                            {
+                                if (bookingDate.compareTo(date) > 0)
+                                {
+                                    booking.setCanceled(true);
+                                    Log.v(title,"booking expired: " + booking.getDate());
+
+                                }
+                                else {
+                                    upcomingList.add(booking);
+                                }
+
+                            }
+
                         }
 
                     }
