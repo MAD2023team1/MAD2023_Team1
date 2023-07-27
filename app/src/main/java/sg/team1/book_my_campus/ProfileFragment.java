@@ -298,7 +298,7 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
-
+                //Image picker to allow camera or gallery photos
                 camaraCircle.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
