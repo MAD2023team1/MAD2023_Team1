@@ -83,7 +83,7 @@ public class LoginOtpActivity extends AppCompatActivity {
 
         // Get the phone number passed from the previous activity
         //phoneNumber = "+65 " + UserProfile.getMobile();
-        phoneNumber = "+65 " + 12345678;
+        phoneNumber = "+65 " + UserProfile.getMobile();
         Log.i(title, "User phone number: "+ phoneNumber);
 
         //make login button invisible
