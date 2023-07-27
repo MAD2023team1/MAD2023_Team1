@@ -1,7 +1,10 @@
 package sg.team1.book_my_campus;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
@@ -12,6 +15,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +54,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     Location currentLocation;
     private ActivityMapsBinding binding;
+    private int GPS_REQUEST_CODE=9001;
     Button button,buttonRoom;
 
     FusedLocationProviderClient mLocationClient;
@@ -86,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               {
                   gotoLocation(1.3337153060893068, 103.77680598179548);
               }
-              else if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")){
+              if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")){
                   gotoLocation(1.334247772539461, 103.77549871381547);
               }
 
@@ -119,7 +124,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (roomName.matches("iSpace")) {
 
             //mMap.addMarker(new MarkerOptions().position(NP).title("NP Entrance"));
-            Log.v(title, "onsucess " + roomName);
+            Log.v(title, "onSuccess marker" + roomName);
             mMap.addMarker(new MarkerOptions().position(ISpace).title("iSpace rooms"));
         }
         if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")) {
@@ -166,22 +171,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void initialise() {
-        if (PermissionGranted = true) {
+        if (PermissionGranted==true) {
+            if (GpsEnabled()) {
 
 
                 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
                 SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.map);
                 mapFragment.getMapAsync(this);
-
-
+            }
         }
 
     }
-    /*public boolean GpsEnabled()
+    public boolean GpsEnabled()
     {
         LocationManager locationManager =(LocationManager) getSystemService(LOCATION_SERVICE);
-    }*/
+        boolean providerEnable = locationManager.isProviderEnabled(locationManager.GPS_PROVIDER);
+        if(providerEnable){
+            return true;
+        }else
+        {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("Permissions settings")
+                    .setMessage("Enable GPS?")
+                    .setPositiveButton("Enable",((dialogInterface,i)->
+                    {Intent intent= new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+
+
+
+                    }))
+                    .setCancelable(false).show();
+
+
+                            }
+        return false;
+    }
 
     public void getCurrentLoc() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -203,6 +228,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void onMapReady(@NonNull GoogleMap googleMap) {
                             if (location != null) {
+                                currentLocation=location;
+
                                 LatLng latlng = new LatLng(location.getLatitude(), location.getLongitude());
                                 MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Current Location");
                                 mMap.addMarker(markerOptions);
@@ -211,8 +238,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-                        else{Toast.makeText(MapsActivity.this,"Please enable location services",Toast.LENGTH_SHORT).show();
-                            Log.v(title,"hi" +location.getLatitude());
+                        else{Toast.makeText(MapsActivity.this,"Please Enable Location Services",Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });
@@ -244,5 +271,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==GPS_REQUEST_CODE){
+            LocationManager locationManager =(LocationManager) getSystemService(LOCATION_SERVICE);
+            boolean providerEnable = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+            if(providerEnable)
+            {
+                Toast.makeText(this,"GPS is enabled ",Toast.LENGTH_SHORT).show();
+            }else
+            {
+                Toast.makeText(this,"Not enabled",Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
