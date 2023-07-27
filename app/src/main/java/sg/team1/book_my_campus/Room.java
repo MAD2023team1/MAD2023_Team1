@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 public class Room implements Parcelable {
-    public int roomNumber;
+    public int roomID;
     public String roomName;
     public String description;
     public String location;
@@ -21,8 +21,8 @@ public class Room implements Parcelable {
     public Room() {
     }
 
-    public Room(int roomNumber,String roomName, String description, String location, int level, String building, int capacity, String category, boolean isAvail,int image, boolean isRoomLiked) {
-        this.roomNumber = roomNumber;
+    public Room(int roomID,String roomName, String description, String location, int level, String building, int capacity, String category, boolean isAvail,int image, boolean isRoomLiked) {
+        this.roomID = roomID;
         this.roomName = roomName;
         this.description = description;
         this.location = location;
@@ -36,7 +36,7 @@ public class Room implements Parcelable {
     }
 
     protected Room(Parcel in) {
-        roomNumber = in.readInt();
+        roomID = in.readInt();
         roomName = in.readString();
         description = in.readString();
         location = in.readString();
@@ -61,12 +61,12 @@ public class Room implements Parcelable {
         }
     };
 
-    public int getRoomNumber() {
-        return roomNumber;
+    public int getRoomID() {
+        return roomID;
     }
 
     public void setRoomNumber(int roomNumber) {
-        this.roomNumber = roomNumber;
+        this.roomID = roomID;
     }
     public String getRoomName() {
         return roomName;
@@ -152,7 +152,7 @@ public class Room implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeInt(roomNumber);
+        parcel.writeInt(roomID);
         parcel.writeString(roomName);
         parcel.writeString(description);
         parcel.writeString(location);

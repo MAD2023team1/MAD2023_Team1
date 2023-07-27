@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -107,9 +108,6 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                             bookingHistModels.add(booking);
                             Log.v(title,"Success"+bookingHistModels.size());
                             Log.v(title,"Success"+snapshot.getId());
-
-
-
                         }
                         adapter.notifyDataSetChanged();
                         adapter.checkBookings();
@@ -117,6 +115,7 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                 });
 
     }
+
 
 
     @Override
