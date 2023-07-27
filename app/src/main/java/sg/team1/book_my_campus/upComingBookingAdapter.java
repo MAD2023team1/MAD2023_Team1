@@ -233,6 +233,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
             Log.v(title,"booking name:" +booking.getName());
             Log.v(title,"Timeslot:" +booking.getTimeSlot());
             int startHour = Integer.parseInt(booking.getTimeSlot().substring(0, 2));
+            Log.v(title, "start hour:"+startHour);
             if (booking.getName() != null)
             {
                 if(booking.getName().equals(myName))
@@ -248,7 +249,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                             }
                             else{
                                 booking.setCanceled(true);
-                                Log.v(title,"booking cancelled" + booking.isCanceled());
+                                Log.v(title,"booking cancelled:" + booking.isCanceled());
                             }
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/M/yyyy");
                             Date bookingDate = null;
@@ -259,16 +260,36 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                             } catch (ParseException e) {
                                 throw new RuntimeException(e);
                             }
+                            Log.v(title,"Booking date:"+bookingDate);
+                            Log.v(title,"Current date:"+date);
                             if (bookingDate!=null & date!= null)
                             {
-                                if (bookingDate.compareTo(date) > 0)
+                                if (bookingDate.compareTo(date) < 0)
                                 {
                                     booking.setCanceled(true);
                                     Log.v(title,"booking expired: " + booking.getDate());
+                                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                                    firestore.collection("bookings").document(booking.docid)
+                                            .update("isCanceled",true)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void unused) {
+                                                    Log.v(title,"booking expired, updated to db");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Log.v(title,"booking expired, update failure");
+
+                                                }
+                                            });
+
 
                                 }
                                 else {
                                     upcomingList.add(booking);
+                                    Log.v(title,"booking added to upcoming:" + booking.name);
                                 }
 
                             }
