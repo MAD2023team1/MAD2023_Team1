@@ -55,8 +55,13 @@
     <string name="CancelBooking">Cancel Booking</string>
     <string name="BookedOn"></string>
     <string name="Status">Status:</string>
-    <string name="calendarIntegration"> Add to calendar</string>
+    <string name="my_map_api_key">AIzaSyBmzgckPmiLgHSyAQ15jUamS_PJKctrdTo</string>
     <string name="direction">Get directions</string>
+    <string name="calendarIntegration">Add to calendar</string>
+
     <string name="logoutText"> Log out</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="getDirections">Get Directions here</string>
 
 </resources>

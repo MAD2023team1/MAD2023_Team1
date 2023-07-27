@@ -71,6 +71,12 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                 checkInOrCancelAlertBox(holder);
             }
         });
+        holder.direction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                googleMapIntegration(holder);
+            }
+        });
         holder.calendarInt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,6 +223,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         alertDialog.show();
     }
     public void checkUpcomingBookings(){
+        //Add to upcoming list
         upcomingList.clear();
         int currentHour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         String currentDate  =  new SimpleDateFormat("dd/M/yyyy", Locale.getDefault()).format(new Date());
@@ -276,6 +283,13 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
         }
 
+    }
+    public void googleMapIntegration(upComingBookingAdapter.MyViewHolder holder)
+    {
+        Intent intent = new Intent(context,MapsActivity.class);
+        intent.putExtra("RoomName",upcomingList.get(holder.getAdapterPosition()).getRoomName());
+        Log.v(title,"roomname here 1+ "+upcomingList.get(holder.getAdapterPosition()).getRoomName());
+        context.startActivity(intent);
     }
 
 
