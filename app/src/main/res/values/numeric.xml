@@ -15,4 +15,12 @@
         <item>3</item>
         <item>4</item>
     </integer-array>
+
+    <integer-array name="room_ID">
+        <item>201</item>
+        <item>301</item>
+        <item>302</item>
+        <item>303</item>
+        <item>401</item>
+    </integer-array>
 </resources>
