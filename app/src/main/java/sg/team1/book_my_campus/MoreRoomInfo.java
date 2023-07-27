@@ -10,11 +10,15 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -34,11 +38,13 @@ public class MoreRoomInfo extends AppCompatActivity {
     ArrayList<Room>favRoomList = new ArrayList<>();
     ArrayList<Ratings> ratingList = new ArrayList<>();
 
+
     String title ="MoreRoomInfo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_room_info2);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
@@ -63,7 +69,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         TextView rmLocation = findViewById(R.id.textView11);
         TextView rmLevel = findViewById(R.id.textView13);
         TextView rmCapacity = findViewById(R.id.textView12);
-        TextView displayRatings = findViewById(R.id.ratings);
+        TextView displayRatings = findViewById(R.id.textView22);
 
         //Assign the values from what we have extracted from the ExploreFragment to the MoreRoomInfo.xml file
         rmTV.setText(roomName);
@@ -71,11 +77,19 @@ public class MoreRoomInfo extends AppCompatActivity {
         rmLocation.setText("Location:"+ roomLocation);
         rmLevel.setText("Level "+roomLevel);
         rmCapacity.setText("Capacity:"+roomCapacity);
+        displayRatings.setText("Ratings:");
+        TextView textView22 = findViewById(R.id.textView22);
+        boolean isInsideScrollView = isInsideScrollView(textView22);
+        Log.d("Scroll Check", "textView22 is inside a ScrollView: " + isInsideScrollView);
+
         //set the title of the action bar based on each room name
         actionBar.setTitle(roomName);
 
         //Read the ratings Firebase
         readRatingsDocument();
+
+        //set adapter after the thing is passed in
+
 
         //when user click on book now button, it will redirect the user to book now page
         // Initialize the button and set the click listener
@@ -176,10 +190,13 @@ public class MoreRoomInfo extends AppCompatActivity {
                         String roomName = getIntent().getStringExtra("roomName");
                         float roomRatings = 0;
                         int count = 0;
+                        boolean roomHasRatings = false;
                         for(Ratings rating: ratingList){
+
                             Log.v(title, "In theloop:" + rating.roomName);
                             Log.v(title, "In theloop2:"+  roomName);
                             if(rating.roomName.equals(roomName)){
+                                roomHasRatings = true;
                                 count += 1;
                                 Log.v(title, "Count:"+count);
                                 Log.v(title, "Beach room ratings:" +rating.starRatings);
@@ -187,10 +204,27 @@ public class MoreRoomInfo extends AppCompatActivity {
                                 roomRatings = roomRatings/count;
                                 Log.v(title, "each room ratings:" +rating.starRatings);
                                 Log.v(title,"sum of ratings:"+roomRatings);
-                                TextView displayRatings = findViewById(R.id.ratings);
-                                displayRatings.setText(String.valueOf(roomRatings));
+
+                            }
+                            else{
+                                roomHasRatings = false;
                             }
                         }
+                        if(roomHasRatings== true){
+                            TextView displayRatings = findViewById(R.id.textView22);
+                            displayRatings.setText(String.valueOf(roomRatings));
+                            RecyclerView recyclerView = findViewById(R.id.commentRecycler);
+                            Log.v("AdapterDebug", "RatingList size: " + ratingList.size());
+                            comments_adapter adapater = new comments_adapter(MoreRoomInfo.this, ratingList);
+                            recyclerView.setAdapter(adapater);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MoreRoomInfo.this));
+                        }
+                        else{
+                            TextView displayRatings = findViewById(R.id.textView22);
+                            displayRatings.setText(String.valueOf("There are no ratings for this room so far."));
+                        }
+
+
                     }
 
                 })
@@ -201,6 +235,21 @@ public class MoreRoomInfo extends AppCompatActivity {
                     }
                 });
     }
+    public static boolean isInsideScrollView(View view) {
+        ViewParent parent = view.getParent();
+        while (parent != null) {
+            if (parent instanceof ScrollView) {
+                return true; // The view is inside a ScrollView
+            }
+            parent = parent.getParent();
+        }
+        return false; // The view is not inside a ScrollView
+    }
+
+    private void setUpCommentsModel(){
+
+    }
+
 
     // ltr come back and do share
     //SHARE THE SMART ROOM

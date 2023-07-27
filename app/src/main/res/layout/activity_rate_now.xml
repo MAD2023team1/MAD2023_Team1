@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="221dp"
         android:layout_marginBottom="344dp"
-        android:contentDescription="Ratie the room out of 5 stars"
+        android:contentDescription="Rate the room out of 5 stars"
         android:numStars="5"
         android:progressBackgroundTint="#C6C3BF"
         android:progressTint="#FF9800"
