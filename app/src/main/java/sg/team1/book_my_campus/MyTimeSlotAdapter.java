@@ -55,29 +55,34 @@ public class MyTimeSlotAdapter extends RecyclerView.Adapter<MyTimeSlotViewHolder
 
 
 
-        if (timeSlotList.get(position).isAvail() == true) {
+        if (timeSlotList.get(holder.getAdapterPosition()).isAvail() == true) {
             holder.txt_time_slot_description.setText("Available");
-            if (timeSlotList.get(position).isCheckTime() == false) {
+            holder.txt_time_slot_description.setTextColor(Color.parseColor("#008000"));
+            if (timeSlotList.get(holder.getAdapterPosition()).isCheckTime() == false) {
                 holder.txt_time_slot_description.setText("Unavailable");
+                holder.txt_time_slot_description.setTextColor(Color.parseColor("#FF0000"));
+
 
             }
         }
 
 
 
-         //if all slots is available,show
+
         else {
 
             holder.txt_time_slot_description.setText("Booked");
+            holder.txt_time_slot_description.setTextColor(Color.parseColor("#FF0000"));
 
 
-            if(timeSlotList.get(position).isCheckTime()==false){
+            if(timeSlotList.get(holder.getAdapterPosition()).isCheckTime()==false){
                 holder.txt_time_slot_description.setText("Unavailable");
+                holder.txt_time_slot_description.setTextColor(Color.parseColor("#FF0000"));
 
             }
 
 
-        }//if some are booked
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
