@@ -1,7 +1,9 @@
 package sg.team1.book_my_campus;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,20 +23,21 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
     Context context;
     ArrayList<Booking>bookingHistModels;
     ArrayList<Booking>bookingHistList;
+
+    ArrayList<Ratings>ratingsList;
+
+
+
     String myName;
 
-    Boolean submittedFeedback;
-
     private final RecyclerViewInterface recyclerViewInterface;
-    public bookingHistory_adapter(Context context, ArrayList<Booking> bookingHistModels, RecyclerViewInterface recyclerViewInterface, ArrayList<Booking>bookingHistList,String myName,boolean submittedFeedback){
+    public bookingHistory_adapter(Context context, ArrayList<Booking> bookingHistModels, RecyclerViewInterface recyclerViewInterface, ArrayList<Booking>bookingHistList,String myName, ArrayList<Ratings> ratingsList){
         this.context = context;
         this.bookingHistModels = bookingHistModels;
         this.recyclerViewInterface = recyclerViewInterface;
         this.bookingHistList = bookingHistList;
         this.myName = myName;
-        this.submittedFeedback = submittedFeedback;
-
-
+        this.ratingsList = ratingsList;
     }
     @NonNull
     @Override
@@ -51,12 +54,13 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
     }
     @Override
     public int getItemViewType(int position) {
-        if (bookingHistList.get(position).isCanceled) {
-            // View type for cancelled bookings
-            return 1;
-        } else {
-            // View type non-cancelled bookings
+        if (bookingHistList.get(position).isCheckedIn) {
+            // View type for checked-in bookings
             return 0;
+        }
+        else {
+            // View type for cancelled and non-checked-in  bookings
+            return 1;
         }
     }
 
@@ -67,34 +71,46 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         holder.roomName.setText(bookingHistList.get(holder.getAdapterPosition()).getRoomName());
         holder.DateBooked.setText(bookingHistList.get(holder.getAdapterPosition()).getDate());
         holder.Timeslot.setText(bookingHistList.get(holder.getAdapterPosition()).getTimeSlot());
-        if (bookingHistList.get(position).isCanceled)
+
+        if (bookingHistList.get(holder.getAdapterPosition()).isCanceled)
         {
             holder.Status.setText("Cancelled");
         }
-        else if (bookingHistList.get(position).isCheckedIn)
+        else if (bookingHistList.get(holder.getAdapterPosition()).isCheckedIn)
         {
+
             holder.Status.setText("Checked In");
-            holder.rateNowBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(submittedFeedback == false){
-                        Intent rateNowPage = new Intent(holder.itemView.getContext(), rateNow.class);
+            if (!bookingHistList.get(holder.getAdapterPosition()).isRated())
+            {
+                holder.rateNowBtn.setBackgroundColor(Color.parseColor("#59738d"));
+                holder.rateNowBtn.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        Intent rateNowPage = new Intent(context, rateNow.class);
                         //pass the information of roomID, datebook and timeslot onto the next page
+                        rateNowPage.putExtra("userName", myName);
                         rateNowPage.putExtra("roomName", bookingHistList.get(holder.getAdapterPosition()).getRoomName());
                         rateNowPage.putExtra("dateBooked", bookingHistList.get(holder.getAdapterPosition()).getDate());
                         rateNowPage.putExtra("Timeslot", bookingHistList.get(holder.getAdapterPosition()).getTimeSlot());
                         // Start the rateNow activity
-                        holder.itemView.getContext().startActivity(rateNowPage);
+                        context.startActivity(rateNowPage);
                     }
-                    else{
-                       holder.rateNowBtn.setEnabled(false);
-                       Toast.makeText(v.getContext(), "You have already rated the room.",Toast.LENGTH_SHORT).show();
+                });
+            }
+            else
+            {
+                Log.v(title,"bookinghistlist:"+bookingHistList.get(holder.getAdapterPosition()).isRated + bookingHistList.get(holder.getAdapterPosition()).name
+                        +bookingHistList.get(holder.getAdapterPosition()).date +bookingHistList.get(holder.getAdapterPosition()).timeSlot);
+                holder.rateNowBtn.setBackgroundColor(Color.parseColor("#D3D3D3"));
+                holder.rateNowBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(context,"Rated already",Toast.LENGTH_SHORT).show();
                     }
+                });
 
-
-                }
-            });
-
+            }
         }
         else
         {
@@ -124,6 +140,26 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         }
 
     }
+    public void checkRatings()
+    {
+        for (Booking booking:bookingHistList)
+        {
+            if (booking.isCheckedIn)
+            {
+                for (Ratings r: ratingsList)
+                {
+                    if (r.userName.equals(booking.name) & r.dateBooked.equals(booking.date) & r.timeSlot.equals(booking.timeSlot) & r.roomName.equals(booking.roomName))
+                    {
+                        booking.setRated(true);
+                        Log.v(title,"Ratings:"+r.userName+" "+ r.roomName +" "+r.timeSlot +" "+ r.dateBooked );
+                        Log.v(title,"Booking:"+booking.name+" "+ booking.roomName +" "+booking.timeSlot +" "+ booking.date+" "+booking.isRated());
+                    }
+                }
+            }
+        }
+    }
+
+
 
     protected void setSubmittedFeedback(Boolean submittedFeedback) {
     }
@@ -140,5 +176,6 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
             rateNowBtn = itemView.findViewById(R.id.button4);
         }
     }
+
 
 }

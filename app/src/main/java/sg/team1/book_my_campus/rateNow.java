@@ -47,8 +47,7 @@ public class rateNow extends AppCompatActivity {
     String timeslot;
 
     String documentUserID;
-
-    boolean submittedFeedback = false;
+    String userName;
 
     private boolean feedbackSubmissionListener = false;
 
@@ -84,8 +83,6 @@ public class rateNow extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //set submitted feedback to true
-                submittedFeedback = true;
                 //see the feedback that the user typed
                 String feedbackText = tvFeedbackBar.getText().toString().trim();
                 Log.v(title, "Feedback:" + feedbackText);
@@ -97,6 +94,8 @@ public class rateNow extends AppCompatActivity {
                 Log.v(title, "getRatings:" + getRatings);
                 //get the roomID, datebooked and timeslot from booking History
                 Intent intentFromBookingHist = getIntent();
+                userName = intentFromBookingHist.getStringExtra("userName");
+                Log.v(title, "roomName:" + userName);
                 roomName = intentFromBookingHist.getStringExtra("roomName");
                 Log.v(title, "roomName:" + roomName);
                 datebooked = intentFromBookingHist.getStringExtra("dateBooked");
@@ -140,9 +139,8 @@ public class rateNow extends AppCompatActivity {
 
                                 } else {
                                     Log.v(title,"UserDoc in else:" + documentUserID);
-                                    Ratings ratings = new  Ratings(roomName,documentUserID,feedbackText,getRatings,datebooked,timeslot);
+                                    Ratings ratings = new  Ratings(userName,roomName,documentUserID,datebooked,timeslot,feedbackText,getRatings);
                                     ratingsToDB(ratings);
-                                    finish();
                                     Toast.makeText(rateNow.this, "Feedback posted successfully!", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
@@ -172,20 +170,23 @@ public class rateNow extends AppCompatActivity {
    private void ratingsToDB(Ratings rating) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> ratings = new HashMap<>();
+        ratings.put("userName",rating.userName);
         ratings.put("roomName", rating.roomName);
-       ratings.put("comment", rating.comment);
-       ratings.put("starRatings", rating.starRatings);
-       ratings.put("userID", rating.userID);
-       ratings.put("dateBooked", rating.dateBooked);
-       ratings.put("timeSlot", rating.timeSlot);
+        ratings.put("comment", rating.comment);
+        ratings.put("starRatings", rating.starRatings);
+        ratings.put("userID", rating.userID);
+        ratings.put("dateBooked", rating.dateBooked);
+        ratings.put("timeSlot", rating.timeSlot);
         db.collection("ratings").add(ratings).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if (task.isSuccessful()) {
                     Log.v(title, "booking added to db");
+                    finish();
                 }
             }
         });
+
     }
 
 }

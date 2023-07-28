@@ -35,9 +35,10 @@ class comments_adapter extends RecyclerView.Adapter<comments_adapter.MyViewHolde
 
     @Override
     public void onBindViewHolder(@NonNull comments_adapter.MyViewHolder holder, int position) {
-        holder.userName.setText(ratingList.get(position).getUserID());
+        holder.userName.setText("By:"+ratingList.get(position).getUserName());
         holder.comments.setText(ratingList.get(position).getComment());
         holder.ratingBar.setRating(ratingList.get(position).getStarRatings());
+        holder.ratingBar.setEnabled(false);
         Log.v(title, "userID:" + ratingList.get(position).getUserID());
         Log.v(title, "comments:" + ratingList.get(position).getComment());
         Log.v(title, "ratingBar:" + ratingList.get(position).getStarRatings());

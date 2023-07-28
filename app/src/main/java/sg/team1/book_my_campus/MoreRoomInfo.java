@@ -38,6 +38,8 @@ public class MoreRoomInfo extends AppCompatActivity {
     ArrayList<Room>favRoomList = new ArrayList<>();
     ArrayList<Ratings> ratingList = new ArrayList<>();
 
+    ArrayList<Ratings> roomWithRatingList = new ArrayList<>();
+
 
     String title ="MoreRoomInfo";
     @Override
@@ -192,32 +194,41 @@ public class MoreRoomInfo extends AppCompatActivity {
                         int count = 0;
                         boolean roomHasRatings = false;
                         for(Ratings rating: ratingList){
-
-                            Log.v(title, "In theloop:" + rating.roomName);
-                            Log.v(title, "In theloop2:"+  roomName);
-                            if(rating.roomName.equals(roomName)){
-                                roomHasRatings = true;
+                            String eachRoom = rating.roomName;
+                            String theRoom = roomName;
+                            Log.v(title, "In theloop:" + eachRoom);
+                            Log.v(title, "In theloop2:"+  theRoom);
+                            if(eachRoom.equals(theRoom)){
+                                roomWithRatingList.add(rating);
                                 count += 1;
                                 Log.v(title, "Count:"+count);
                                 Log.v(title, "Beach room ratings:" +rating.starRatings);
                                 roomRatings += rating.starRatings;
-                                roomRatings = roomRatings/count;
                                 Log.v(title, "each room ratings:" +rating.starRatings);
-                                Log.v(title,"sum of ratings:"+roomRatings);
-
-                            }
-                            else{
-                                roomHasRatings = false;
                             }
                         }
-                        if(roomHasRatings== true){
+
+                        Log.v(title, "Room Has Ratings Boolean:"+ roomHasRatings);
+                        if(roomWithRatingList.size() != 0){
+                            float eachRoomRatings = 0;
+                            int countRoom = 0;
+                            float totalEachRoom = 0;
+                            for(Ratings eachRoom :roomWithRatingList ){
+
+                                countRoom += 1;
+                                eachRoomRatings += eachRoom.starRatings;
+                                totalEachRoom = eachRoomRatings/countRoom;
+                                Log.v(title,"New Ratings:"+ eachRoomRatings);
+
+                            }
                             TextView displayRatings = findViewById(R.id.textView22);
-                            displayRatings.setText(String.valueOf(roomRatings));
+                            displayRatings.setText(String.valueOf(totalEachRoom));
                             RecyclerView recyclerView = findViewById(R.id.commentRecycler);
-                            Log.v("AdapterDebug", "RatingList size: " + ratingList.size());
-                            comments_adapter adapater = new comments_adapter(MoreRoomInfo.this, ratingList);
+                            Log.v("AdapterDebug", "RatingList size: " + roomWithRatingList.size());
+                            comments_adapter adapater = new comments_adapter(MoreRoomInfo.this, roomWithRatingList);
                             recyclerView.setAdapter(adapater);
                             recyclerView.setLayoutManager(new LinearLayoutManager(MoreRoomInfo.this));
+
                         }
                         else{
                             TextView displayRatings = findViewById(R.id.textView22);
