@@ -202,7 +202,7 @@ public class HomeFragment extends Fragment {
 
                         //obtaining room Names from the room dataset stored in strings.xml
                         String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
-                        int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4, R.drawable.swimmingpool, R.drawable.gymwerkz,R.drawable.musicroomcropped};
+                        int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4, R.drawable.swimmingpool, R.drawable.gymwerkz,R.drawable.musicroomcroppedtwo};
                         // loop through this if both name matches with the top 3, create a top3 room model.
                         // Loop through the entries to find the top 3 rated rooms
                         RecyclerView recyclerView = inflatedHomeView.findViewById(R.id.topRoomRecyclerView);
