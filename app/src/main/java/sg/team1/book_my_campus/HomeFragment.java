@@ -204,45 +204,27 @@ public class HomeFragment extends Fragment {
                         String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
                         int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4};
                         // loop through this if both name matches with the top 3, create a top3 room model.
-                        for(String name: roomNamesFromString){
-                            //get the name of the top 3 rated room Names
-                            if (entryAvg.size() !=0){
-                                RecyclerView recyclerView = inflatedHomeView.findViewById(R.id.topRoomRecyclerView);
-                                String topRatedRoom1 = entryAvg.get(lastIndex).getKey();
-                                if(name.equals(topRatedRoom1)){
-                                    //convert this array into a list to find the index of the roomName as all of the image are in the same order as well
-                                    //array does not have the method index Of
-                                    float topRatedRoom1Ratings = entryAvg.get(lastIndex).getValue();
-                                    int indexTopRatedRoom = Arrays.asList(roomNamesFromString).indexOf(topRatedRoom1);
-                                    top_rated_room_model roomRating = new top_rated_room_model(topRatedRoom1Ratings, roomImages[indexTopRatedRoom],topRatedRoom1);
-                                    top_rated_room_modelsList.add(roomRating);
-                                    Log.v(title, "Name in our database:" + name);
-                                    top_room_adapter adapter = new top_room_adapter(getContext(), top_rated_room_modelsList);
-                                    recyclerView.setAdapter(adapter);
-                                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                                }
-                                if(entryAvg.size() ==2){
-                                    String topRatedRoom2 = entryAvg.get(lastIndex-1).getKey();
-                                    if(name.equals(topRatedRoom1) || name.equals(topRatedRoom2)){
-                                        Log.v(title, "Name in our database:" + name);
-                                    }
-                                }
-                                if(entryAvg.size() == 3){
-                                    String topRatedRoom2 = entryAvg.get(lastIndex-1).getKey();
-                                    String topRatedRoom3 = entryAvg.get(lastIndex-2).getKey();
-                                    if(name.equals(topRatedRoom1) || name.equals(topRatedRoom2) || name.equals(topRatedRoom3)){
-                                        Log.v(title, "Name in our database:" + name);
-                                    }
-                                }
-
-
-                                //check if the name in the room equals to the 3 rooms above
-
-
+                        // Loop through the entries to find the top 3 rated rooms
+                        RecyclerView recyclerView = inflatedHomeView.findViewById(R.id.topRoomRecyclerView);
+                        for (int i = lastIndex; i > lastIndex - 3 && i >= 0; i--) {
+                            String topRatedRoom = entryAvg.get(i).getKey();
+                            if (Arrays.asList(roomNamesFromString).contains(topRatedRoom)) {
+                                float topRatedRoomRatings = entryAvg.get(i).getValue();
+                                int indexTopRatedRoom = Arrays.asList(roomNamesFromString).indexOf(topRatedRoom);
+                                top_rated_room_model roomRating = new top_rated_room_model(topRatedRoomRatings, roomImages[indexTopRatedRoom], topRatedRoom);
+                                top_rated_room_modelsList.add(roomRating);
+                                Log.v(title, "Name in our database:" + topRatedRoom);
                             }
-
-
                         }
+
+// Set up the adapter after the loop
+                        top_room_adapter adapter = new top_room_adapter(getContext(), top_rated_room_modelsList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+
+
 
                     }
 
