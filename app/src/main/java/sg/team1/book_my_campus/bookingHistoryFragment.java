@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Parcelable;
 import android.util.Log;
@@ -43,9 +45,10 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     String title = "Booking History";
     ArrayList<Booking> bookingHistModels = new ArrayList<>();
     ArrayList<Booking> bookinghistList = new ArrayList<>();
+    ArrayList<Ratings> ratingsList = new ArrayList<>();
     bookingHistory_adapter adapter;
-    private boolean submittedFeedback = false;
     String myName;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public bookingHistoryFragment() {
         // Required empty public constructor
@@ -83,25 +86,42 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                              Bundle savedInstanceState) {
 
         myName = UserProfile.getName();
+
         readDoc();
         View rootView = inflater.inflate(R.layout.fragment_booking_history, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewHist);
-        Bundle bundle = getArguments();
+        /*Bundle bundle = getArguments();
         if(bundle != null){
-            Boolean submittedFeedback = bundle.getBoolean("submittedFeedback");
+            submittedFeedback = bundle.getBoolean("submittedFeedback");
         }
         else{
             Log.v(title, "Bundle is Null");
-        }
-        Log.v(title, "submitted feedback from rate now:" + submittedFeedback);
-        adapter = new bookingHistory_adapter(getContext(), bookingHistModels, this,bookinghistList,myName, submittedFeedback);
+        }*/
+        adapter = new bookingHistory_adapter(getContext(), bookingHistModels, this,bookinghistList,myName,ratingsList);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter.checkBookings();
+        adapter.checkRatings();
+
+        swipeRefreshLayout = rootView.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                readDoc();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
+
+
         return rootView;
     }
     public void readDoc(){
+        bookinghistList.clear();
+        bookingHistModels.clear();
+        ratingsList.clear();
+
         Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
                 .collection("bookings")
                 .get()
@@ -119,13 +139,43 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                             Log.v(title,"Success"+bookingHistModels.size());
                             Log.v(title,"Success"+snapshot.getId());
                         }
-                        adapter.notifyDataSetChanged();
-                        adapter.checkBookings();
+                        readRatingsDoc();
+
                     }
                 });
 
     }
+    public void readRatingsDoc(){
 
+        Task<QuerySnapshot> db = FirebaseFirestore.getInstance()
+                .collection("ratings")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title,"retrieving data");
+                        List<DocumentSnapshot> docsnapList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot:docsnapList
+                        ) { Ratings rating =snapshot.toObject(Ratings.class);
+                            Log.v(title,"Rating:"+snapshot.getData().toString());
+                            Log.v(title,"Rating:"+rating.userName);
+                            ratingsList.add(rating);
+                            Log.v(title,"Rating:"+ratingsList.size());
+                        }
+                        adapter.checkBookings();
+                        adapter.checkRatings();
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+    }
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        Log.v(title,"On Resume");
+
+    }
 
 
 
@@ -140,4 +190,6 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     public void onItemClicked(Booking booking) {
 
     }
+
+
 }

@@ -10,51 +10,70 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.ThrowOnExtraProperties;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MoreRoomInfo extends AppCompatActivity {
     Button bookNowbt;
     boolean isRoomLiked;
-    ArrayList<Room>favRoomList = new ArrayList<>();
+    ArrayList<Favourites>favRoomList = new ArrayList<>();
     ArrayList<Ratings> ratingList = new ArrayList<>();
+
+    ArrayList<Ratings> roomWithRatingList = new ArrayList<>();
+    String name,password,email,roomName,roomLocation;
+    int roomImage,roomLevel,roomCapacity;
+    Room room;
+    Button likedButton;
+
 
     String title ="MoreRoomInfo";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_room_info2);
+
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
 
 
         //Extract the variables and information passed from the explore fragment
-        String name = UserProfile.getName();
-        String password = UserProfile.getPassword();
-        String email = UserProfile.getEmail();
-        String roomName = getIntent().getStringExtra("roomName");
-        int roomImage = getIntent().getIntExtra("roomImage",0);
-        String roomLocation = getIntent().getStringExtra("roomLocation");
-        int roomLevel = getIntent().getIntExtra("roomLevel",0);
-        int roomCapacity = getIntent().getIntExtra("roomCapacity",0);
+        name = UserProfile.getName();
+        password = UserProfile.getPassword();
+        email = UserProfile.getEmail();
+        //Room infomation
+        roomName = getIntent().getStringExtra("roomName");
+        roomImage = getIntent().getIntExtra("roomImage",0);
+        roomLocation = getIntent().getStringExtra("roomLocation");
+        roomLevel = getIntent().getIntExtra("roomLevel",0);
+        roomCapacity = getIntent().getIntExtra("roomCapacity",0);
         isRoomLiked = getIntent().getBooleanExtra("isRoomLiked",false);
-        Room roomReceived = new Room(000, roomName, null, roomLocation, roomLevel,null, roomCapacity, null, true, roomImage,isRoomLiked );
+        room = new Room(000, roomName, null, roomLocation, roomLevel,null, roomCapacity, null, roomImage);
         Log.d("MoreRoomInfo", "Receiving Room Info passed from explore fragment"+ roomName);
 
         //grab the textViews display in the MoreRoomInfo.xml file
@@ -63,7 +82,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         TextView rmLocation = findViewById(R.id.textView11);
         TextView rmLevel = findViewById(R.id.textView13);
         TextView rmCapacity = findViewById(R.id.textView12);
-        TextView displayRatings = findViewById(R.id.ratings);
+        TextView displayRatings = findViewById(R.id.textView22);
 
         //Assign the values from what we have extracted from the ExploreFragment to the MoreRoomInfo.xml file
         rmTV.setText(roomName);
@@ -71,11 +90,19 @@ public class MoreRoomInfo extends AppCompatActivity {
         rmLocation.setText("Location:"+ roomLocation);
         rmLevel.setText("Level "+roomLevel);
         rmCapacity.setText("Capacity:"+roomCapacity);
+        displayRatings.setText("Ratings:");
+        TextView textView22 = findViewById(R.id.textView22);
+        boolean isInsideScrollView = isInsideScrollView(textView22);
+        Log.d("Scroll Check", "textView22 is inside a ScrollView: " + isInsideScrollView);
+
         //set the title of the action bar based on each room name
         actionBar.setTitle(roomName);
 
         //Read the ratings Firebase
         readRatingsDocument();
+
+        //set adapter after the thing is passed in
+
 
         //when user click on book now button, it will redirect the user to book now page
         // Initialize the button and set the click listener
@@ -96,8 +123,34 @@ public class MoreRoomInfo extends AppCompatActivity {
         });
 
 
-        Button likedButton = (Button)findViewById(R.id.button5);
-        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        likedButton = findViewById(R.id.button5);
+        readFavourites();
+        likedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFavourites();
+                Intent i = new Intent(MoreRoomInfo.this, MoreRoomInfo.class);
+                i.putExtra("name",name);
+                i.putExtra("password",password);
+                i.putExtra("email",email);
+                i.putExtra("roomName",roomName);
+                i.putExtra("roomLocation",roomLocation);
+                i.putExtra("roomLevel",roomLevel);
+                i.putExtra("roomCapacity",roomCapacity);
+                i.putExtra("isRoomLiked",isRoomLiked);
+                i.putExtra("roomImage",roomImage);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+
+
+
+        /*SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
         // Get the serialized array string from SharedPreferences
         String serializedArray = sharedPreferences.getString("favouriteList", "");
 
@@ -110,10 +163,127 @@ public class MoreRoomInfo extends AppCompatActivity {
                 checkRoomLiked(likedButton, roomReceived);
                 Log.d("MoreRoomInfo", "The favourite room List contains"+ favRoomList.size() + "elements");
                 onDefaultToggleClick(view, favRoomList);
+
+
+            }
+        });*/
+    }
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        Log.v(title,"on Resume");
+        readFavourites();
+    }
+    private void readFavourites()
+    {
+        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
+                .collection("favouriterooms")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        Log.v(title, "Getting favourite rooms data");
+                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
+                        for (DocumentSnapshot snapshot : snapshotList) {
+                            Favourites favourites = snapshot.toObject(Favourites.class);
+                            favourites.setDocid(snapshot.getId());
+                            Log.v(title, "favourite: " + snapshot.getData().toString());
+                            favRoomList.add(favourites);
+                            Log.v(title,"favourite:"+favRoomList.size());
+
+                        }
+                        checkFavourites();
+                    }
+
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.v(title, "onFailure: ", e);
+                    }
+                });
+    }
+    private void checkFavourites()
+    {
+        for (Favourites f:favRoomList)
+        {
+            if (f.getUserName().equals(UserProfile.getName()))
+            {
+                if (f.getRoomName().equals(roomName))
+                {
+                    likedButton.setText("Unlike");
+                    likedButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            likedButton.setText("Like");
+                            removeFavourites(f);
+                            Intent i = new Intent(MoreRoomInfo.this, MoreRoomInfo.class);
+                            i.putExtra("name",name);
+                            i.putExtra("password",password);
+                            i.putExtra("email",email);
+                            i.putExtra("roomName",roomName);
+                            i.putExtra("roomLocation",roomLocation);
+                            i.putExtra("roomLevel",roomLevel);
+                            i.putExtra("roomCapacity",roomCapacity);
+                            i.putExtra("isRoomLiked",isRoomLiked);
+                            i.putExtra("roomImage",roomImage);
+                            finish();
+                            overridePendingTransition(0, 0);
+                            startActivity(i);
+                            overridePendingTransition(0, 0);
+
+                        }
+                    });
+                }
+
+            }
+
+
+        }
+
+    }
+    private void removeFavourites(Favourites f)
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("favouriterooms").document(f.getDocid()).delete()
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(MoreRoomInfo.this,"Remove from favourites",Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        likedButton.setText("Unlike");
+                        Toast.makeText(MoreRoomInfo.this,"Please try again",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+    private void addFavourites()
+    {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> favourites = new HashMap<>();
+        favourites.put("roomName",room.roomName);
+        favourites.put("userName",name);
+        db.collection("favouriterooms").add(favourites).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                if (task.isSuccessful()) {
+                    Log.v(title,"name:"+name);
+                    Log.v(title, "favourites added to db");
+                    likedButton.setText("Unlike");
+                    Toast.makeText(MoreRoomInfo.this,"Added to Favourites", Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
     }
-;
+
+
     //to handle the back button on the tool bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -125,7 +295,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public void checkRoomLiked(Button likedButton, Room room){
+    /*public void checkRoomLiked(Button likedButton, Room room){
         SharedPreferences preferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         //set the boolean to not equal the original state when the button is clicked.
@@ -146,7 +316,7 @@ public class MoreRoomInfo extends AppCompatActivity {
             editor.apply();
         }
 
-    }
+    }*/
 
     public void onDefaultToggleClick(View view, ArrayList<Room> favRoomList){
         favouritesFragment fragment = favouritesFragment.newInstance(favRoomList);
@@ -176,21 +346,49 @@ public class MoreRoomInfo extends AppCompatActivity {
                         String roomName = getIntent().getStringExtra("roomName");
                         float roomRatings = 0;
                         int count = 0;
+                        boolean roomHasRatings = false;
                         for(Ratings rating: ratingList){
-                            Log.v(title, "In theloop:" + rating.roomName);
-                            Log.v(title, "In theloop2:"+  roomName);
-                            if(rating.roomName.equals(roomName)){
-                                count += 1;
+                            String eachRoom = rating.roomName;
+                            String theRoom = roomName;
+                            Log.v(title, "In theloop:" + eachRoom);
+                            Log.v(title, "In theloop2:"+  theRoom);
+                            if(eachRoom.equals(theRoom)){
+                                roomWithRatingList.add(rating);
+                                /*count += 1;
                                 Log.v(title, "Count:"+count);
-                                Log.v(title, "Beach room ratings:" +rating.starRatings);
+                                Log.v(title, "Before each room ratings:" +rating.starRatings);
                                 roomRatings += rating.starRatings;
-                                roomRatings = roomRatings/count;
-                                Log.v(title, "each room ratings:" +rating.starRatings);
-                                Log.v(title,"sum of ratings:"+roomRatings);
-                                TextView displayRatings = findViewById(R.id.ratings);
-                                displayRatings.setText(String.valueOf(roomRatings));
+                                Log.v(title, "each room ratings:" +rating.starRatings);*/
                             }
                         }
+
+                        Log.v(title, "Room Has Ratings Boolean:"+ roomHasRatings);
+                        if(roomWithRatingList.size() != 0){
+                            float eachRoomRatings = 0;
+                            int countRoom = 0;
+                            float totalEachRoom = 0;
+                            //every thing inside this roomWithRatingList is of the same type of room
+                            for(Ratings eachRoom :roomWithRatingList ){
+                                countRoom += 1;
+                                eachRoomRatings += eachRoom.starRatings;
+                                totalEachRoom = eachRoomRatings/countRoom;
+                                Log.v(title,"New Ratings:"+ eachRoomRatings);
+                            }
+                            TextView displayRatings = findViewById(R.id.textView22);
+                            displayRatings.setText(String.valueOf(totalEachRoom));
+                            RecyclerView recyclerView = findViewById(R.id.commentRecycler);
+                            Log.v("AdapterDebug", "RatingList size: " + roomWithRatingList.size());
+                            comments_adapter adapter = new comments_adapter(MoreRoomInfo.this, roomWithRatingList);
+                            recyclerView.setAdapter(adapter);
+                            recyclerView.setLayoutManager(new LinearLayoutManager(MoreRoomInfo.this));
+
+                        }
+                        else{
+                            TextView displayRatings = findViewById(R.id.textView22);
+                            displayRatings.setText(String.valueOf("There are no ratings for this room so far."));
+                        }
+
+
                     }
 
                 })
@@ -201,6 +399,21 @@ public class MoreRoomInfo extends AppCompatActivity {
                     }
                 });
     }
+    public static boolean isInsideScrollView(View view) {
+        ViewParent parent = view.getParent();
+        while (parent != null) {
+            if (parent instanceof ScrollView) {
+                return true; // The view is inside a ScrollView
+            }
+            parent = parent.getParent();
+        }
+        return false; // The view is not inside a ScrollView
+    }
+
+    private void setUpCommentsModel(){
+
+    }
+
 
     // ltr come back and do share
     //SHARE THE SMART ROOM

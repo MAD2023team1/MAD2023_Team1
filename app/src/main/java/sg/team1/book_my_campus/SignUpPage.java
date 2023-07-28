@@ -42,6 +42,7 @@ public class SignUpPage extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_page);
         Log.v(title, "Create");
+
         // Find all text and buttons in page
         EditText etName = findViewById(R.id.editTextText4);
         EditText etEmail = findViewById(R.id.editTextText);
@@ -59,6 +60,7 @@ public class SignUpPage extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Log.v(title,"Sign up button to app Pressed!");
+
                 myName = String.valueOf(etName.getText());
                 myEmail = String.valueOf(etEmail.getText());
                 myPassword = String.valueOf(etPassword.getText());
@@ -104,6 +106,14 @@ public class SignUpPage extends AppCompatActivity{
                                     user.put("Password", myPassword);
                                     user.put("Mobile", myMobile);
                                     user.put("FASwitch",myFASwitch);
+
+                                    //set userprofile
+                                    UserProfile.setName(myName);
+                                    UserProfile.setUserId(userID);
+                                    UserProfile.setEmail(myEmail);
+                                    UserProfile.setPassword(myPassword);
+                                    UserProfile.setMobile(myMobile);
+                                    UserProfile.setFaSwitch(myFASwitch);
                                     //Insert information into database
                                     documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override

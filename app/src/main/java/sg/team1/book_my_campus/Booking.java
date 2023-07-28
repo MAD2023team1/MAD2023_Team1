@@ -20,9 +20,9 @@ public class Booking {
     public String roomName;
 
     public String date;
-
     public String timeSlot;
 
+    public boolean isRated;
     public boolean isCanceled;
     public boolean isCheckedIn;
 
@@ -96,5 +96,19 @@ public class Booking {
         isCheckedIn = checkedIn;
     }
 
+    public String getDocid() {
+        return docid;
+    }
 
+    public void setDocid(String docid) {
+        this.docid = docid;
+    }
+
+    public boolean isRated() {
+        return isRated;
+    }
+
+    public void setRated(boolean rated) {
+        isRated = rated;
+    }
 }
