@@ -92,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               {
                   gotoLocation(1.3337153060893068, 103.77680598179548);
               }
-              if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")){
+              if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart Room 3") || roomName.matches("Smart Room 4")){
                   gotoLocation(1.334247772539461, 103.77549871381547);
               }
 
@@ -121,22 +121,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng NP = new LatLng(1.33242473248, 103.777698548);
         LatLng ISpace = new LatLng(1.3337153060893068, 103.77680598179548);
         LatLng Smartroom = new LatLng(1.334247772539461, 103.77549871381547);
+        LatLng SportsComplex = new LatLng(1.337465454027076, 103.77648350760512);
+        LatLng Musicroom = new LatLng(1.33200059524025, 103.77652642294208);
+
 
         if (roomName.matches("iSpace")) {
-
             //mMap.addMarker(new MarkerOptions().position(NP).title("NP Entrance"));
             Log.v(title, "onSuccess marker" + roomName);
             mMap.addMarker(new MarkerOptions().position(ISpace).title("iSpace rooms"));
             moveLocation(ISpace);
         }
-        if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")) {
+        if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart Room 3") || roomName.matches("Smart Room 4")) {
 
             //mMap.addMarker(new MarkerOptions().position(NP).title("NP Entrance"));
             mMap.addMarker(new MarkerOptions().position(Smartroom).title("Smart Rooms"));
             moveLocation(Smartroom);
 
         }
-
+        if(roomName.matches("Swimming Pool")||roomName.matches("Gymwerkz"))
+        {
+            mMap.addMarker(new MarkerOptions().position(SportsComplex).title("Sports Complex"));
+            moveLocation(SportsComplex);
+        }
+        if(roomName.matches("Music room"))
+        {
+            mMap.addMarker(new MarkerOptions().position(Musicroom).title("Music Studio"));
+            moveLocation(Musicroom);
+        }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(NP));
         //add plus minus to zoom
