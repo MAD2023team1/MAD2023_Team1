@@ -18,6 +18,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookMyCampus"
         tools:targetApi="31">
+        <activity
+            android:name=".WeatherFragment"
+            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
