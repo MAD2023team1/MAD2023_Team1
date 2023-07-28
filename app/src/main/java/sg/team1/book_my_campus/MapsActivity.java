@@ -92,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               {
                   gotoLocation(1.3337153060893068, 103.77680598179548);
               }
-              if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart room 3") || roomName.matches("Smart room 4")){
+              if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart Room 3") || roomName.matches("Smart Room 4")){
                   gotoLocation(1.334247772539461, 103.77549871381547);
               }
 
