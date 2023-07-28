@@ -116,7 +116,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
     //this will hold all of our models, and we will send this list to the recycler's view adpater later on
     ArrayList<Room> roomModels = new ArrayList<>();
     //images array
-    int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4};
+    int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4, R.drawable.swimmingpool, R.drawable.gymwerkz,R.drawable.musicroomcropped};
     private SearchView searchView;
 
     private void setUpRoomModels() {

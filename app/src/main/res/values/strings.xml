@@ -33,6 +33,9 @@
         <item>Smart Room 2</item>
         <item>Smart Room 3</item>
         <item>Smart Room 4</item>
+        <item>Swimming Pool</item>
+        <item>Gym Werkz</item>
+        <item>Music Room</item>
     </string-array>
     <string-array name="room_location">
         <item>Library 1</item>
@@ -40,6 +43,10 @@
         <item>Library 3</item>
         <item>Library 4</item>
         <item>Library 5</item>
+        <item>BLK 16</item>
+        <item>BLK 16</item>
+        <item>BLK 73</item>
+
     </string-array>
     <string name="Favourites">Favourites</string>
     <string name="Like">Like</string>
