@@ -57,11 +57,6 @@ public class MoreRoomInfo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_room_info2);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-
-
         //Extract the variables and information passed from the explore fragment
         name = UserProfile.getName();
         password = UserProfile.getPassword();
@@ -95,15 +90,12 @@ public class MoreRoomInfo extends AppCompatActivity {
         boolean isInsideScrollView = isInsideScrollView(textView22);
         Log.d("Scroll Check", "textView22 is inside a ScrollView: " + isInsideScrollView);
 
-        //set the title of the action bar based on each room name
-        actionBar.setTitle(roomName);
+
 
         //Read the ratings Firebase
         readRatingsDocument();
 
         //set adapter after the thing is passed in
-
-
         //when user click on book now button, it will redirect the user to book now page
         // Initialize the button and set the click listener
 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/darkblue</item>
+        <item name="backgroundTint">@color/darkblue</item>
+        <item name = "android:textColor">@color/off_white</item>
+    </style>
+
+
+</resources>
