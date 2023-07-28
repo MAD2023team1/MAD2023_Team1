@@ -200,11 +200,11 @@ public class MoreRoomInfo extends AppCompatActivity {
                             Log.v(title, "In theloop2:"+  theRoom);
                             if(eachRoom.equals(theRoom)){
                                 roomWithRatingList.add(rating);
-                                count += 1;
+                                /*count += 1;
                                 Log.v(title, "Count:"+count);
-                                Log.v(title, "Beach room ratings:" +rating.starRatings);
+                                Log.v(title, "Before each room ratings:" +rating.starRatings);
                                 roomRatings += rating.starRatings;
-                                Log.v(title, "each room ratings:" +rating.starRatings);
+                                Log.v(title, "each room ratings:" +rating.starRatings);*/
                             }
                         }
 
@@ -213,13 +213,12 @@ public class MoreRoomInfo extends AppCompatActivity {
                             float eachRoomRatings = 0;
                             int countRoom = 0;
                             float totalEachRoom = 0;
+                            //every thing inside this roomWithRatingList is of the same type of room
                             for(Ratings eachRoom :roomWithRatingList ){
-
                                 countRoom += 1;
                                 eachRoomRatings += eachRoom.starRatings;
                                 totalEachRoom = eachRoomRatings/countRoom;
                                 Log.v(title,"New Ratings:"+ eachRoomRatings);
-
                             }
                             TextView displayRatings = findViewById(R.id.textView22);
                             displayRatings.setText(String.valueOf(totalEachRoom));

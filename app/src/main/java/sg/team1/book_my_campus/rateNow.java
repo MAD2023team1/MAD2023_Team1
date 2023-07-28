@@ -111,13 +111,10 @@ public class rateNow extends AppCompatActivity {
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                // Step 2: Get the currently logged-in user
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
                     // Step 3: Get the UID of the currently logged-in user
                     String uid = currentUser.getUid();
-
-                    // Step 4: Reference the document for the logged-in user using the UID
                     DocumentReference userDocumentRef = db.collection("users").document(uid);
 
                     // Step 5: Read the document
@@ -129,9 +126,6 @@ public class rateNow extends AppCompatActivity {
                                 String documentId = documentSnapshot.getId();
                                 documentUserID = documentId;
                                 Log.d("User DocumentID in rate", documentId);
-
-                                // Here, you can access the document data using documentSnapshot.getData()
-                                // For example, if you have a "username" field in the document, you can retrieve it like this:
                                 // String username = documentSnapshot.getString("username");
                                 // Do whatever you want with the document ID and data.
                                 if (TextUtils.isEmpty(feedbackText) || feedbackText.isEmpty()) {
