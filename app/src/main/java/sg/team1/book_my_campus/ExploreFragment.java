@@ -130,7 +130,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
 
         for (int i = 0; i < roomNamesFromString.length; i++) {
             Log.v("Explore Fragment loop", Integer.toString(roomID[i]));
-            roomModels.add(new Room(roomID[i], roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, true, roomImages[i],false));
+            roomModels.add(new Room(roomID[i], roomNamesFromString[i], null, roomLocation[i], roomLevel[i], null, roomCapacity[i], null, roomImages[i]));
         }
     }
 
@@ -172,7 +172,7 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
         moreInfoPageIntent.putExtra("roomLocation", roomModels.get(position).getLocation());
         moreInfoPageIntent.putExtra("roomCapacity", roomModels.get(position).getCapacity());
         moreInfoPageIntent.putExtra("roomLevel",roomModels.get(position).getLevel());
-        moreInfoPageIntent.putExtra("roomLiked",roomModels.get(position).isRoomLiked());
+        //moreInfoPageIntent.putExtra("roomLiked",roomModels.get(position).isRoomLiked());
         startActivity(moreInfoPageIntent);
     }
 
