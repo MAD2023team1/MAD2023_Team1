@@ -1,20 +1,35 @@
 package sg.team1.book_my_campus;
 
 public class Ratings {
+    public String userName;
+    public String roomName;
+    public String userID;
+    public String dateBooked;
+    public String timeSlot;
+    public String comment;
+    public float starRatings;
+
     public Ratings(){
 
     }
-    public Ratings(String roomName, String userID, String comment, float starRatings,String dateBooked, String timeSlot) {
+
+    public Ratings(String userName, String roomName, String userID, String dateBooked, String timeSlot, String comment, float starRatings) {
+        this.userName = userName;
         this.roomName = roomName;
         this.userID = userID;
-        this.comment = comment;
-        this.starRatings = starRatings;
         this.dateBooked = dateBooked;
         this.timeSlot = timeSlot;
+        this.comment = comment;
+        this.starRatings = starRatings;
     }
 
-    public String roomName;
-    public String userID;
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getDateBooked() {
         return dateBooked;
@@ -32,9 +47,6 @@ public class Ratings {
         this.timeSlot = timeSlot;
     }
 
-    public String dateBooked;
-    public String timeSlot;
-    public String comment;
 
     public String getRoomName() {
         return roomName;
@@ -68,7 +80,7 @@ public class Ratings {
         this.starRatings = starRatings;
     }
 
-    public float starRatings;
+
 
 
 }
