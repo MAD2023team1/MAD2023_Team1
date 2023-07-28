@@ -75,7 +75,7 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
 
     @Override
     public int getItemCount() {
-        return roomFavourites.size();
+        return displayFavouritesList.size();
     }
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         // Define your ViewHolder components here
