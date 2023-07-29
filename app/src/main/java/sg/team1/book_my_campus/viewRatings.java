@@ -18,6 +18,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class viewRatings extends AppCompatActivity {
     String title = "View Ratings";
     ArrayList<Ratings> ratingList = new ArrayList<>();
     ArrayList<Ratings> roomWithRatingList = new ArrayList<>();
+    BigDecimal roundedRatings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,10 +84,14 @@ public class viewRatings extends AppCompatActivity {
                                 totalEachRoom = eachRoomRatings/countRoom;
                                 Log.v(title,"New Ratings:"+ eachRoomRatings);
                             }
-                            TextView displayRatings = findViewById(R.id.value);
-                            displayRatings.setText(String.valueOf(totalEachRoom));
+                            TextView displayRatings = findViewById(R.id.Ratings);
+                            //round the average ratings to two decimal places
+                            roundedRatings = round(totalEachRoom,1);
+                            displayRatings.setText(String.valueOf(roundedRatings));
                             RatingBar ratingBar = findViewById(R.id.ratingBar3);
                             ratingBar.setRating(totalEachRoom);
+                            TextView displayNumOfPeopleWhoVoted = findViewById(R.id.textView22);
+                            displayNumOfPeopleWhoVoted.setText("Based on "+ String.valueOf(countRoom)+" ratings.");
                             RecyclerView recyclerView = findViewById(R.id.commentRecycler);
                             Log.v("AdapterDebug", "RatingList size: " + roomWithRatingList.size());
                             comments_adapter adapter = new comments_adapter(viewRatings.this, roomWithRatingList);
@@ -93,9 +99,10 @@ public class viewRatings extends AppCompatActivity {
                             recyclerView.setLayoutManager(new LinearLayoutManager(viewRatings.this));
 
                         }
+                        //if there are no ratings and comments, display another layout.
                         else{
-                            TextView displayRatings = findViewById(R.id.value);
-                            displayRatings.setText(String.valueOf("There are no ratings for this room so far."));
+                            setContentView(R.layout.no_ratings_display);
+
                         }
 
 
@@ -108,5 +115,12 @@ public class viewRatings extends AppCompatActivity {
                         Log.v(title, "onFailure: ", e);
                     }
                 });
+
+    }
+    //function to round float to the nearest 2 dp
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
     }
 }
