@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".ProfileFragment">
+    tools:context=".ProfileFragment"
+    >
 
     <ImageView
         android:id="@+id/profileImage2"
@@ -48,7 +49,10 @@
                     android:textColor="#000000"
                     android:textSize="30sp"
                     android:textStyle="bold"
-                    app:autoSizeTextType="uniform" />
+                    app:autoSizeTextType="uniform"
+
+
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,7 +70,9 @@
                     android:textColor="#333131"
                     android:textSize="18dp"
                     android:textStyle="italic"
-                    app:autoSizeTextType="none" />
+                    app:autoSizeTextType="none"
+
+                    />
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
@@ -81,7 +87,9 @@
         android:backgroundTint="@color/darkblue"
         android:text="Edit"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profileImage2" />
+        app:layout_constraintTop_toBottomOf="@+id/profileImage2"
+
+        />
 
     <TextView
         android:id="@+id/textView3"
@@ -93,6 +101,9 @@
         android:textColor="@color/white"
         android:textSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editProfileButton" />
+        app:layout_constraintTop_toBottomOf="@+id/editProfileButton"
+
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

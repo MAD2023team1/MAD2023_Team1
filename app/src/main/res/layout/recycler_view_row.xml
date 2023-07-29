@@ -26,7 +26,7 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewName"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="190dp"
@@ -43,12 +43,12 @@
                 tools:text="@string/room_name" />
 
             <ImageView
-                android:id="@+id/imageViewUP"
+                android:id="@+id/imageViewTop"
                 android:layout_width="match_parent"
                 android:layout_height="179dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="1dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView"
+                app:layout_constraintBottom_toTopOf="@+id/textViewName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"

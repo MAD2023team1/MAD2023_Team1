@@ -21,7 +21,7 @@ public class Room implements Parcelable {
     public Room() {
     }
 
-    public Room(int roomID,String roomName, String description, String location, int level, String building, int capacity, String category, boolean isAvail,int image, boolean isRoomLiked) {
+    public Room(int roomID,String roomName, String description, String location, int level, String building, int capacity, String category,int image) {
         this.roomID = roomID;
         this.roomName = roomName;
         this.description = description;
@@ -30,9 +30,8 @@ public class Room implements Parcelable {
         this.building = building;
         this.capacity = capacity;
         this.category = category;
-        this.isAvail = isAvail;
         this.image = image;
-        this.isRoomLiked = isRoomLiked;
+
     }
 
     protected Room(Parcel in) {

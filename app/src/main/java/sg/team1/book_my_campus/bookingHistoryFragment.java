@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.os.Parcelable;
 import android.util.Log;
@@ -46,6 +48,7 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     ArrayList<Ratings> ratingsList = new ArrayList<>();
     bookingHistory_adapter adapter;
     String myName;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public bookingHistoryFragment() {
         // Required empty public constructor
@@ -100,9 +103,25 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter.checkBookings();
         adapter.checkRatings();
+
+        swipeRefreshLayout = rootView.findViewById(R.id.swiperefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                readDoc();
+                swipeRefreshLayout.setRefreshing(false);
+
+            }
+        });
+
+
         return rootView;
     }
     public void readDoc(){
+        bookinghistList.clear();
+        bookingHistModels.clear();
+        ratingsList.clear();
+
         Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
                 .collection("bookings")
                 .get()
@@ -121,14 +140,13 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                             Log.v(title,"Success"+snapshot.getId());
                         }
                         readRatingsDoc();
-                        adapter.notifyDataSetChanged();
-                        adapter.checkBookings();
 
                     }
                 });
 
     }
     public void readRatingsDoc(){
+
         Task<QuerySnapshot> db = FirebaseFirestore.getInstance()
                 .collection("ratings")
                 .get()
@@ -144,8 +162,9 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
                             ratingsList.add(rating);
                             Log.v(title,"Rating:"+ratingsList.size());
                         }
-                        adapter.notifyDataSetChanged();
+                        adapter.checkBookings();
                         adapter.checkRatings();
+                        adapter.notifyDataSetChanged();
                     }
                 });
 
@@ -155,8 +174,11 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     {
         super.onResume();
         Log.v(title,"On Resume");
-        readDoc();
+        adapter.notifyDataSetChanged();
+
     }
+
+
 
 
 

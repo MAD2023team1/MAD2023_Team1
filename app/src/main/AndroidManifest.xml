@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:versionCode="2"
-    android:versionName="2.0">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name='android.permission.ACCESS_COARSE_LOCATION'/>
+    android:versionCode="4"
+    android:versionName="4">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -18,44 +18,48 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BookMyCampus"
         tools:targetApi="31">
-
+        <activity
+            android:name=".viewRatings"
+            android:exported="false" />
+        <activity
+            android:name=".WeatherFragment"
+            android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/my_map_api_key"></meta-data>
+            android:value="@string/my_map_api_key" />
+
         <activity
             android:name=".MapsActivity"
-            android:screenOrientation="portrait"
-            android:exported="false"></activity>
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".bookNowPage"
-            android:screenOrientation="portrait"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".LoginPage"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".LoginOtpActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".HomePage"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-        <activity android:name=".rateNow"
-            android:screenOrientation="portrait"
-            android:exported="false"/>
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".rateNow"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".SignUpPage"
-            android:screenOrientation="portrait"
-            android:exported="false" />
-
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -65,7 +69,7 @@
         <activity
             android:name=".MoreRoomInfo"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat" />
+            android:theme="@style/Theme.BookMyCampus" />
     </application>
 
 </manifest>

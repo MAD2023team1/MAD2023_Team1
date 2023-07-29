@@ -63,8 +63,8 @@ public class room_recyclerviewadapter extends RecyclerView.Adapter<room_recycler
         public MyViewHolder(@NonNull View itemView,RecyclerViewInterface recyclerViewInterface) {
             //this is the constructor of the inner class
             super(itemView);
-            imageView = itemView.findViewById(R.id.imageViewUP);
-            tvroomName = itemView.findViewById(R.id.textView);
+            imageView = itemView.findViewById(R.id.imageViewTop);
+            tvroomName = itemView.findViewById(R.id.textViewName);
             //attach a on click listener to our itemView
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

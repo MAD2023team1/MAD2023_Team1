@@ -103,12 +103,9 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
                 Log.v(title,"bookinghistlist:"+bookingHistList.get(holder.getAdapterPosition()).isRated + bookingHistList.get(holder.getAdapterPosition()).name
                         +bookingHistList.get(holder.getAdapterPosition()).date +bookingHistList.get(holder.getAdapterPosition()).timeSlot);
                 holder.rateNowBtn.setBackgroundColor(Color.parseColor("#D3D3D3"));
-                holder.rateNowBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(context,"Rated already",Toast.LENGTH_SHORT).show();
-                    }
-                });
+                holder.rateNowBtn.setClickable(false);
+
+
 
             }
         }
@@ -125,6 +122,7 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
         return bookingHistList.size();
     }
     public void checkBookings(){
+        bookingHistList.clear();
         for (Booking booking:bookingHistModels) {
             Log.v(title, "booking Hist" + booking.name);
             Log.v(title, "booking Hist" + myName);
@@ -148,21 +146,21 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
             {
                 for (Ratings r: ratingsList)
                 {
-                    if (r.userName.equals(booking.name) & r.dateBooked.equals(booking.date) & r.timeSlot.equals(booking.timeSlot) & r.roomName.equals(booking.roomName))
+                    if (r.userName!=null)
                     {
-                        booking.setRated(true);
-                        Log.v(title,"Ratings:"+r.userName+" "+ r.roomName +" "+r.timeSlot +" "+ r.dateBooked );
-                        Log.v(title,"Booking:"+booking.name+" "+ booking.roomName +" "+booking.timeSlot +" "+ booking.date+" "+booking.isRated());
+                        if (r.userName.equals(booking.name) & r.dateBooked.equals(booking.date) & r.timeSlot.equals(booking.timeSlot) & r.roomName.equals(booking.roomName))
+                        {
+                            booking.setRated(true);
+                            Log.v(title,"Ratings:"+r.userName+" "+ r.roomName +" "+r.timeSlot +" "+ r.dateBooked );
+                            Log.v(title,"Booking:"+booking.name+" "+ booking.roomName +" "+booking.timeSlot +" "+ booking.date+" "+booking.isRated());
+                        }
                     }
+
                 }
             }
         }
     }
 
-
-
-    protected void setSubmittedFeedback(Boolean submittedFeedback) {
-    }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView roomName, DateBooked, Timeslot, Status;

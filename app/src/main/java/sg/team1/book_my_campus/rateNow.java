@@ -102,42 +102,35 @@ public class rateNow extends AppCompatActivity {
                 Log.v(title, "DateBooked:" + datebooked);
                 timeslot = intentFromBookingHist.getStringExtra("Timeslot");
                 Log.v(title, "Timeslot:" + timeslot);
-                /*//pass data to booking history fragment
-                bookingHistoryFragment bookingHistoryFragment = new bookingHistoryFragment();
-                Bundle bundle = new Bundle();
-                bundle.putBoolean("submittedFeedback", submittedFeedback);
-                bookingHistoryFragment.setArguments(bundle);
-                getSupportFragmentManager().beginTransaction().replace(R.id.consCan, bookingHistoryFragment).commit();*/
+
                 FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                // Step 2: Get the currently logged-in user
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
-                    // Step 3: Get the UID of the currently logged-in user
-                    String uid = currentUser.getUid();
 
-                    // Step 4: Reference the document for the logged-in user using the UID
+                    String uid = currentUser.getUid();
                     DocumentReference userDocumentRef = db.collection("users").document(uid);
 
-                    // Step 5: Read the document
                     userDocumentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                         @Override
                         public void onSuccess(DocumentSnapshot documentSnapshot) {
                             if (documentSnapshot.exists()) {
-                                // Step 6: Get the document ID
+                                //doc id
                                 String documentId = documentSnapshot.getId();
                                 documentUserID = documentId;
                                 Log.d("User DocumentID in rate", documentId);
-
-                                // Here, you can access the document data using documentSnapshot.getData()
-                                // For example, if you have a "username" field in the document, you can retrieve it like this:
                                 // String username = documentSnapshot.getString("username");
                                 // Do whatever you want with the document ID and data.
                                 if (TextUtils.isEmpty(feedbackText) || feedbackText.isEmpty()) {
                                     Toast.makeText(rateNow.this, "Please type something.", Toast.LENGTH_SHORT).show();
+                                } else if (feedbackText.length()>=120) {
+                                    //do not allow user to submit
+                                    submitBtn.setEnabled(false);
+                                    Toast.makeText(rateNow.this, "Feedback message exceed 120 chars. Type something shorter.", Toast.LENGTH_SHORT).show();
 
                                 } else {
+                                    submitBtn.setEnabled(true);
                                     Log.v(title,"UserDoc in else:" + documentUserID);
                                     Ratings ratings = new  Ratings(userName,roomName,documentUserID,datebooked,timeslot,feedbackText,getRatings);
                                     ratingsToDB(ratings);
