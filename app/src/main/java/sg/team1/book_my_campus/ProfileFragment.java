@@ -142,26 +142,28 @@ public class ProfileFragment extends Fragment {
         ImageView profileCard = inflatedView.findViewById(R.id.profileImage2);
         Switch switcher = inflatedView.findViewById(R.id.switch3);
         //to save state of app eg: App in light mode etc
-        /*sharedPreferences= getActivity().getSharedPreferences("MODE",Context.MODE_PRIVATE);
-        nightMode=sharedPreferences.getBoolean("night",false); //light mode default
-        if(nightMode){
-            switcher.setChecked(true);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        switcher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(nightMode){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor=sharedPreferences.edit();
-                    editor.putBoolean("night",false);
-                }else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    editor=sharedPreferences.edit();
-                    editor.putBoolean("night",true);
-                }
+        if(getActivity()!=null) {
+            sharedPreferences = getActivity().getSharedPreferences("MODE", Context.MODE_PRIVATE);
+            nightMode = sharedPreferences.getBoolean("night", false); //light mode default
+            if (nightMode) {
+                switcher.setChecked(true);
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             }
-        });*/
+            switcher.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (nightMode) {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                        editor = sharedPreferences.edit();
+                        editor.putBoolean("night", false);
+                    } else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                        editor = sharedPreferences.edit();
+                        editor.putBoolean("night", true);
+                    }
+                }
+            });
+        }
 
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
@@ -202,7 +204,6 @@ public class ProfileFragment extends Fragment {
                                                             }
                                                         }
                                                     });
-
         EditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -365,6 +366,7 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_profile, container, false);
         return inflatedView;
+
     }
 
     // Updating (adding new values into) current user
@@ -404,26 +406,6 @@ public class ProfileFragment extends Fragment {
             selectedImageUri = data.getData();
             setProfilePic(getContext(), selectedImageUri, profilePic);
         }
-        sharedPreferences= getActivity().getSharedPreferences("MODE",Context.MODE_PRIVATE);
-        nightMode=sharedPreferences.getBoolean("night",false); //light mode default
-        if(nightMode){
-            switcher.setChecked(true);
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        switcher.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(nightMode){
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                    editor=sharedPreferences.edit();
-                    editor.putBoolean("night",false);
-                }else{
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                    editor=sharedPreferences.edit();
-                    editor.putBoolean("night",true);
-                }
-            }
-        });
     }
 
 }
