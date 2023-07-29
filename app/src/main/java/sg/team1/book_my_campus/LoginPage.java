@@ -170,6 +170,10 @@ public class LoginPage extends AppCompatActivity {
                                                         if(profilePic!= null) {
                                                             UserProfile.setProfilePic(Uri.parse(profilePic));
                                                         }
+                                                        else
+                                                        {
+                                                            UserProfile.setProfilePic(null);
+                                                        }
 
                                                         //Add into intent
                                                         myIntent.putExtra("userId", userID);
