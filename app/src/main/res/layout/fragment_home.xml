@@ -63,29 +63,67 @@
             android:id="@+id/textView20"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
+            android:layout_marginStart="200dp"
             android:layout_marginTop="43dp"
-            android:layout_marginEnd="319dp"
+            android:layout_marginEnd="200dp"
             android:layout_marginBottom="514dp"
-            android:text="Top 3 Highest Rated Rooms"
+            android:text="Top Rated Rooms"
+            android:textAlignment="center"
             android:textColor="@color/blue"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.07"
+            app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4"
+            app:layout_constraintVertical_bias="0.75" />
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="9dp"
+            android:layout_marginEnd="319dp"
+            android:layout_marginBottom="304dp"
+            android:text="Today's Weather"
+            android:textColor="@color/blue"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.142"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topRoomRecyclerView"
             app:layout_constraintVertical_bias="1.0" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/topRoomRecyclerView"
-            android:layout_width="409dp"
-            android:layout_height="237dp"
+            android:layout_width="416dp"
+            android:layout_height="166dp"
             android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
+            android:layout_marginBottom="52dp"
+            app:layout_constraintBottom_toTopOf="@+id/frameLay"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+        <FrameLayout
+            android:id="@+id/frameLay"
+            android:layout_width="410dp"
+            android:layout_height="286dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </FrameLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
