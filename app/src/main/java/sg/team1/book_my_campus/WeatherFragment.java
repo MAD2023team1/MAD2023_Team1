@@ -35,7 +35,7 @@ public class WeatherFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        this.inflatedView = inflater.inflate(R.layout.fragment_profile, container, false);
+        this.inflatedView = inflater.inflate(R.layout.activity_weather_fragment, container, false);
 
         TextView CurrentConditionText = inflatedView.findViewById(R.id.currentConditionText);
         TextView CurrentTempText = inflatedView.findViewById(R.id.currentTemperatureText);
@@ -65,12 +65,19 @@ public class WeatherFragment extends Fragment {
                     Log.i(TITLE, JSONCurrentMainObject.toString());
 
                     String CurrentMainCondition = jsonCurrentWeatherObject.getString("main");
-                    Log.v(TITLE, CurrentMainCondition);
+                    Log.v(TITLE, "Current Main Condition:" + CurrentMainCondition);
                     String CurrentSubCondition = jsonCurrentWeatherObject.getString("description");
                     Double CurrentTemperature =  JSONCurrentMainObject.getDouble("temp");
+                    Log.v(TITLE, "Current Temperature:" + CurrentTemperature);
+                    if(CurrentTemperature!= null  && CurrentMainCondition != null){
+                        CurrentTempText.setText(CurrentTemperature.toString()  + "℃");
+                        CurrentConditionText.setText(CurrentMainCondition);
+                    }
+                    else{
+                        CurrentTempText.setText("℃urrent Temp Text Null");
+                        CurrentConditionText.setText("current condition text is null");
+                    }
 
-                    CurrentTempText.setText(CurrentTemperature.toString()  + "℃");
-                    CurrentConditionText.setText(CurrentMainCondition);
 
 
                     if (CurrentMainCondition.contentEquals("Clear")){
@@ -92,8 +99,6 @@ public class WeatherFragment extends Fragment {
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
 
-
-
-        return null;
+        return inflatedView;
     }
 }
