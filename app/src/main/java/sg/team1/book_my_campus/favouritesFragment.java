@@ -1,6 +1,7 @@
 package sg.team1.book_my_campus;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 
@@ -101,8 +102,23 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
 
     }
     public void onItemClick(int position) {
-        // Handle the item click event here
-        // You can implement the desired behavior when an item is clicked
+        Intent moreInfoPageIntent = new Intent(getActivity(), MoreRoomInfo.class);
+        //the below code will pass the information to our new activity page, MoreRoomInfo
+        String myName = UserProfile.getName();
+        String myEmail = UserProfile.getEmail();
+        String myPassword = UserProfile.getPassword();
+        moreInfoPageIntent.putExtra("name",myName);
+        moreInfoPageIntent.putExtra("password",myPassword);
+        moreInfoPageIntent.putExtra("email",myEmail);
+        moreInfoPageIntent.putExtra("roomID", roomList.get(position).getRoomID());
+        Log.d("Explore Fragment","Passing Info to MoreRoomInfo class" + Integer.toString(roomList.get(position).getRoomID()));
+        moreInfoPageIntent.putExtra("roomName", roomList.get(position).getRoomName());
+        moreInfoPageIntent.putExtra("roomImage", roomList.get(position).getImage());
+        moreInfoPageIntent.putExtra("roomLocation", roomList.get(position).getLocation());
+        moreInfoPageIntent.putExtra("roomCapacity", roomList.get(position).getCapacity());
+        moreInfoPageIntent.putExtra("roomLevel",roomList.get(position).getLevel());
+        startActivity(moreInfoPageIntent);
+
     }
 
     @Override
