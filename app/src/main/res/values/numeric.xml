@@ -6,6 +6,9 @@
         <item>4</item>
         <item>8</item>
         <item>8</item>
+        <item>10</item>
+        <item>10</item>
+        <item>5</item>
     </integer-array>
 
     <integer-array name="room_level">
@@ -14,6 +17,9 @@
         <item>3</item>
         <item>3</item>
         <item>4</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
     </integer-array>
 
     <integer-array name="room_ID">
@@ -21,6 +27,9 @@
         <item>301</item>
         <item>302</item>
         <item>303</item>
+        <item>401</item>
+        <item>101</item>
+        <item>202</item>
         <item>401</item>
     </integer-array>
 </resources>

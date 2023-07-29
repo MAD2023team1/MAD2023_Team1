@@ -9,6 +9,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="405dp"
         android:layout_height="192dp"
+        app:cardBackgroundColor="@color/blue"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
@@ -32,6 +33,7 @@
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="8dp"
                 android:text="username:"
+                android:textColor="@color/off_white"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
@@ -50,12 +52,14 @@
 
             <TextView
                 android:id="@+id/comments"
-                android:layout_width="236dp"
-                android:layout_height="32dp"
+                android:layout_width="283dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="80dp"
                 android:layout_marginTop="8dp"
                 android:text="comment"
                 android:textAlignment="textStart"
+                android:textColor="@color/off_white"
+                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/username" />
         </androidx.constraintlayout.widget.ConstraintLayout>
