@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
@@ -53,6 +54,7 @@ public class HomeFragment extends Fragment {
     ArrayList<Ratings> ratingsRoomArrayList = new ArrayList<>();
     ArrayList<Ratings> topRatedRoomList = new ArrayList<>();
     ArrayList<top_rated_room_model> top_rated_room_modelsList = new ArrayList<>();
+    BigDecimal roundedRatings;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -228,20 +230,18 @@ public class HomeFragment extends Fragment {
                             String topRatedRoom = entryAvg.get(i).getKey();
                             if (Arrays.asList(roomNamesFromString).contains(topRatedRoom)) {
                                 float topRatedRoomRatings = entryAvg.get(i).getValue();
+                                roundedRatings = round(topRatedRoomRatings,1);
                                 int indexTopRatedRoom = Arrays.asList(roomNamesFromString).indexOf(topRatedRoom);
-                                top_rated_room_model roomRating = new top_rated_room_model(topRatedRoomRatings, roomImages[indexTopRatedRoom], topRatedRoom);
+                                top_rated_room_model roomRating = new top_rated_room_model(roundedRatings.floatValue(), roomImages[indexTopRatedRoom], topRatedRoom);
                                 top_rated_room_modelsList.add(roomRating);
                                 Log.v(title, "Name in our database:" + topRatedRoom);
                             }
                         }
 
-// Set up the adapter after the loop
+                        // Set up the adapter after the loop
                         top_room_adapter adapter = new top_room_adapter(getContext(), top_rated_room_modelsList);
                         recyclerView.setAdapter(adapter);
                         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
-
 
 
                     }
@@ -257,15 +257,9 @@ public class HomeFragment extends Fragment {
                 });
     }
 
-    private void setUpRateRoomModel(){
-
-    }
-    private void weatherFrag(Fragment fragment, FrameLayout frameLay) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        Log.d("FragmentTransaction", "Replacing fragment");
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLay, fragment);
-        fragmentTransaction.commit();
-        Log.d("FragmentTransaction", "Fragment replaced");
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
     }
 }
