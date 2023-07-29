@@ -126,29 +126,28 @@ public class MoreRoomInfo extends AppCompatActivity {
 
         likedButton = findViewById(R.id.button5);
         readFavourites();
-        if (likedButton.getText().toString().equals("Like"))
-        {
-            likedButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addFavourites();
-                    Intent i = new Intent(MoreRoomInfo.this, MoreRoomInfo.class);
-                    i.putExtra("name",name);
-                    i.putExtra("password",password);
-                    i.putExtra("email",email);
-                    i.putExtra("roomName",roomName);
-                    i.putExtra("roomLocation",roomLocation);
-                    i.putExtra("roomLevel",roomLevel);
-                    i.putExtra("roomCapacity",roomCapacity);
-                    i.putExtra("isRoomLiked",isRoomLiked);
-                    i.putExtra("roomImage",roomImage);
-                    finish();
-                    overridePendingTransition(0, 0);
-                    startActivity(i);
-                    overridePendingTransition(0, 0);
-                }
-            });
-        }
+        likedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFavourites();
+                Intent i = new Intent(MoreRoomInfo.this, MoreRoomInfo.class);
+                i.putExtra("name",name);
+                i.putExtra("password",password);
+                i.putExtra("email",email);
+                i.putExtra("roomName",roomName);
+                i.putExtra("roomLocation",roomLocation);
+                i.putExtra("roomLevel",roomLevel);
+                i.putExtra("roomCapacity",roomCapacity);
+                i.putExtra("isRoomLiked",isRoomLiked);
+                i.putExtra("roomImage",roomImage);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(i);
+                overridePendingTransition(0, 0);
+            }
+        });
+
+
 
 
         /*SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
