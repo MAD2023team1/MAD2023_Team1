@@ -1,5 +1,6 @@
 package sg.team1.book_my_campus;
 
+import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
@@ -262,4 +263,5 @@ public class HomeFragment extends Fragment {
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
         return bd;
     }
+
 }
