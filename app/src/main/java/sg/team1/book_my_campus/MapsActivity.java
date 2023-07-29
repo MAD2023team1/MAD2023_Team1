@@ -20,6 +20,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -56,10 +59,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location currentLocation;
     private ActivityMapsBinding binding;
     private int GPS_REQUEST_CODE=9001;
-    Button button,buttonRoom;
+    FloatingActionButton button,buttonRoom,plusButton;
 
     FusedLocationProviderClient mLocationClient;
     SupportMapFragment supportMapFragment;
+    private boolean clicked =false;
 
 
     @Override
@@ -75,8 +79,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         checkPermission();
         initialise();
-        button = findViewById(R.id.buttonDirection);
-        buttonRoom = findViewById(R.id.buttonDirect2);
+        button = findViewById(R.id.currentLocationBtn);
+        buttonRoom = findViewById(R.id.roomLocationBtn);
+        plusButton=findViewById(R.id.floatingActionButton);
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!clicked){
+                button.setVisibility(View.VISIBLE);
+                buttonRoom.setVisibility(View.VISIBLE);}
+                else{
+                    button.setVisibility(View.GONE);
+                    buttonRoom.setVisibility(View.GONE);
+
+                }
+                if(!clicked){clicked=true;}
+                else{clicked=false;}
+
+
+
+            }
+        });
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -159,7 +182,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(NP));
         //add plus minus to zoom
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         //add compass to move around
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setScrollGesturesEnabled(true);
