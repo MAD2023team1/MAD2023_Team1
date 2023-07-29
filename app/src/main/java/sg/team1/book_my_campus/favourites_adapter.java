@@ -36,7 +36,7 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
     public favourites_adapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater =  LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.favourites_recycler_view_row, parent,false);
-        return new MyViewHolder(view);
+        return new MyViewHolder(view, recyclerViewInterface);
     }
 
     @Override
@@ -82,11 +82,22 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
         TextView roomName;
         ImageView roomImage;
 
-        public MyViewHolder(View itemView) {
+        public MyViewHolder(View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
             // Initialize your ViewHolder components here
             roomName = itemView.findViewById(R.id.favname);
             roomImage = itemView.findViewById(R.id.favimage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(recyclerViewInterface!= null){
+                        int pos = getAdapterPosition();
+                        if(pos != RecyclerView.NO_POSITION){
+                            recyclerViewInterface.onItemClick(pos);
+                        }
+                    }
+                }
+            });
         }
     }
 }
