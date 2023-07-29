@@ -2,7 +2,9 @@ package sg.team1.book_my_campus;
 
 import androidx.annotation.NonNull;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import org.checkerframework.checker.units.qual.C;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,10 +46,11 @@ public class MoreRoomInfo extends AppCompatActivity {
     String name,password,email,roomName,roomLocation;
     int roomImage,roomLevel,roomCapacity;
     Room room;
-    Button likedButton;
+    ImageView favIcon;
 
 
     String title ="MoreRoomInfo";
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,9 +123,9 @@ public class MoreRoomInfo extends AppCompatActivity {
 
 
 
-        likedButton = findViewById(R.id.button5);
+        favIcon = findViewById(R.id.favouriteicon);
         readFavourites();
-        likedButton.setOnClickListener(new View.OnClickListener() {
+        favIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 addFavourites();
@@ -206,13 +211,13 @@ public class MoreRoomInfo extends AppCompatActivity {
             {
                 if (f.getRoomName().equals(roomName))
                 {
-                    likedButton.setText("Unlike");
-                    likedButton.setOnClickListener(new View.OnClickListener() {
+                    favIcon.setImageResource(R.drawable.favouritefilledicon);
+
+                    favIcon.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            likedButton.setBackground(null); // Clear the existing background.
-                            likedButton.setBackgroundResource(R.drawable.favouritefilledicon);
-                            likedButton.setText("Like");
+                            //likedButton.setBackground(null); // Clear the existing background.
+                            favIcon.setImageResource(R.drawable.whiteheart);
                             removeFavourites(f);
                             Intent i = new Intent(MoreRoomInfo.this, MoreRoomInfo.class);
                             i.putExtra("name",name);
@@ -252,7 +257,7 @@ public class MoreRoomInfo extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        likedButton.setText("Unlike");
+                        favIcon.setImageResource(R.drawable.favouritefilledicon);
                         Toast.makeText(MoreRoomInfo.this,"Please try again",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -271,7 +276,7 @@ public class MoreRoomInfo extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Log.v(title,"name:"+name);
                     Log.v(title, "favourites added to db");
-                    likedButton.setText("Unlike");
+                    favIcon.setImageResource(R.drawable.favouritefilledicon);
                     Toast.makeText(MoreRoomInfo.this,"Added to Favourites", Toast.LENGTH_SHORT).show();
                 }
             }

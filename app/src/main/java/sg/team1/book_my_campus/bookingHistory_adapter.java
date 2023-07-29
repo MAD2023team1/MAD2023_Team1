@@ -103,6 +103,7 @@ public class bookingHistory_adapter extends RecyclerView.Adapter<bookingHistory_
                 Log.v(title,"bookinghistlist:"+bookingHistList.get(holder.getAdapterPosition()).isRated + bookingHistList.get(holder.getAdapterPosition()).name
                         +bookingHistList.get(holder.getAdapterPosition()).date +bookingHistList.get(holder.getAdapterPosition()).timeSlot);
                 holder.rateNowBtn.setBackgroundColor(Color.parseColor("#D3D3D3"));
+                holder.rateNowBtn.setClickable(false);
 
 
 
