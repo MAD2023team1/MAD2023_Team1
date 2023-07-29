@@ -21,7 +21,9 @@
         <activity
             android:name=".viewRatings"
             android:exported="false" />
-
+        <activity
+            android:name=".WeatherFragment"
+            android:exported="false" />
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/my_map_api_key" />
