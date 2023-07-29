@@ -59,8 +59,6 @@ public class ProfileFragment extends Fragment {
     private Uri selectedImageUri;
 
 
-    boolean nightMode;
-    SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
 
@@ -95,7 +93,8 @@ public class ProfileFragment extends Fragment {
     }
 
     //Glide for the profile picture
-    public static void setProfilePic(Context context, Uri imageUri, ImageView imageView) {
+   public static void setProfilePic(Context context, Uri imageUri, ImageView imageView) {
+        if(context==null){return;}
         Glide.with(context).load(imageUri).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
 
@@ -140,30 +139,6 @@ public class ProfileFragment extends Fragment {
         TextView EmailDisplay = inflatedView.findViewById(R.id.emailDisplay);
         TextView logoutText = inflatedView.findViewById(R.id.textView3);
         ImageView profileCard = inflatedView.findViewById(R.id.profileImage2);
-        Switch switcher = inflatedView.findViewById(R.id.switch3);
-        //to save state of app eg: App in light mode etc
-        if(getActivity()!=null) {
-            sharedPreferences = getActivity().getSharedPreferences("MODE", Context.MODE_PRIVATE);
-            nightMode = sharedPreferences.getBoolean("night", false); //light mode default
-            if (nightMode) {
-                switcher.setChecked(true);
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            }
-            switcher.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (nightMode) {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-                        editor = sharedPreferences.edit();
-                        editor.putBoolean("night", false);
-                    } else {
-                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-                        editor = sharedPreferences.edit();
-                        editor.putBoolean("night", true);
-                    }
-                }
-            });
-        }
 
         NameDisplay.setText(myName);
         EmailDisplay.setText(myEmail);
