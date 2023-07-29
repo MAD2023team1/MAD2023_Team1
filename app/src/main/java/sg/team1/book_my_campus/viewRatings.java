@@ -117,7 +117,7 @@ public class viewRatings extends AppCompatActivity {
                 });
 
     }
-    //function to round float to the nearest 2 dp
+    //function to round float to the nearest dp
     public static BigDecimal round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
