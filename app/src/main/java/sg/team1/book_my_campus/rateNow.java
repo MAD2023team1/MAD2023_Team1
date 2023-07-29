@@ -113,7 +113,7 @@ public class rateNow extends AppCompatActivity {
 
                 FirebaseUser currentUser = firebaseAuth.getCurrentUser();
                 if (currentUser != null) {
-                    // Step 3: Get the UID of the currently logged-in user
+
                     String uid = currentUser.getUid();
                     DocumentReference userDocumentRef = db.collection("users").document(uid);
 

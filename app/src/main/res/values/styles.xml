@@ -5,6 +5,18 @@
         <item name="backgroundTint">@color/darkblue</item>
         <item name = "android:textColor">@color/off_white</item>
     </style>
+    <style name="HeartDefaultStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/off_white</item>
+        <item name="backgroundTint">@color/off_white</item>
+        <item name ="android:background">@drawable/whiteheart</item>
+        <item name = "background">@drawable/whiteheart</item>
+    </style>
+    <style name="RedHeartStyle" parent="Widget.AppCompat.Button">
+        <item name="android:backgroundTint">@color/darkblue</item>
+        <item name="backgroundTint">@color/darkblue</item>
+        <item name ="android:background">@drawable/favouritefilledicon</item>
+        <item name = "background">@drawable/favouritefilledicon</item>
+    </style>
 
 
 </resources>

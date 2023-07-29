@@ -1,12 +1,8 @@
 package sg.team1.book_my_campus;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,10 +26,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.ThrowOnExtraProperties;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,9 +36,9 @@ public class MoreRoomInfo extends AppCompatActivity {
     Button bookNowbt;
     boolean isRoomLiked;
     ArrayList<Favourites>favRoomList = new ArrayList<>();
-    ArrayList<Ratings> ratingList = new ArrayList<>();
 
-    ArrayList<Ratings> roomWithRatingList = new ArrayList<>();
+
+
     String name,password,email,roomName,roomLocation;
     int roomImage,roomLevel,roomCapacity;
     Room room;
@@ -56,6 +50,8 @@ public class MoreRoomInfo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_more_room_info2);
+
+
 
         //Extract the variables and information passed from the explore fragment
         name = UserProfile.getName();
@@ -77,7 +73,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         TextView rmLocation = findViewById(R.id.textView11);
         TextView rmLevel = findViewById(R.id.textView13);
         TextView rmCapacity = findViewById(R.id.textView12);
-        TextView displayRatings = findViewById(R.id.textView22);
+
 
         //Assign the values from what we have extracted from the ExploreFragment to the MoreRoomInfo.xml file
         rmTV.setText(roomName);
@@ -85,19 +81,25 @@ public class MoreRoomInfo extends AppCompatActivity {
         rmLocation.setText("Location:"+ roomLocation);
         rmLevel.setText("Level "+roomLevel);
         rmCapacity.setText("Capacity:"+roomCapacity);
-        displayRatings.setText("Ratings:");
-        TextView textView22 = findViewById(R.id.textView22);
-        boolean isInsideScrollView = isInsideScrollView(textView22);
-        Log.d("Scroll Check", "textView22 is inside a ScrollView: " + isInsideScrollView);
 
 
 
-        //Read the ratings Firebase
-        readRatingsDocument();
 
-        //set adapter after the thing is passed in
+
+        //view Ratings button to bring user to a new activity
+        Button viewRatingsBtn = findViewById(R.id.button9);
+        viewRatingsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent viewRatingsGo = new Intent(MoreRoomInfo.this, viewRatings.class);
+                viewRatingsGo.putExtra("roomName",roomName);
+                startActivity(viewRatingsGo);
+
+            }
+        });
+
+
         //when user click on book now button, it will redirect the user to book now page
-        // Initialize the button and set the click listener
 
         bookNowbt =  (Button)findViewById(R.id.button3);
         bookNowbt.setOnClickListener(new View.OnClickListener() {
@@ -208,6 +210,8 @@ public class MoreRoomInfo extends AppCompatActivity {
                     likedButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            likedButton.setBackground(null); // Clear the existing background.
+                            likedButton.setBackgroundResource(R.drawable.favouritefilledicon);
                             likedButton.setText("Like");
                             removeFavourites(f);
                             Intent i = new Intent(MoreRoomInfo.this, MoreRoomInfo.class);
@@ -314,83 +318,7 @@ public class MoreRoomInfo extends AppCompatActivity {
         favouritesFragment fragment = favouritesFragment.newInstance(favRoomList);
     }
 
-    public void readRatingsDocument() {
-        Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
-                .collection("ratings")
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        Log.v(title, "Getting ratings data");
-                        List<DocumentSnapshot> snapshotList = queryDocumentSnapshots.getDocuments();
-                        for (DocumentSnapshot snapshot : snapshotList) {
-                            Ratings rating = snapshot.toObject(Ratings.class);
-                            Log.v(title, "onSuccess: " + snapshot.getData().toString());
-                            ratingList.add(rating);
-                            Log.v(title, "onSuccess: " + rating.roomName);
-                            Log.v(title, "onSuccess" + rating.starRatings);
-                            Log.v(title, "onSuccess"+ rating.dateBooked);
-                            Log.v(title,"List size"+ratingList.size());
 
-
-
-                        }
-                        String roomName = getIntent().getStringExtra("roomName");
-                        float roomRatings = 0;
-                        int count = 0;
-                        boolean roomHasRatings = false;
-                        for(Ratings rating: ratingList){
-                            String eachRoom = rating.roomName;
-                            String theRoom = roomName;
-                            Log.v(title, "In theloop:" + eachRoom);
-                            Log.v(title, "In theloop2:"+  theRoom);
-                            if(eachRoom.equals(theRoom)){
-                                roomWithRatingList.add(rating);
-                                /*count += 1;
-                                Log.v(title, "Count:"+count);
-                                Log.v(title, "Before each room ratings:" +rating.starRatings);
-                                roomRatings += rating.starRatings;
-                                Log.v(title, "each room ratings:" +rating.starRatings);*/
-                            }
-                        }
-
-                        Log.v(title, "Room Has Ratings Boolean:"+ roomHasRatings);
-                        if(roomWithRatingList.size() != 0){
-                            float eachRoomRatings = 0;
-                            int countRoom = 0;
-                            float totalEachRoom = 0;
-                            //every thing inside this roomWithRatingList is of the same type of room
-                            for(Ratings eachRoom :roomWithRatingList ){
-                                countRoom += 1;
-                                eachRoomRatings += eachRoom.starRatings;
-                                totalEachRoom = eachRoomRatings/countRoom;
-                                Log.v(title,"New Ratings:"+ eachRoomRatings);
-                            }
-                            TextView displayRatings = findViewById(R.id.textView22);
-                            displayRatings.setText(String.valueOf(totalEachRoom));
-                            RecyclerView recyclerView = findViewById(R.id.commentRecycler);
-                            Log.v("AdapterDebug", "RatingList size: " + roomWithRatingList.size());
-                            comments_adapter adapter = new comments_adapter(MoreRoomInfo.this, roomWithRatingList);
-                            recyclerView.setAdapter(adapter);
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MoreRoomInfo.this));
-
-                        }
-                        else{
-                            TextView displayRatings = findViewById(R.id.textView22);
-                            displayRatings.setText(String.valueOf("There are no ratings for this room so far."));
-                        }
-
-
-                    }
-
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.v(title, "onFailure: ", e);
-                    }
-                });
-    }
     public static boolean isInsideScrollView(View view) {
         ViewParent parent = view.getParent();
         while (parent != null) {
@@ -401,13 +329,5 @@ public class MoreRoomInfo extends AppCompatActivity {
         }
         return false; // The view is not inside a ScrollView
     }
-
-    private void setUpCommentsModel(){
-
-    }
-
-
-    // ltr come back and do share
-    //SHARE THE SMART ROOM
 
 }
