@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,8 @@ import java.util.Hashtable;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -29,7 +32,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
-import java.lang.reflect.Array;
+
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
@@ -38,6 +41,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -112,6 +116,20 @@ public class HomeFragment extends Fragment {
         }
 
         readRatingsDocument();
+        //child weather
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Log.d("FragmentTransaction", "Replacing fragment");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLay, new WeatherFragment());
+        int transactionId = fragmentTransaction.commit();
+
+        if (transactionId != 0) {
+            // The transaction was successfully committed
+            Log.d("FragmentTransaction", "Transaction successfully committed with ID: " + transactionId);
+        } else {
+            // The transaction failed to be committed
+            Log.d("FragmentTransaction", "Transaction failed to be committed.");
+        }
 
         // Inflate the layout for this fragment
         return inflatedHomeView;
@@ -241,5 +259,13 @@ public class HomeFragment extends Fragment {
 
     private void setUpRateRoomModel(){
 
+    }
+    private void weatherFrag(Fragment fragment, FrameLayout frameLay) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Log.d("FragmentTransaction", "Replacing fragment");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLay, fragment);
+        fragmentTransaction.commit();
+        Log.d("FragmentTransaction", "Fragment replaced");
     }
 }
