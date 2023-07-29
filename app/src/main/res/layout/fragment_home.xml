@@ -12,17 +12,18 @@
 
         <TextView
             android:id="@+id/textView4"
-            android:layout_width="176dp"
-            android:layout_height="79dp"
-            android:layout_marginBottom="576dp"
+            android:layout_width="184dp"
+            android:layout_height="47dp"
+            android:layout_marginTop="5dp"
             android:text="UserName"
             android:textColor="@color/blue"
             android:textSize="32sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/guideline7"
+            app:layout_constraintBottom_toTopOf="@+id/textView20"
+            app:layout_constraintEnd_toStartOf="@+id/imageView5"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@id/guideline6" />
+            app:layout_constraintStart_toStartOf="@id/guideline6"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
         <TextView
             android:id="@+id/textView5"
@@ -32,9 +33,10 @@
             android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/textView4"
-            app:layout_constraintEnd_toEndOf="@id/guideline9"
-            app:layout_constraintStart_toStartOf="@id/guideline6"
-            app:layout_constraintTop_toTopOf="@id/guideline8" />
+            app:layout_constraintEnd_toStartOf="@id/welcomeRight"
+            app:layout_constraintStart_toStartOf="@id/welcomeLeft"
+            app:layout_constraintTop_toTopOf="@id/welcomeTop"
+            app:layout_constraintVertical_bias="0.0" />
 
         <ImageView
             android:id="@+id/imageView5"
@@ -48,39 +50,36 @@
 
         <TextView
             android:id="@+id/textView20"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="200dp"
-            android:layout_marginTop="28dp"
-            android:layout_marginEnd="200dp"
-            android:layout_marginBottom="514dp"
+            android:layout_width="222dp"
+            android:layout_height="39dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="86dp"
+            android:layout_marginBottom="7dp"
             android:text="Top Rated Rooms"
             android:textAlignment="center"
             android:textColor="@color/blue"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.502"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/guideline8"
-            app:layout_constraintVertical_bias="0.879" />
+            app:layout_constraintBottom_toTopOf="@id/topRatedTextbot"
+            app:layout_constraintEnd_toEndOf="@id/WeatherTextRight"
+            app:layout_constraintHorizontal_bias="0.146"
+            app:layout_constraintStart_toStartOf="@id/WeatherTextLeft"
+            app:layout_constraintTop_toBottomOf="@id/topRatedTexttop"
+            app:layout_constraintVertical_bias="0.444" />
 
         <TextView
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="310dp"
             android:text="Today's Weather"
             android:textColor="@color/blue"
             android:textSize="25sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/guideline9"
-            app:layout_constraintEnd_toEndOf="@id/guideline7"
-            app:layout_constraintHorizontal_bias="0.464"
-            app:layout_constraintStart_toStartOf="@id/guideline6"
-            app:layout_constraintTop_toBottomOf="@+id/topRoomRecyclerView"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintBottom_toTopOf="@id/weatherTextbot"
+            app:layout_constraintEnd_toEndOf="@id/welcomeRight"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/WeatherTextLeft"
+            app:layout_constraintTop_toBottomOf="@id/weatherTexttop" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/topRoomRecyclerView"
@@ -98,7 +97,8 @@
             android:layout_width="410dp"
             android:layout_height="286dp"
             android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView27">
 
         </FrameLayout>
 
@@ -136,36 +136,105 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.28" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineRecyclerBot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.50" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineProfileTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.02" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guidelineProfileBot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.15" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/profileLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.651" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gprofileRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.90" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/welcomeTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.04" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/welcomeBot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.08" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/welcomeLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.02" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/welcomeRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.35" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/WeatherTextLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.25" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/WeatherTextRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.70" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/weatherTexttop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.50" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/weatherTextbot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.58" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topRatedTexttop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.24" />
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/topRatedTextbot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.28" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
