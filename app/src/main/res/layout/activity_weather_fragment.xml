@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#AA8686"
-    tools:context=".MainActivity">
+    android:background="@color/light_blue"
+    tools:context=".WeatherFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
         <ImageView
             android:id="@+id/currentWeatherImage"
             android:layout_width="match_parent"
-            android:layout_height="136dp"
+            android:layout_height="105dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="0dp"
             android:background="#006294AC"
@@ -30,6 +30,7 @@
             android:layout_marginEnd="0dp"
             android:gravity="center"
             android:text="TextView"
+            android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentConditionText" />
 
@@ -40,13 +41,15 @@
             android:layout_marginEnd="0dp"
             android:gravity="center"
             android:text="TextView"
-            android:textSize="20sp"
+            android:textSize="34sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/currentWeatherImage" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="102dp">
+            android:layout_height="102dp"
+            android:background="@color/darkblue"
+            app:cardBackgroundColor="#00FFFFFF">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -55,7 +58,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="78dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -87,7 +91,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="87dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -119,7 +124,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="88dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -151,7 +157,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="76dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -183,7 +190,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="81dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -235,7 +243,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="78dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -267,7 +276,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="87dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -299,7 +309,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="88dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -331,7 +342,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="76dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -363,7 +375,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="81dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -414,7 +427,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="78dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -446,7 +460,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="87dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -478,7 +493,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="88dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -510,7 +526,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="76dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -542,7 +559,8 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="81dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="#94A4C4">
 
                     <LinearLayout
                         android:layout_width="match_parent"
