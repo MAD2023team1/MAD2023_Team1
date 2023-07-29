@@ -78,6 +78,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         button = findViewById(R.id.buttonDirection);
         buttonRoom = findViewById(R.id.buttonDirect2);
 
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +96,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart Room 3") || roomName.matches("Smart Room 4")){
                   gotoLocation(1.334247772539461, 103.77549871381547);
               }
+              if(roomName.matches("Swimming Pool")||roomName.matches("Gym Werkz")) {
+                  gotoLocation(1.3359740986272983, 103.77655648824008);
+              }
+              if(roomName.matches("Music Room")){
+                  gotoLocation(1.33200059524025, 103.77652642294208);
+              }
+
 
             }
         });
@@ -121,7 +129,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng NP = new LatLng(1.33242473248, 103.777698548);
         LatLng ISpace = new LatLng(1.3337153060893068, 103.77680598179548);
         LatLng Smartroom = new LatLng(1.334247772539461, 103.77549871381547);
-        LatLng SportsComplex = new LatLng(1.337465454027076, 103.77648350760512);
+        LatLng SportsComplex = new LatLng(1.3359740986272983, 103.77655648824008);
         LatLng Musicroom = new LatLng(1.33200059524025, 103.77652642294208);
 
 
@@ -138,14 +146,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             moveLocation(Smartroom);
 
         }
-        if(roomName.matches("Swimming Pool")||roomName.matches("Gymwerkz"))
+        if(roomName.matches("Swimming Pool")||roomName.matches("Gym Werkz"))
         {
             mMap.addMarker(new MarkerOptions().position(SportsComplex).title("Sports Complex"));
             moveLocation(SportsComplex);
         }
-        if(roomName.matches("Music room"))
+        if(roomName.matches("Music Room"))
         {
-            mMap.addMarker(new MarkerOptions().position(Musicroom).title("Music Studio"));
+            mMap.addMarker(new MarkerOptions().position(Musicroom).title("Music Room"));
             moveLocation(Musicroom);
         }
 

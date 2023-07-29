@@ -141,7 +141,7 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
     }
     private void setUpRoomModels() {
         //pulling the text inside the string[] that I have created in the string.xml file
-        int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4};
+        int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4, R.drawable.swimmingpool, R.drawable.gymwerkz,R.drawable.musicroomcroppedtwo};
         int[] roomID = getResources().getIntArray(R.array.room_ID);
         String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
         String[] roomLocation = getResources().getStringArray(R.array.room_location);

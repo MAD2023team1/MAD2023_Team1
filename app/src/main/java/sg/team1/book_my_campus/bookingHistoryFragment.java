@@ -174,6 +174,7 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
     {
         super.onResume();
         Log.v(title,"On Resume");
+        adapter.notifyDataSetChanged();
 
     }
 
