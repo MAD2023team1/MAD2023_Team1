@@ -23,8 +23,8 @@
         <!-- Your content here -->
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="368dp"
-            android:layout_height="175dp">
+            android:layout_width="400dp"
+            android:layout_height="171dp">
 
             <TextView
                 android:id="@+id/username"
@@ -40,6 +40,7 @@
                 android:textStyle="bold"
                 app:layout_constraintBottom_toTopOf="@+id/comments"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ratingBar2" />
 
@@ -47,7 +48,6 @@
                 android:id="@+id/ratingBar2"
                 android:layout_width="234dp"
                 android:layout_height="55dp"
-                android:layout_marginTop="16dp"
                 android:contentDescription="Rate the room out of 5 stars"
                 android:progressBackgroundTint="#C6C3BF"
                 android:progressTint="#FF9800"
@@ -61,7 +61,7 @@
             <TextView
                 android:id="@+id/comments"
                 android:layout_width="314dp"
-                android:layout_height="33dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginTop="4dp"
                 android:text="comment"
