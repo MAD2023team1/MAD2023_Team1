@@ -50,14 +50,18 @@ This allows the student to search a suitable room based on their required needs
 Dark mode & light mode
 Users will be able to customize their experience based on their preferences.
 
-Weather API Integration 
+Weather API Integration (Clayton) 
 Users will be able to see the forecast for today and the next few days
 
-Ranking System
+Ranking System (Li Yan)
 Users will be able to see which places are the most popular
 
-Map Integration
+Map Integration (Andrew)
 If clueless on how to get to the booked location, users can use the map feature to find their way
+
+OTP and Profile Pic (Geraldine)
+
+Calendar Integration and favourites (Xin Quan)
 
 FAQ page?
 Give students the option of the most likely to ask questions and provide an answer for the questions.
