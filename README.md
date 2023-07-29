@@ -50,6 +50,15 @@ This allows the student to search a suitable room based on their required needs
 Dark mode & light mode
 Users will be able to customize their experience based on their preferences.
 
+Weather API Integration 
+Users will be able to see the forecast for today and the next few days
+
+Ranking System
+Users will be able to see which places are the most popular
+
+Map Integration
+If clueless on how to get to the booked location, users can use the map feature to find their way
+
 FAQ page?
 Give students the option of the most likely to ask questions and provide an answer for the questions.
 

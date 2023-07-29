@@ -1,5 +1,6 @@
 package sg.team1.book_my_campus;
 
+import android.content.Intent;
 import android.media.Rating;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,11 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Hashtable;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +34,16 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Text;
 
+
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,6 +54,8 @@ public class HomeFragment extends Fragment {
     String title = "HomeFragment";
     ArrayList<Ratings> ratingsRoomArrayList = new ArrayList<>();
     ArrayList<Ratings> topRatedRoomList = new ArrayList<>();
+    ArrayList<top_rated_room_model> top_rated_room_modelsList = new ArrayList<>();
+    BigDecimal roundedRatings;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -78,6 +97,7 @@ public class HomeFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -97,6 +117,23 @@ public class HomeFragment extends Fragment {
             // If the user does not have a profile picture, set the default image resource
             homeProfile.setImageResource(R.drawable.baseline_person_24);
         }
+
+        readRatingsDocument();
+        //child weather
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        Log.d("FragmentTransaction", "Replacing fragment");
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLay, new WeatherFragment());
+        int transactionId = fragmentTransaction.commit();
+
+        if (transactionId != 0) {
+            // The transaction was successfully committed
+            Log.d("FragmentTransaction", "Transaction successfully committed with ID: " + transactionId);
+        } else {
+            // The transaction failed to be committed
+            Log.d("FragmentTransaction", "Transaction failed to be committed.");
+        }
+
         // Inflate the layout for this fragment
         return inflatedHomeView;
 
@@ -120,15 +157,97 @@ public class HomeFragment extends Fragment {
                             Log.v(title,"List size"+ratingsRoomArrayList.size());
 
                         }
+                        HashMap<String, Float> sumRatings = new HashMap<String, Float>();
+                        HashMap<String, Integer> countRatings = new HashMap<String,Integer>();
 
-                        for(Ratings room: ratingsRoomArrayList){
-                            //Find unique roomnames
-                            //Match the roomnames with each room.getName
-                            //add dictionary and divide by the number of roomsn, update dictionary accordingly.
-                            //limit the array to only 5 rooms and sort them from largest to smallest
-                            //then add them to an adapter? to show top 5 rating rooms
+                        for(Ratings rating:ratingsRoomArrayList){
+                            String roomName = rating.getRoomName();
+                            sumRatings.put(roomName,0.0f);
+                            countRatings.put(roomName,0);
                         }
+
+                        for(Ratings rating: ratingsRoomArrayList){
+                            String roomName = rating.getRoomName();
+                            float starRating = rating.getStarRatings();
+                            Log.v(title, "Room Name:" + roomName);
+                            Log.v(title, "Star Rating" +starRating);
+                            if(sumRatings.containsKey(roomName)){
+                                Log.v(title, "While Loop: Before Count Ratings Hash Map Mapping:" + countRatings);
+                                float previousSumValue = sumRatings.get(roomName);
+                                int previousCount = countRatings.get(roomName);
+                                Log.v(title, "Before Addition:" + previousCount);
+                                previousCount += 1;
+                                previousSumValue += starRating;
+                                Log.v(title, "After addition:" +previousCount);
+                                sumRatings.put(roomName,previousSumValue);
+                                countRatings.put(roomName,previousCount);
+                                Log.v(title, "While Loop: After Count Ratings Hash Map Mapping:" + countRatings);
+                            }
+                        }
+                        Log.v(title, "Sum Ratings Hash Map Mapping:" + sumRatings);
+                        Log.v(title, "Count Ratings Hash Map Mapping:" + countRatings);
+                        //calculate the average by matching they keys together and then dividing the values
+                        HashMap<String, Float> averageRatings = new HashMap<>();
+                        LinkedHashMap<String,Float> sortedAverage = new LinkedHashMap<>();
+                        ArrayList<Float> list = new ArrayList<>();
+                        for (String room : sumRatings.keySet()) {
+                            if (countRatings.containsKey(room)) {
+                                float sum = sumRatings.get(room);
+                                int count = countRatings.get(room);
+                                float average = sum / count;
+                                averageRatings.put(room, average);
+                            }
+                        }
+                        Log.v(title, "Average Ratings Hash Map Mapping:" + averageRatings);
+                        //Sort the average list from largest to smallest
+                        for (Map.Entry<String, Float> entry : averageRatings.entrySet()) {
+                            list.add(entry.getValue());
+                        }
+                        Collections.sort(list);
+                        for (float num : list) {
+                            for (Map.Entry<String, Float> entry : averageRatings.entrySet()) {
+                                if (entry.getValue().equals(num)) {
+                                    sortedAverage.put(entry.getKey(), num);
+                                }
+                            }
+                        }
+                        Log.v(title, "Average Ratings Hash Map MSorted:" + sortedAverage);
+                        //convert
+                        List<Map.Entry<String,Float>> entryAvg = new ArrayList<>(sortedAverage.entrySet());
+                        Log.v(title, "This is the list of sorted:" + entryAvg.toString());
+                        Log.v(title, "This is the first index:" + entryAvg.get(0).getValue());
+                        //Extract the top 3 values(the last entry is the highest value)
+                        int lastIndex = sortedAverage.size()-1;
+
+
+
+                        //obtaining room Names from the room dataset stored in strings.xml
+                        String[] roomNamesFromString = getResources().getStringArray(R.array.room_name_full_text);
+                        int[] roomImages = {R.drawable.ispace, R.drawable.smartcube1and2, R.drawable.smartcube1and2, R.drawable.smartcube3and4, R.drawable.smartcube3and4, R.drawable.swimmingpool, R.drawable.gymwerkz,R.drawable.musicroomcroppedtwo};
+                        // loop through this if both name matches with the top 3, create a top3 room model.
+                        // Loop through the entries to find the top 3 rated rooms
+                        RecyclerView recyclerView = inflatedHomeView.findViewById(R.id.topRoomRecyclerView);
+                        for (int i = lastIndex; i > lastIndex - 3 && i >= 0; i--) {
+                            String topRatedRoom = entryAvg.get(i).getKey();
+                            if (Arrays.asList(roomNamesFromString).contains(topRatedRoom)) {
+                                float topRatedRoomRatings = entryAvg.get(i).getValue();
+                                roundedRatings = round(topRatedRoomRatings,1);
+                                int indexTopRatedRoom = Arrays.asList(roomNamesFromString).indexOf(topRatedRoom);
+                                top_rated_room_model roomRating = new top_rated_room_model(roundedRatings.floatValue(), roomImages[indexTopRatedRoom], topRatedRoom);
+                                top_rated_room_modelsList.add(roomRating);
+                                Log.v(title, "Name in our database:" + topRatedRoom);
+                            }
+                        }
+
+                        // Set up the adapter after the loop
+                        top_room_adapter adapter = new top_room_adapter(getContext(), top_rated_room_modelsList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
                     }
+
+
 
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -138,4 +257,11 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
+
+    public static BigDecimal round(float d, int decimalPlace) {
+        BigDecimal bd = new BigDecimal(Float.toString(d));
+        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
+        return bd;
+    }
+
 }

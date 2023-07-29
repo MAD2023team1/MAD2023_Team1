@@ -2,6 +2,7 @@ package sg.team1.book_my_campus;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,12 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -56,6 +59,10 @@ public class ProfileFragment extends Fragment {
     private Uri selectedImageUri;
 
 
+    SharedPreferences.Editor editor;
+
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,7 +93,8 @@ public class ProfileFragment extends Fragment {
     }
 
     //Glide for the profile picture
-    public static void setProfilePic(Context context, Uri imageUri, ImageView imageView) {
+   public static void setProfilePic(Context context, Uri imageUri, ImageView imageView) {
+        if(context==null){return;}
         Glide.with(context).load(imageUri).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
 
@@ -104,7 +112,10 @@ public class ProfileFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,7 +179,6 @@ public class ProfileFragment extends Fragment {
                                                             }
                                                         }
                                                     });
-
         EditProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -327,9 +337,11 @@ public class ProfileFragment extends Fragment {
         });
 
 
+
         // Inflate the layout for this fragment
         // return inflater.inflate(R.layout.fragment_profile, container, false);
         return inflatedView;
+
     }
 
     // Updating (adding new values into) current user
@@ -370,4 +382,5 @@ public class ProfileFragment extends Fragment {
             setProfilePic(getContext(), selectedImageUri, profilePic);
         }
     }
+
 }

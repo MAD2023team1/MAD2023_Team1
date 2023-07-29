@@ -20,6 +20,8 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -39,6 +41,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -56,10 +59,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location currentLocation;
     private ActivityMapsBinding binding;
     private int GPS_REQUEST_CODE=9001;
-    Button button,buttonRoom;
+    FloatingActionButton button,buttonRoom,plusButton;
 
     FusedLocationProviderClient mLocationClient;
     SupportMapFragment supportMapFragment;
+    private boolean clicked =false;
 
 
     @Override
@@ -75,8 +79,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         checkPermission();
         initialise();
-        button = findViewById(R.id.buttonDirection);
-        buttonRoom = findViewById(R.id.buttonDirect2);
+        button = findViewById(R.id.currentLocationBtn);
+        buttonRoom = findViewById(R.id.roomLocationBtn);
+        plusButton=findViewById(R.id.floatingActionButton);
+        plusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!clicked){
+                button.setVisibility(View.VISIBLE);
+                buttonRoom.setVisibility(View.VISIBLE);}
+                else{
+                    button.setVisibility(View.GONE);
+                    buttonRoom.setVisibility(View.GONE);
+
+                }
+                if(!clicked){clicked=true;}
+                else{clicked=false;}
+
+
+
+            }
+        });
+
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +119,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
               if (roomName.matches("Smart Room 1") || roomName.matches("Smart Room 2") || roomName.matches("Smart Room 3") || roomName.matches("Smart Room 4")){
                   gotoLocation(1.334247772539461, 103.77549871381547);
               }
+              if(roomName.matches("Swimming Pool")||roomName.matches("Gym Werkz")) {
+                  gotoLocation(1.3359740986272983, 103.77655648824008);
+              }
+              if(roomName.matches("Music Room")){
+                  gotoLocation(1.33200059524025, 103.77652642294208);
+              }
+
 
             }
         });
@@ -121,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng NP = new LatLng(1.33242473248, 103.777698548);
         LatLng ISpace = new LatLng(1.3337153060893068, 103.77680598179548);
         LatLng Smartroom = new LatLng(1.334247772539461, 103.77549871381547);
-        LatLng SportsComplex = new LatLng(1.337465454027076, 103.77648350760512);
+        LatLng SportsComplex = new LatLng(1.3359740986272983, 103.77655648824008);
         LatLng Musicroom = new LatLng(1.33200059524025, 103.77652642294208);
 
 
@@ -138,20 +169,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             moveLocation(Smartroom);
 
         }
-        if(roomName.matches("Swimming Pool")||roomName.matches("Gymwerkz"))
+        if(roomName.matches("Swimming Pool")||roomName.matches("Gym Werkz"))
         {
             mMap.addMarker(new MarkerOptions().position(SportsComplex).title("Sports Complex"));
             moveLocation(SportsComplex);
         }
-        if(roomName.matches("Music room"))
+        if(roomName.matches("Music Room"))
         {
-            mMap.addMarker(new MarkerOptions().position(Musicroom).title("Music Studio"));
+            mMap.addMarker(new MarkerOptions().position(Musicroom).title("Music Room"));
             moveLocation(Musicroom);
         }
 
         mMap.moveCamera(CameraUpdateFactory.newLatLng(NP));
         //add plus minus to zoom
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.getUiSettings().setZoomControlsEnabled(false);
         //add compass to move around
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setScrollGesturesEnabled(true);

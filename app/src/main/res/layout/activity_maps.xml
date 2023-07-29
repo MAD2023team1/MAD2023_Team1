@@ -10,34 +10,62 @@
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="416dp"
-        android:layout_height="672dp"
-        android:layout_marginBottom="2dp"
-        map:layout_constraintBottom_toTopOf="@+id/buttonDirection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        map:layout_constraintBottom_toBottomOf="parent"
         map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.0"
         map:layout_constraintStart_toStartOf="parent"
         map:layout_constraintTop_toTopOf="parent"
+        map:layout_constraintVertical_bias="0.0"
         tools:context=".MapsActivity" />
 
-    <Button
-        android:id="@+id/buttonDirection"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/currentLocationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginStart="16dp"
-        android:text="Get Current location"
-        map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginBottom="12dp"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:visibility="gone"
+        android:focusable="true"
+        android:tint="@color/white"
+        map:layout_constraintBottom_toTopOf="@+id/floatingActionButton"
+        map:layout_constraintEnd_toEndOf="@+id/floatingActionButton"
+        map:srcCompat="@drawable/ic_mylocation" />
 
-    <Button
-        android:id="@+id/buttonDirect2"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/roomLocationBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Get Room location"
+        android:layout_marginBottom="12dp"
+        android:visibility="gone"
+        android:backgroundTint="@color/light_blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:isScrollContainer="true"
+        android:rotationX="1"
+        android:tint="@color/white"
+        map:layout_constraintBottom_toTopOf="@+id/currentLocationBtn"
+        map:layout_constraintEnd_toEndOf="@+id/currentLocationBtn"
+        map:srcCompat="@drawable/ic_bookmark" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:backgroundTint="@color/blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/white"
         map:layout_constraintBottom_toBottomOf="parent"
-        map:layout_constraintEnd_toEndOf="parent" />
+        map:layout_constraintEnd_toEndOf="parent"
+        map:layout_constraintHorizontal_bias="0.957"
+        map:layout_constraintStart_toStartOf="parent"
+        map:srcCompat="@drawable/ic_room" />
+
+    />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
