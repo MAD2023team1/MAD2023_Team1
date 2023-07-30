@@ -89,8 +89,10 @@
             android:layout_marginBottom="1dp"
             app:layout_constraintBottom_toTopOf="@id/guidelineRecyclerBot"
             app:layout_constraintEnd_toEndOf="@id/guideline7"
+            app:layout_constraintHorizontal_bias="0.517"
             app:layout_constraintStart_toStartOf="@id/guideline6"
-            app:layout_constraintTop_toBottomOf="@id/guidelineRecyclerTop" />
+            app:layout_constraintTop_toBottomOf="@id/guidelineRecyclerTop"
+            app:layout_constraintVertical_bias="0.571" />
 
         <FrameLayout
             android:id="@+id/frameLay"
@@ -98,6 +100,8 @@
             android:layout_height="286dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/guideline7"
+            app:layout_constraintStart_toStartOf="@+id/guideline6"
             app:layout_constraintTop_toBottomOf="@+id/textView27">
 
         </FrameLayout>
