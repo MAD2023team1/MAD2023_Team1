@@ -192,5 +192,10 @@ public class bookingHistoryFragment extends Fragment implements RecyclerViewInte
 
     }
 
+    @Override
+    public void favouritesOnClicked(Room room) {
+
+    }
+
 
 }
