@@ -5,4 +5,5 @@ import kotlin.experimental.BitwiseOperationsKt;
 public interface RecyclerViewInterface {
     void onItemClick(int position);
     void onItemClicked(Booking booking);
+    void favouritesOnClicked(Room room);
 }

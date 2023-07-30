@@ -180,4 +180,10 @@ public class ExploreFragment extends Fragment implements RecyclerViewInterface {
     public void onItemClicked(Booking booking) {
 
     }
+
+    @Override
+    public void favouritesOnClicked(Room room) {
+
+
+    }
 }
