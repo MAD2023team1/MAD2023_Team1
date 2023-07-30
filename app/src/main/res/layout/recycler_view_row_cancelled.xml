@@ -13,9 +13,8 @@
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline15"
+        app:layout_constraintStart_toStartOf="@+id/guideline14"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
@@ -75,7 +74,7 @@
                 android:layout_width="185dp"
                 android:layout_height="29dp"
                 android:layout_marginTop="32dp"
-                android:layout_marginEnd="47dp"
+                android:layout_marginEnd="20dp"
                 android:text="@string/room_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -85,7 +84,7 @@
                 android:layout_width="188dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="47dp"
+                android:layout_marginEnd="20dp"
                 android:text="@string/room_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/roomHist" />
@@ -95,7 +94,7 @@
                 android:layout_width="186dp"
                 android:layout_height="29dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="47dp"
+                android:layout_marginEnd="20dp"
                 android:text="@string/room_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/timeslothist" />
@@ -105,13 +104,27 @@
                 android:layout_width="186dp"
                 android:layout_height="29dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="47dp"
+                android:layout_marginEnd="20dp"
                 android:text="@string/room_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/datehist" />
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline14"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
