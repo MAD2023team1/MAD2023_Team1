@@ -44,6 +44,13 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
 
         holder.roomName.setText(displayFavouritesList.get(holder.getAdapterPosition()).roomName);
         holder.roomImage.setImageResource(displayFavouritesList.get(holder.getAdapterPosition()).image);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recyclerViewInterface.favouritesOnClicked(displayFavouritesList.get(holder.getAdapterPosition()));
+
+            }
+        });
 
         /*if (roomFavourites != null) {
             holder.roomNameFavourites.setText(roomFavourites.get(position).getRoomName());
@@ -87,7 +94,7 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
             // Initialize your ViewHolder components here
             roomName = itemView.findViewById(R.id.favname);
             roomImage = itemView.findViewById(R.id.favimage);
-            itemView.setOnClickListener(new View.OnClickListener() {
+            /*itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     if(recyclerViewInterface!= null){
@@ -97,7 +104,7 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
                         }
                     }
                 }
-            });
+            });*/
         }
     }
 }

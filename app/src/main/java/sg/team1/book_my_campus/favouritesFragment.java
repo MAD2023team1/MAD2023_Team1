@@ -102,6 +102,15 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
 
     }
     public void onItemClick(int position) {
+    }
+
+    @Override
+    public void onItemClicked(Booking booking) {
+
+    }
+
+    @Override
+    public void favouritesOnClicked(Room room) {
         Intent moreInfoPageIntent = new Intent(getActivity(), MoreRoomInfo.class);
         //the below code will pass the information to our new activity page, MoreRoomInfo
         String myName = UserProfile.getName();
@@ -110,21 +119,17 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
         moreInfoPageIntent.putExtra("name",myName);
         moreInfoPageIntent.putExtra("password",myPassword);
         moreInfoPageIntent.putExtra("email",myEmail);
-        moreInfoPageIntent.putExtra("roomID", roomList.get(position).getRoomID());
-        Log.d("Explore Fragment","Passing Info to MoreRoomInfo class" + Integer.toString(roomList.get(position).getRoomID()));
-        moreInfoPageIntent.putExtra("roomName", roomList.get(position).getRoomName());
-        moreInfoPageIntent.putExtra("roomImage", roomList.get(position).getImage());
-        moreInfoPageIntent.putExtra("roomLocation", roomList.get(position).getLocation());
-        moreInfoPageIntent.putExtra("roomCapacity", roomList.get(position).getCapacity());
-        moreInfoPageIntent.putExtra("roomLevel",roomList.get(position).getLevel());
+        moreInfoPageIntent.putExtra("roomID", room.roomID);
+        Log.d("Explore Fragment","Passing Info to MoreRoomInfo class" + room.roomID);
+        moreInfoPageIntent.putExtra("roomName", room.roomName);
+        moreInfoPageIntent.putExtra("roomImage",room.image);
+        moreInfoPageIntent.putExtra("roomLocation", room.location);
+        moreInfoPageIntent.putExtra("roomCapacity", room.capacity);
+        moreInfoPageIntent.putExtra("roomLevel",room.level);
         startActivity(moreInfoPageIntent);
 
     }
 
-    @Override
-    public void onItemClicked(Booking booking) {
-
-    }
     private void readFavourites()
     {
         Task<QuerySnapshot> db = FirebaseFirestore.getInstance()

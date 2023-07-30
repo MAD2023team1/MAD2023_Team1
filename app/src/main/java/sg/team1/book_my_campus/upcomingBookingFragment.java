@@ -100,6 +100,11 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
 
     }
 
+    @Override
+    public void favouritesOnClicked(Room room) {
+
+    }
+
     public void readDoc(){
         Task<QuerySnapshot> future = FirebaseFirestore.getInstance()
                 .collection("bookings")
