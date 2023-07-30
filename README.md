@@ -35,32 +35,26 @@ Users are able to look at and change the email and username of the account that 
 
 Proposed Stage 2:
 
-Home Page
+Home Page (Clayton and Li Yan)
 The home page will display rooms with the highest student ratings. This is to allow students to have a guide to know which rooms to book if they have no idea which room to book
-Ratings & Comments
+
+Ratings & Comments (Li yan)
 Allows student to rate the room out of a total of 5 stars after checking in the room. This is to allow new students who just entered Ngee Ann to have a better sense of which room to book. Comments of not more than 120 characters can be entered.
-QR Code Check- in
-A QR-code will be placed at the location. Once the student reaches the room, they will scan the QR-code there. If the student booked the room and they did not turn up within 30 mins of the booked slot, the slot will automatically be released for others to book.
-Notification Bar
-Send user reminders of their upcoming bookings and cancellation.
 
-Allow detailed filters on the search bar
-This allows the student to search a suitable room based on their required needs
-
-Dark mode & light mode
-Users will be able to customize their experience based on their preferences.
-
-Weather API Integration 
+Weather API Integration (Clayton)
 Users will be able to see the forecast for today and the next few days
 
-Ranking System
+Ranking System (Li Yan)
 Users will be able to see which places are the most popular
 
-Map Integration
+Map Integration (Andrew)
 If clueless on how to get to the booked location, users can use the map feature to find their way
 
-FAQ page?
-Give students the option of the most likely to ask questions and provide an answer for the questions.
+Calendar Integration (Xin Quan)
+Users will be able to save the booking to their calendar
+
+Favourites (Xin Quan)
+Users will be able to save the rooms they like into Favourites section.
 
 All relevant appendices
 

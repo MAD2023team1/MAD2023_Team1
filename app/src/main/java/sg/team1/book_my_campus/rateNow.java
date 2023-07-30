@@ -92,52 +92,9 @@ public class rateNow extends AppCompatActivity {
                 //get ratings is the num of stars the user rated
                 float getRatings = rbStars.getRating();
                 Log.v(title, "getRatings:" + getRatings);
-                //get the roomID, datebooked and timeslot from booking History
-                Intent intentFromBookingHist = getIntent();
-                userName = intentFromBookingHist.getStringExtra("userName");
-                Log.v(title, "roomName:" + userName);
-                roomName = intentFromBookingHist.getStringExtra("roomName");
-                Log.v(title, "roomName:" + roomName);
-                datebooked = intentFromBookingHist.getStringExtra("dateBooked");
-                Log.v(title, "DateBooked:" + datebooked);
-                timeslot = intentFromBookingHist.getStringExtra("Timeslot");
-                Log.v(title, "Timeslot:" + timeslot);
-
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-                if (currentUser != null) {
-
-                    String uid = currentUser.getUid();
-                    DocumentReference userDocumentRef = db.collection("users").document(uid);
-
-                    userDocumentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                        @Override
-                        public void onSuccess(DocumentSnapshot documentSnapshot) {
-                            if (documentSnapshot.exists()) {
-                                //doc id
-                                String documentId = documentSnapshot.getId();
-                                documentUserID = documentId;
-                                Log.d("User DocumentID in rate", documentId);
-                                // String username = documentSnapshot.getString("username");
-                                checkTextLength(feedbackText, getRatings);
-
-                            } else {
-                                Log.d("User Document", "Document does not exist.");
-                            }
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            // Handle any errors that occurred while reading the document
-                            Log.e("Error", "Error getting user document: " + e.getMessage());
-                        }
-                    });
-                }
-
-
-
+                //get the required data from booking his fragment via intent.
+                getDataFromBookHis();
+                readUserDB(feedbackText,getRatings);
 
             }
         });
@@ -146,7 +103,7 @@ public class rateNow extends AppCompatActivity {
     }
 
 
-
+    //write ratings to rating table on firebase
    private void ratingsToDB(Ratings rating) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> ratings = new HashMap<>();
@@ -170,14 +127,17 @@ public class rateNow extends AppCompatActivity {
     }
 
     private void checkTextLength(String feedbackText, float getRatings){
+        //if the feedback text is empty, do not allow the user to submit.
         if (TextUtils.isEmpty(feedbackText) || feedbackText.isEmpty()) {
+            //print feedback message to them
             Toast.makeText(rateNow.this, "Please type something.", Toast.LENGTH_SHORT).show();
             Log.v(title, "no text");
+            //if the feedback message is too long, print feedback message
         } else if (feedbackText.length()>=50) {
             //do not allow user to submit
             Toast.makeText(rateNow.this, "Feedback message exceed 50 chars. Type something shorter.", Toast.LENGTH_SHORT).show();
             Log.v(title, "too long");
-
+        //if feedback is not blank and not long, allow user to submit feedback.
         } else {
             Log.v(title,"UserDoc in else:" + documentUserID);
             Ratings ratings = new  Ratings(userName,roomName,documentUserID,datebooked,timeslot,feedbackText,getRatings);
@@ -188,5 +148,59 @@ public class rateNow extends AppCompatActivity {
         }
 
     }
+
+    //get required data from booking history fragment
+    private void getDataFromBookHis(){
+        //get the roomID, datebooked and timeslot from booking History
+        Intent intentFromBookingHist = getIntent();
+        userName = intentFromBookingHist.getStringExtra("userName");
+        Log.v(title, "roomName:" + userName);
+        roomName = intentFromBookingHist.getStringExtra("roomName");
+        Log.v(title, "roomName:" + roomName);
+        datebooked = intentFromBookingHist.getStringExtra("dateBooked");
+        Log.v(title, "DateBooked:" + datebooked);
+        timeslot = intentFromBookingHist.getStringExtra("Timeslot");
+        Log.v(title, "Timeslot:" + timeslot);
+
+    }
+
+    //read user firebase db
+    private void readUserDB(String feedbackText, float getRatings){
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+
+            String uid = currentUser.getUid();
+            DocumentReference userDocumentRef = db.collection("users").document(uid);
+
+            userDocumentRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    if (documentSnapshot.exists()) {
+                        //doc id
+                        String documentId = documentSnapshot.getId();
+                        documentUserID = documentId;
+                        Log.d("User DocumentID in rate", documentId);
+                        // String username = documentSnapshot.getString("username");
+                        checkTextLength(feedbackText, getRatings);
+
+                    } else {
+                        Log.d("User Document", "Document does not exist.");
+                    }
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Handle any errors that occurred while reading the document
+                    Log.e("Error", "Error getting user document: " + e.getMessage());
+                }
+            });
+        }
+
+    }
+
 
 }
