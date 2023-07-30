@@ -90,6 +90,7 @@ public class viewRatings extends AppCompatActivity {
                             displayRatings.setText(String.valueOf(roundedRatings));
                             RatingBar ratingBar = findViewById(R.id.ratingBar3);
                             ratingBar.setRating(totalEachRoom);
+                            ratingBar.setEnabled(false);
                             TextView displayNumOfPeopleWhoVoted = findViewById(R.id.textView22);
                             displayNumOfPeopleWhoVoted.setText("Based on "+ String.valueOf(countRoom)+" ratings.");
                             RecyclerView recyclerView = findViewById(R.id.commentRecycler);

@@ -171,6 +171,9 @@ public class ProfileFragment extends Fragment {
                                                                         // Load the profile picture into the ImageView using Glide
                                                                         setProfilePic(getContext(), Uri.parse(profilePicUrl), profilePic);
                                                                     }
+                                                                    else{
+                                                                        profilePic.setImageResource(R.drawable.baseline_person_24);;
+                                                                    }
                                                                 } else {
                                                                     Log.d(title, "No such document");
                                                                 }
@@ -330,6 +333,8 @@ public class ProfileFragment extends Fragment {
                 firebaseAuth.signOut();
 
                 Toast.makeText(getActivity(), "Log out was successful", Toast.LENGTH_SHORT).show();
+                // set static profile pic to null
+                UserProfile.setProfilePic(null);
                 Intent myIntent = new Intent(getActivity(), MainActivity.class);
                 startActivity(myIntent);
                 getActivity().finish();
