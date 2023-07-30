@@ -30,6 +30,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class WeatherFragment extends Fragment {
 
@@ -48,14 +50,55 @@ public class WeatherFragment extends Fragment {
 
         String TITLE = "Weather Page";
 
-        final String url = "https://api.openweathermap.org/data/2.5/weather?lat=1.314&lon=-103.762&appid=55ded9357aaa11078213c18b28d80eaf&units=metric";
-        final String ForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=1.314&lon=103.762&appid=55ded9357aaa11078213c18b28d80eaf&units=metric";
+
+        /** i need two different urls for 2 different responses. 1 for the current weather
+         * and one for the forecast
+         */
+
+        final String url = "https://api.openweathermap.org/data/2.5/weather?lat=1.316&lon=103.7624&appid=55ded9357aaa11078213c18b28d80eaf&units=metric";
+        final String ForecastUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=1.316&lon=103.7624&appid=55ded9357aaa11078213c18b28d80eaf&units=metric";
+
+        /** the api provides their own images, however it is in url form.
+         * since there aren't many icons and weather codes, i just downloaded them and placed
+         * them into drawable
+         */
+
+        HashMap iconMap = new HashMap();
+        iconMap.put("01d", R.drawable.d01);
+        iconMap.put("01n", R.drawable.n01);
+        iconMap.put("02d", R.drawable.d02);
+        iconMap.put("02n", R.drawable.n02);
+        iconMap.put("10d", R.drawable.d10);
+        iconMap.put("10n", R.drawable.n10);
+        iconMap.put("03d", R.drawable.scatteredclouds);
+        iconMap.put("03n", R.drawable.scatteredclouds);
+        iconMap.put("04d", R.drawable.brokenclouds);
+        iconMap.put("04n", R.drawable.brokenclouds);
+        iconMap.put("09d", R.drawable.showerrain);
+        iconMap.put("09n", R.drawable.showerrain);
+        iconMap.put("11d", R.drawable.thunderstorm);
+        iconMap.put("11n", R.drawable.thunderstorm);
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Log.d(TITLE, response);
                 try {
+
+                    /** the api response comes in a JSON format,
+                     * where an object {} encapsulates all data.
+                     *
+                     * in this object, a {} called "main" contains most of the numerical data like temperature
+                     *
+                     * an array[] named "weather" contains an object{} named "0" which contains mostly string data like
+                     * the main condition and description.
+                     *
+                     * in the forecast url there is an additional array[] named "list" that comes directly after
+                     * the all-encapsulating object{}, which contains the forecast data at 3 hour intervals.
+                     */
+
+
+
                     // storing the whole JSON in a variable
                     JSONObject jsonresponse = new JSONObject(response);
 
@@ -72,8 +115,11 @@ public class WeatherFragment extends Fragment {
                     String CurrentMainCondition = jsonCurrentWeatherObject.getString("main");
                     Log.v(TITLE, "Current Main Condition:" + CurrentMainCondition);
                     String CurrentSubCondition = jsonCurrentWeatherObject.getString("description");
-                    Double CurrentTemperature =  JSONCurrentMainObject.getDouble("temp");
+                    Double CurrentTemperature =  JSONCurrentMainObject.getDouble("feels_like");
+                    String CurrentIcon = jsonCurrentWeatherObject.getString("icon");
                     Log.v(TITLE, "Current Temperature:" + CurrentTemperature);
+
+
                     if(CurrentTemperature!= null  && CurrentMainCondition != null){
                         CurrentTempText.setText(CurrentTemperature.toString()  + "℃");
                         CurrentConditionText.setText(CurrentMainCondition);
@@ -90,6 +136,8 @@ public class WeatherFragment extends Fragment {
                     } else if (CurrentMainCondition.contentEquals("Rain")){
                         CurrentWeatherImage.setImageResource(R.drawable.rainy);
                     }
+
+                    CurrentWeatherImage.setImageResource( (int)iconMap.get(CurrentIcon));
 
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
@@ -126,7 +174,6 @@ public class WeatherFragment extends Fragment {
                     /** here i settle all the variables i'll need to get the data needed for the next day and the day after that
                      * first i  get the current date and format it into the same format as the DateTime strings i get from the JSON
                      * then i turn it into a date object and obtain the next day in a date object before turning that into a string to store
-                     *
                      */
 
                     Date currenDate = new Date();
@@ -154,8 +201,8 @@ public class WeatherFragment extends Fragment {
 
                     TextView tomorrowTimeText = inflatedView.findViewById(R.id.tomorrowDateText);
                     TextView tomorrow2TimeText = inflatedView.findViewById(R.id.tomorrow2DateText);
-                    tomorrowTimeText.setText("VVV " +nextDateString +" VVV");
-                    tomorrow2TimeText.setText("VVV " +next2DateString +" VVV");
+                    tomorrowTimeText.setText(nextDateString);
+                    tomorrow2TimeText.setText(next2DateString);
 
                     ArrayList todayTimeWeather = new ArrayList();
                     ArrayList tomorrowTimeWeather = new ArrayList();
@@ -187,23 +234,23 @@ public class WeatherFragment extends Fragment {
                                 // checking if timing is equals to any of the timing in the ArrayList
                                 for(int x = 0; x<timings.size(); x++){
                                     if (loopDate.substring(11).contentEquals( (String)timings.get(x)) ){
-                                        Log.d(TITLE, "TIME MATCH AT" + i);
-                                        Double temperature = loopDay.getJSONObject("main").getDouble("temp");
+                                        Log.d(TITLE, "TIME MATCH AT " + i);
+                                        Double temperature = loopDay.getJSONObject("main").getDouble("feels_like");
                                         String condition = loopDay.getJSONArray("weather").getJSONObject(0).getString("main");
-                                        int icon = 0;
-                                        if(condition.contentEquals("Clouds")){
-                                            icon = R.drawable.cloudy;
-                                        } else if (condition.contentEquals("Rain")) {
-                                            icon = R.drawable.rainy;
-                                        }
+                                        String icon = loopDay.getJSONArray("weather").getJSONObject(0).getString("icon");
+                                        int weatherIcon = (int) iconMap.get(icon);
+
                                         ArrayList tempArray = (ArrayList) allWeather.get(y);
-                                        tempArray.add(new WeatherCondition(temperature, condition, icon));
+                                        tempArray.add(new WeatherCondition(temperature, condition, weatherIcon));
                                     }
                                 }
                             }
                         }
 
+
                         ArrayList tempArray = (ArrayList) allWeather.get(y);
+
+                        // since the api occassionally removes data from the current day, sometimes there won't be 5 weather conditions in the array
                         if (tempArray.size()<5){
                             Integer difference = 5 - tempArray.size();
                             for (int i = 0; i<difference; i++){
@@ -314,6 +361,7 @@ public class WeatherFragment extends Fragment {
 
                     // for each row
                     for (int i=0; i<allWeather.size(); i++){
+                        // retrieve individual array of weather conditions from the array consisting all arrays
                         ArrayList currentWeatherArray = (ArrayList) allWeather.get(i);
 
                         Log.d(TITLE, "LOOP " + i);
@@ -321,12 +369,18 @@ public class WeatherFragment extends Fragment {
                         //for each card
                         for (int x=0; x<currentWeatherArray.size(); x++){
 
+                            // retrieve individual ImageViewArray from within ImageViewArray Array
                             ArrayList tempImageArray = (ArrayList) allImageArray.get(i);
+                            // retrieve individual ImageView from ImageViewArray
                             ImageView tempImageView = (ImageView) tempImageArray.get(x);
+
+                            // retrieve individual weathercondition from array
                             WeatherCondition tempWeatherCondition = (WeatherCondition) currentWeatherArray.get(x);
                             tempImageView.setImageResource(tempWeatherCondition.weatherIcon);
 
+                            // retrieve individual TextViewArray from within TextViewArray Array
                             ArrayList tempTextArray = (ArrayList) allTempArray.get(i);
+                            //retrieve individual TextView from TextViewArray
                             TextView tempTextView = (TextView) tempTextArray.get(x);
                             tempTextView.setText(tempWeatherCondition.getTemperature().toString() + "℃");
                         }
@@ -345,7 +399,7 @@ public class WeatherFragment extends Fragment {
             }
         });
 
-
+        // the RequestQueue is how the volley implementation does api calls
         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         requestQueue.add(stringRequest);
         requestQueue.add(stringRequestForecast);
