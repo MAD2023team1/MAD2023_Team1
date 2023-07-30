@@ -118,7 +118,6 @@ public class HomeFragment extends Fragment {
             // If the user does not have a profile picture, set the default image resource
             homeProfile.setImageResource(R.drawable.baseline_person_24);
         }
-
         //read room ratings from database
         readRatingsDocument(recyclerView ,top_rated_room_modelsList);
         //display weather fragment
