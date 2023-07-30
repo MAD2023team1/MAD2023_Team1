@@ -5,29 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
-    tools:context=".ProfileFragment"
-    >
+    tools:context=".ProfileFragment">
 
     <ImageView
         android:id="@+id/profileImage2"
         android:layout_width="118dp"
         android:layout_height="120dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="280dp"
         android:background="@drawable/search_view_bg"
         android:backgroundTint="@color/darkblue"
         android:outlineProvider="paddedBounds"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/displayInfoBot"
+        app:layout_constraintEnd_toStartOf="@id/imageEnd"
+        app:layout_constraintStart_toStartOf="@id/left"
+        app:layout_constraintTop_toTopOf="@id/displayInfoTop"
         app:srcCompat="@drawable/baseline_person_24" />
 
     <androidx.cardview.widget.CardView
-        android:layout_width="264dp"
+        android:id="@+id/cardView2"
+        android:layout_width="250dp"
         android:layout_height="120dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="280dp"
-        app:layout_constraintStart_toEndOf="@+id/profileImage2"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintBottom_toTopOf="@id/displayInfoBot"
+        app:layout_constraintEnd_toEndOf="@id/right"
+        app:layout_constraintStart_toEndOf="@id/imageEnd"
+        app:layout_constraintTop_toTopOf="@id/displayInfoTop">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,6 +104,40 @@
         app:layout_constraintTop_toBottomOf="@+id/editProfileButton"
 
         />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/displayInfoTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.38" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/displayInfoBot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.03" />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/imageEnd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.32" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.950" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
