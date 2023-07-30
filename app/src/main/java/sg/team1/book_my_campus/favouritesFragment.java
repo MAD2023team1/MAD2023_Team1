@@ -72,6 +72,7 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        //add all the rooms to a list
         setUpRoomModels();
         /*if (getArguments() != null) {
             roomFavourites = getArguments().getParcelableArrayList("favRoomList");
@@ -96,6 +97,7 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
         adapter = new favourites_adapter(getContext(),roomFavourites,this,roomList,userName);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        //check for favourite rooms for the user
         adapter.checkFavourites();
         adapter.notifyDataSetChanged();
         return rootView;
@@ -132,6 +134,7 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
 
     private void readFavourites()
     {
+        //read from db and add it to a Favourites list
         Task<QuerySnapshot> db = FirebaseFirestore.getInstance()
                 .collection("favouriterooms")
                 .get()
@@ -148,6 +151,7 @@ public class favouritesFragment extends Fragment implements RecyclerViewInterfac
                             Log.v(title,"favourite:"+roomFavourites.size());
 
                         }
+                        //check for favourite and notify dateset change
                         adapter.checkFavourites();
                         adapter.notifyDataSetChanged();
                     }

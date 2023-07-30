@@ -47,31 +47,26 @@ public class favourites_adapter extends RecyclerView.Adapter<favourites_adapter.
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //go to more room info page when item clicked.
                 recyclerViewInterface.favouritesOnClicked(displayFavouritesList.get(holder.getAdapterPosition()));
 
             }
         });
-
-        /*if (roomFavourites != null) {
-            holder.roomNameFavourites.setText(roomFavourites.get(position).getRoomName());
-            holder.roomImageFavourites.setImageResource(roomFavourites.get(position).getImage());
-        } else {
-            holder.roomNameFavourites.setText("No Liked Rooms");
-            holder.roomImageFavourites.setImageResource(0);
-        }*/
-
 
     }
     public void checkFavourites()
     {
         for(Favourites favourites: roomFavourites)
         {
+            //check name
             if (userName.equals(favourites.getUserName()))
             {
                 for (Room room: roomsList)
                 {
+                    //check room name
                     if (room.roomName.equals(favourites.getRoomName()))
                     {
+                        //add to list
                         displayFavouritesList.add(room);
                         Log.v(title,"Rooms added to display fav List");
                     }
