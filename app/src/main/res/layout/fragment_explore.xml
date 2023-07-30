@@ -48,12 +48,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.10" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/RecyclerTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.18" />
+            app:layout_constraintGuide_percent="0.13" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/RecyclerBot"
@@ -66,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.02" />
+            app:layout_constraintGuide_percent="0.01" />
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/Right"
             android:layout_width="wrap_content"
