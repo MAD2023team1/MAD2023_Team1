@@ -35,27 +35,26 @@ Users are able to look at and change the email and username of the account that 
 
 Proposed Stage 2:
 
-Home Page
+Home Page (Clayton and Li Yan)
 The home page will display rooms with the highest student ratings. This is to allow students to have a guide to know which rooms to book if they have no idea which room to book
-Ratings & Comments
 
+Ratings & Comments (Li yan)
 Allows student to rate the room out of a total of 5 stars after checking in the room. This is to allow new students who just entered Ngee Ann to have a better sense of which room to book. Comments of not more than 120 characters can be entered.
 
-Favourites
-Users can add rooms to favourites to save the hassle of searching for the room
-
-Calendar Integration
-Users can saved their booking to their local calendar.
-
-Weather API Integration 
+Weather API Integration (Clayton)
 Users will be able to see the forecast for today and the next few days
 
-Ranking System
+Ranking System (Li Yan)
 Users will be able to see which places are the most popular
 
-Map Integration
+Map Integration (Andrew)
 If clueless on how to get to the booked location, users can use the map feature to find their way
 
+Calendar Integration (Xin Quan)
+Users will be able to save the booking to their calendar
+
+Favourites (Xin Quan)
+Users will be able to save the rooms they like into Favourites section.
 
 All relevant appendices
 
