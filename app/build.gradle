@@ -11,8 +11,8 @@ android {
         applicationId "sg.team1.book_my_campus"
         minSdk 21
         targetSdk 33
-        versionCode 5
-        versionName '5'
+        versionCode 6
+        versionName '6'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
