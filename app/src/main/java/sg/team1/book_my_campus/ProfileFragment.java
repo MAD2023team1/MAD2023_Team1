@@ -94,7 +94,6 @@ public class ProfileFragment extends Fragment {
 
     //Glide for the profile picture
    public static void setProfilePic(Context context, Uri imageUri, ImageView imageView) {
-        if(context==null){return;}
         Glide.with(context).load(imageUri).apply(RequestOptions.circleCropTransform()).into(imageView);
     }
 
@@ -339,7 +338,7 @@ public class ProfileFragment extends Fragment {
 
 
         // Inflate the layout for this fragment
-        // return inflater.inflate(R.layout.fragment_profile, container, false);
+        //return inflater.inflate(R.layout.fragment_profile, container, false);
         return inflatedView;
 
     }
