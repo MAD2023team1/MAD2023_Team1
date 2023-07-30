@@ -5,9 +5,9 @@ Team Member’s Names & Student IDs
 Name:						IDs:
 Geraldine         S10242807
 Li Yan						S10246159
-Clayton					    S10243162
+Clayton					  S10243162
 Xin Quan					S10243101
-Andrew
+Andrew            s10243027
 
 Description Of Application
 Brief Explanation
@@ -55,12 +55,6 @@ Users will be able to save the booking to their calendar
 
 Favourites (Xin Quan)
 Users will be able to save the rooms they like in the Favourites section.
-
-Edit Profile(Geraldine)
-All users will be able to add profile pictures of their choice.
-
-One-Time Password (Geraldine)
-New-users are able to turn on 2 factor authentication when they sign up for an account.
 
 OTP (Geraldine)
 Allow user to turn on 2 factor authentication during sign up for future logins.
