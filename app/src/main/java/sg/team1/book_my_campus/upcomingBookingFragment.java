@@ -78,6 +78,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         myName = UserProfile.getName();
+        //get bookings from database
         readDoc();
         View rootView = inflater.inflate(R.layout.fragment_upcoming_booking2, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerViewUp);
@@ -86,6 +87,7 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
         upComingBookingAdapter = new upComingBookingAdapter(getContext(), this,myName,upcomingList,bookingList);
         recyclerView.setAdapter(upComingBookingAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        //check upcoming bookings
         upComingBookingAdapter.checkUpcomingBookings();
         return rootView;
     }
@@ -115,16 +117,21 @@ public class upcomingBookingFragment extends Fragment implements RecyclerViewInt
                         Log.v(title,"retrieving data");
                         List<DocumentSnapshot> docsnapList = queryDocumentSnapshots.getDocuments();
                         for (DocumentSnapshot snapshot:docsnapList
-                        ) { Booking booking=snapshot.toObject(Booking.class);
+                        ) {
+                            //change the bookings in db to the booking object
+                            Booking booking=snapshot.toObject(Booking.class);
                             Log.v(title,"Success "+snapshot.getData().toString());
                             Log.v(title,"Success "+booking.name);
                             booking.docid = snapshot.getId();
+                            //add booking to list
                             bookingList.add(booking);
                             Log.v(title,"Success "+bookingList.size());
                             Log.v(title,"Success "+snapshot.getId());
 
                         }
+                        //notify that dataset has changed
                         upComingBookingAdapter.notifyDataSetChanged();
+                        //check upcoming booking
                         upComingBookingAdapter.checkUpcomingBookings();
                     }
                 });
