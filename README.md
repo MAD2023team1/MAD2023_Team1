@@ -56,6 +56,12 @@ Users will be able to save the booking to their calendar
 Favourites (Xin Quan)
 Users will be able to save the rooms they like into Favourites section.
 
+OTP (Geraldine)
+Allow user to turn on 2 factor authentication during sign up for future logins.
+
+Profile picture (Geraldine)
+Enhancement to the previous edit profile, allow user to add profile picture chosen from camera or gallery.
+
 All relevant appendices
 
 All relevant room images are taken down from the following website.
