@@ -121,21 +121,8 @@ public class rateNow extends AppCompatActivity {
                                 documentUserID = documentId;
                                 Log.d("User DocumentID in rate", documentId);
                                 // String username = documentSnapshot.getString("username");
-                                // Do whatever you want with the document ID and data.
-                                if (TextUtils.isEmpty(feedbackText) || feedbackText.isEmpty()) {
-                                    Toast.makeText(rateNow.this, "Please type something.", Toast.LENGTH_SHORT).show();
-                                } else if (feedbackText.length()>=120) {
-                                    //do not allow user to submit
-                                    submitBtn.setEnabled(false);
-                                    Toast.makeText(rateNow.this, "Feedback message exceed 120 chars. Type something shorter.", Toast.LENGTH_SHORT).show();
+                                checkTextLength(feedbackText, getRatings);
 
-                                } else {
-                                    submitBtn.setEnabled(true);
-                                    Log.v(title,"UserDoc in else:" + documentUserID);
-                                    Ratings ratings = new  Ratings(userName,roomName,documentUserID,datebooked,timeslot,feedbackText,getRatings);
-                                    ratingsToDB(ratings);
-                                    Toast.makeText(rateNow.this, "Feedback posted successfully!", Toast.LENGTH_SHORT).show();
-                                }
                             } else {
                                 Log.d("User Document", "Document does not exist.");
                             }
@@ -174,11 +161,31 @@ public class rateNow extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentReference> task) {
                 if (task.isSuccessful()) {
-                    Log.v(title, "booking added to db");
+                    Log.v(title, "ratings added to db");
                     finish();
                 }
             }
         });
+
+    }
+
+    private void checkTextLength(String feedbackText, float getRatings){
+        if (TextUtils.isEmpty(feedbackText) || feedbackText.isEmpty()) {
+            Toast.makeText(rateNow.this, "Please type something.", Toast.LENGTH_SHORT).show();
+            Log.v(title, "no text");
+        } else if (feedbackText.length()>=50) {
+            //do not allow user to submit
+            Toast.makeText(rateNow.this, "Feedback message exceed 50 chars. Type something shorter.", Toast.LENGTH_SHORT).show();
+            Log.v(title, "too long");
+
+        } else {
+            Log.v(title,"UserDoc in else:" + documentUserID);
+            Ratings ratings = new  Ratings(userName,roomName,documentUserID,datebooked,timeslot,feedbackText,getRatings);
+            ratingsToDB(ratings);
+            Toast.makeText(rateNow.this, "Feedback posted successfully!", Toast.LENGTH_SHORT).show();
+            Log.v(title, "submitted successfully");
+
+        }
 
     }
 
