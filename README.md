@@ -3,11 +3,11 @@ MAD Assignment
 
 Team Member’s Names & Student IDs
 Name:						IDs:
-Geraldine                   S10242807
+Geraldine         S10242807
 Li Yan						S10246159
-Clayton					    S10243162
+Clayton					  S10243162
 Xin Quan					S10243101
-Andrew
+Andrew            s10243027
 
 Description Of Application
 Brief Explanation
@@ -33,13 +33,13 @@ View/Edit Profile (Clayton)
 Users are able to look at and change the email and username of the account that they are signed into. Any changes will be reflected in the database.
 
 
-Proposed Stage 2:
+Stage 2:
 
 Home Page (Clayton and Li Yan)
 The home page will display rooms with the highest student ratings. This is to allow students to have a guide to know which rooms to book if they have no idea which room to book
 
 Ratings & Comments (Li yan)
-Allows student to rate the room out of a total of 5 stars after checking in the room. This is to allow new students who just entered Ngee Ann to have a better sense of which room to book. Comments of not more than 120 characters can be entered.
+Allows students to rate the room out of a total of 5 stars after checking in the room. This is to enable new students who just entered Ngee Ann to have a better sense of which room to book. Comments of not more than 50 characters can be entered.
 
 Weather API Integration (Clayton)
 Users will be able to see the forecast for today and the next few days
@@ -48,13 +48,19 @@ Ranking System (Li Yan)
 Users will be able to see which places are the most popular
 
 Map Integration (Andrew)
-If clueless on how to get to the booked location, users can use the map feature to find their way
+If clueless about how to get to the booked location, users can use the map feature to find their way
 
 Calendar Integration (Xin Quan)
 Users will be able to save the booking to their calendar
 
 Favourites (Xin Quan)
-Users will be able to save the rooms they like into Favourites section.
+Users will be able to save the rooms they like in the Favourites section.
+
+OTP (Geraldine)
+Allow user to turn on 2 factor authentication during sign up for future logins.
+
+Profile picture (Geraldine)
+Enhancement to the previous edit profile, allow user to add profile picture chosen from camera or gallery.
 
 All relevant appendices
 
