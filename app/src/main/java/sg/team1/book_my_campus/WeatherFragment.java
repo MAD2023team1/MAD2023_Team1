@@ -115,7 +115,7 @@ public class WeatherFragment extends Fragment {
                     String CurrentMainCondition = jsonCurrentWeatherObject.getString("main");
                     Log.v(TITLE, "Current Main Condition:" + CurrentMainCondition);
                     String CurrentSubCondition = jsonCurrentWeatherObject.getString("description");
-                    Double CurrentTemperature =  JSONCurrentMainObject.getDouble("feels_like");
+                    Double CurrentTemperature =  JSONCurrentMainObject.getDouble("temp");
                     String CurrentIcon = jsonCurrentWeatherObject.getString("icon");
                     Log.v(TITLE, "Current Temperature:" + CurrentTemperature);
 
@@ -235,7 +235,7 @@ public class WeatherFragment extends Fragment {
                                 for(int x = 0; x<timings.size(); x++){
                                     if (loopDate.substring(11).contentEquals( (String)timings.get(x)) ){
                                         Log.d(TITLE, "TIME MATCH AT " + i);
-                                        Double temperature = loopDay.getJSONObject("main").getDouble("feels_like");
+                                        Double temperature = loopDay.getJSONObject("main").getDouble("temp");
                                         String condition = loopDay.getJSONArray("weather").getJSONObject(0).getString("main");
                                         String icon = loopDay.getJSONArray("weather").getJSONObject(0).getString("icon");
                                         int weatherIcon = (int) iconMap.get(icon);
