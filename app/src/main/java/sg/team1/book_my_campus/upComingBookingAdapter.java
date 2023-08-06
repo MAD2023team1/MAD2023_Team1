@@ -60,14 +60,19 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     @Override
     public void onBindViewHolder(@NonNull upComingBookingAdapter.MyViewHolder holder, int position) {
 
-
+        //set room name
         holder.tvroomName.setText(upcomingList.get(position).getRoomName());
+        //set timeslot
         holder.tvtimeslot.setText(upcomingList.get(position).getTimeSlot());
+        //set date
         holder.tvdateBooked.setText(upcomingList.get(position).getDate());
+        //set status to booked (default)
         holder.tvstatus.setText("Booked");
         holder.checkInCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //click of check in / cancel button initiate alert dialog
                 checkInOrCancelAlertBox(holder);
             }
         });
@@ -101,6 +106,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
     }
     private void calendarIntegration(upComingBookingAdapter.MyViewHolder holder)
     {
+        //adding the strings of date and timeslot to change to date object
         String date = holder.tvdateBooked.getText().toString();
         String startHour = holder.tvtimeslot.getText().toString().substring(0, 2);
         Log.v(title, "Start time:" + startHour);
@@ -115,6 +121,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         Date startDateTime = null;
         Date endDateTime = null;
         try {
+            //converting string to date object
             startDateTime = simpleDateFormat.parse(startDate);
             endDateTime = simpleDateFormat.parse(endDate);
 
@@ -128,18 +135,21 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
         startingDateTime.setTime(startDateTime);
         Calendar endingDateTime =  Calendar.getInstance();
         endingDateTime.setTime(endDateTime);
+        //getting the time
         long sdt = startingDateTime.getTimeInMillis();
         long edt = endingDateTime.getTimeInMillis();
 
-
+        //Intent to launch calendar
         Intent intent = new Intent(Intent.ACTION_EDIT);
         intent.setType("vnd.android.cursor.item/event");
+        //put in the booking infomation into intent
         intent.putExtra(CalendarContract.Events.TITLE,"Booking");
         intent.putExtra(CalendarContract.Events.EVENT_LOCATION,holder.tvroomName.getText().toString());
         intent.putExtra(CalendarContract.Events.DESCRIPTION, holder.tvroomName.getText().toString());
         intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, sdt);
         intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, edt);
         try {
+            //launch of calendar
             context.startActivity(intent);
         }
         catch (ActivityNotFoundException e)
@@ -164,10 +174,13 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
+                                //change status to checked in
                                 holder.tvstatus.setText("Checked In");
 
                                 Toast.makeText(context,"Check in Successfully",Toast.LENGTH_SHORT).show();
+                                //set check in true
                                 upcomingList.get(holder.getAdapterPosition()).setCheckedIn(true);
+                                //button unclickable
                                 holder.checkInCancel.setClickable(false);
 
                             }
@@ -175,6 +188,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                //set status booked on failure
                                 holder.tvstatus.setText("Booked");
                                 Toast.makeText(context,"Check in Unsuccessfully",Toast.LENGTH_SHORT).show();
                                 upcomingList.get(holder.getAdapterPosition()).setCheckedIn(false);
@@ -197,9 +211,11 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
+                                //set status cancelled on success
                                 holder.tvstatus.setText("Cancelled");
 
                                 Toast.makeText(context,"Cancelled Successfully",Toast.LENGTH_SHORT).show();upcomingList.get(holder.getAdapterPosition()).setCanceled(true);
+                                //button unclickable
                                 holder.itemView.setClickable(false);
 
                             }
@@ -207,6 +223,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
+                                //set status booked on failure
                                 holder.tvstatus.setText("Booked");
                                 Toast.makeText(context,"Cancelled Unsuccessfully",Toast.LENGTH_SHORT).show();
                                 upcomingList.get(holder.getAdapterPosition()).setCanceled(false);
@@ -234,13 +251,16 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
             Log.v(title, "start hour:"+startHour);
             if (booking.getName() != null)
             {
+                //check the name is the same as the one in bookingList
                 if(booking.getName().equals(myName))
                 {
+                    //booking must not be checked in and cancelled
                     if (!booking.isCheckedIn())
                     {
                         if (!booking.isCanceled())
                         {
 
+                            //Check if the current time did not exceed the time slot and the date must be the same
                             if ( (startHour<currentHour || startHour==currentHour) && booking.getDate().equals(currentDate)){
                                 upcomingList.add(booking);
                                 Log.v(title,"booking added to upcoming" + booking.name);
@@ -249,6 +269,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                                 booking.setCanceled(true);
                                 Log.v(title,"booking cancelled:" + booking.isCanceled());
                             }
+                            //check time for the date that are not same
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/M/yyyy");
                             Date bookingDate = null;
                             Date date = null;
@@ -262,10 +283,13 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
                             Log.v(title,"Current date:"+date);
                             if (bookingDate!=null & date!= null)
                             {
+                                //check if booking date is before current date
                                 if (bookingDate.compareTo(date) < 0)
                                 {
+                                    //booking set cancel to true because booking expired
                                     booking.setCanceled(true);
                                     Log.v(title,"booking expired: " + booking.getDate());
+                                    //update to db
                                     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                                     firestore.collection("bookings").document(booking.docid)
                                             .update("isCanceled",true)
@@ -286,6 +310,7 @@ public class upComingBookingAdapter extends RecyclerView.Adapter<upComingBooking
 
                                 }
                                 else {
+                                    //add to upcoming booking list
                                     upcomingList.add(booking);
                                     Log.v(title,"booking added to upcoming:" + booking.name);
                                 }
